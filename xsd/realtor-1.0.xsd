@@ -26,7 +26,7 @@
   		<xs:element name="customerNumber" minOccurs="0" maxOccurs="1" type="xs:string">
   			<xs:annotation>
 		      <xs:documentation xml:lang="de-DE">Die Kundennummer des Anbieters wenn er ein Kunde ist.</xs:documentation>
-		      <xs:documentation xml:lang="en">The customer number of the realtor if he is an customer.</xs:documentation>
+		      <xs:documentation xml:lang="en">The customer number of the realtor if he is a customer.</xs:documentation>
   			</xs:annotation>
   		</xs:element>
   	</xs:sequence>

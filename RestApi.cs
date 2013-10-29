@@ -38,7 +38,7 @@ namespace IS24RestApi
         /// </summary>
         public string AccessTokenSecret { get; set; }
         /// <summary>
-        /// The common URL prefix of all resources (e.g. "http://sandbox.immobilienscout24.de/restapi/api/offer/v1.0").
+        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0").
         /// </summary>
         public string BaseUrlPrefix { get; set; }
 

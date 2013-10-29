@@ -27,7 +27,7 @@ namespace IS24RestApi
                 ConsumerSecret = config.ConsumerSecret,
                 AccessToken = config.AccessToken,
                 AccessTokenSecret = config.AccessSecret,
-                BaseUrlPrefix = @"http://sandbox.immobilienscout24.de/restapi/api/offer/v1.0"
+                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
             var contact = api.GetContact("Hans Meiser", isExternal: true);

@@ -82,7 +82,7 @@
 									  <xs:documentation xml:lang="de-DE">Id des Elements.</xs:documentation>
 									</xs:annotation>
    					</xs:attribute>
-			          <xs:attribute name="externalId" type="xs:string">
+			          <xs:attribute name="externalId" type="common:TextField">
 									<xs:annotation>
 									  <xs:documentation xml:lang="en">id of entity entry from customer system.</xs:documentation>
 									  <xs:documentation xml:lang="de-DE">Id des Elements im Kundensystem.</xs:documentation>
