@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 
 namespace IS24RestApi
 {
@@ -30,7 +32,22 @@ namespace IS24RestApi
                 BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
-            var contact = api.GetContact("Hans Meiser", isExternal: true);
+            try
+            {
+                var nre = new RealEstate { id = 4711 };
+                var natts = api.GetAttachmentsAsync(nre).Result;
+            }
+            catch (AggregateException ex)
+            {
+                var iex = ex.InnerException as IS24Exception;
+                if (iex != null)
+                {
+                    var msgs = iex.Messages;
+                }
+                else throw;
+            }
+
+            var contact = api.GetContactAsync("Hans Meiser", isExternal: true).Result;
             if (contact == null)
             {
                 contact = new RealtorContactDetails
@@ -48,13 +65,13 @@ namespace IS24RestApi
                     externalId = "Hans Meiser"
                 };
 
-                api.CreateContact(contact);
+                api.CreateContactAsync(contact).Wait();
 
                 contact.address.houseNumber = "1a";
-                api.UpdateContact(contact);
+                api.UpdateContactAsync(contact).Wait();
             }
 
-            var re = api.GetRealEstate("Hauptstraße 1", isExternal: true) as ApartmentRent;
+            var re = api.GetRealEstateAsync("Hauptstraße 1", isExternal: true).Result as ApartmentRent;
             if (re == null)
             {
                 re = new ApartmentRent
@@ -69,13 +86,13 @@ namespace IS24RestApi
                     showAddress = true
                 };
 
-                api.CreateRealEstate(re);
+                api.CreateRealEstateAsync(re).Wait();
 
                 re.baseRent += 100.0;
-                api.UpdateRealEstate(re);
+                api.UpdateRealEstateAsync(re).Wait();
             }
 
-            var atts = api.GetAttachments(re);
+            var atts = api.GetAttachmentsAsync(re).Result;
             if (atts == null || !atts.Any())
             {
                 var att = new Picture
@@ -85,10 +102,16 @@ namespace IS24RestApi
                     title = "Zimmer",
                 };
 
-                api.CreateAttachment(re, att, @"..\..\test.jpg");
+                api.CreateAttachmentAsync(re, att, @"..\..\test.jpg").Wait();
 
                 att.title = "Zimmer 1";
-                api.UpdateAttachment(re, att);
+                api.UpdateAttachmentAsync(re, att).Wait();
+            }
+
+            List<RealEstate> res = new List<RealEstate>();
+            foreach (var r in api.GetRealEstatesAsync().ToEnumerable())
+            {
+                res.Add(r);
             }
         }
     }
