@@ -22,6 +22,11 @@ namespace IS24RestApi
 
         static void Main(string[] args)
         {
+            TestAsync().Wait();
+        }
+
+        private static async Task TestAsync()
+        {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
             var api = new RestApi
             {
@@ -35,19 +40,14 @@ namespace IS24RestApi
             try
             {
                 var nre = new RealEstate { id = 4711 };
-                var natts = api.GetAttachmentsAsync(nre).Result;
+                var natts = await api.GetAttachmentsAsync(nre);
             }
-            catch (AggregateException ex)
+            catch (IS24Exception ex)
             {
-                var iex = ex.InnerException as IS24Exception;
-                if (iex != null)
-                {
-                    var msgs = iex.Messages;
-                }
-                else throw;
+                var msgs = ex.Messages;
             }
 
-            var contact = api.GetContactAsync("Hans Meiser", isExternal: true).Result;
+            var contact = await api.GetContactAsync("Hans Meiser", isExternal: true);
             if (contact == null)
             {
                 contact = new RealtorContactDetails
@@ -71,7 +71,7 @@ namespace IS24RestApi
                 api.UpdateContactAsync(contact).Wait();
             }
 
-            var re = api.GetRealEstateAsync("Hauptstraße 1", isExternal: true).Result as ApartmentRent;
+            var re = await api.GetRealEstateAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
             if (re == null)
             {
                 re = new ApartmentRent
@@ -92,7 +92,7 @@ namespace IS24RestApi
                 api.UpdateRealEstateAsync(re).Wait();
             }
 
-            var atts = api.GetAttachmentsAsync(re).Result;
+            var atts = await api.GetAttachmentsAsync(re);
             if (atts == null || !atts.Any())
             {
                 var att = new Picture
@@ -108,11 +108,8 @@ namespace IS24RestApi
                 api.UpdateAttachmentAsync(re, att).Wait();
             }
 
-            List<RealEstate> res = new List<RealEstate>();
-            foreach (var r in api.GetRealEstatesAsync().ToEnumerable())
-            {
-                res.Add(r);
-            }
+            var res = new List<RealEstate>();
+            await api.GetRealEstatesAsync().ForEachAsync(r => res.Add(r));
         }
     }
 }
