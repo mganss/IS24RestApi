@@ -100,7 +100,7 @@ namespace IS24RestApi
                         // An HTTP error occurred. Deserialize error messages.
 
                         var msgs = handler.Deserialize<messages>(raw);
-                        var ex = new IS24Exception("An error occurred. See Messages property for details.") { Messages = msgs };
+                        var ex = new IS24Exception("An error occurred. See Messages property for details.") { Messages = msgs, StatusCode = raw.StatusCode };
 
                         response.ResponseStatus = ResponseStatus.Error;
                         response.ErrorMessage = ex.Message;

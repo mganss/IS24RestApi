@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
+using System.Net;
 
 namespace IS24RestApi
 {
@@ -37,17 +38,17 @@ namespace IS24RestApi
                 BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
+            RealtorContactDetails contact = null;
+
             try
             {
-                var nre = new RealEstate { id = 4711 };
-                var natts = await api.GetAttachmentsAsync(nre);
+                contact = await api.GetContactAsync("Hans Meiser", isExternal: true);
             }
             catch (IS24Exception ex)
             {
-                var msgs = ex.Messages;
+                if (ex.Messages.message.First().messageCode != MessageCode.ERROR_RESOURCE_NOT_FOUND) throw;
             }
 
-            var contact = await api.GetContactAsync("Hans Meiser", isExternal: true);
             if (contact == null)
             {
                 contact = new RealtorContactDetails
@@ -65,13 +66,23 @@ namespace IS24RestApi
                     externalId = "Hans Meiser"
                 };
 
-                api.CreateContactAsync(contact).Wait();
+                await api.CreateContactAsync(contact);
 
                 contact.address.houseNumber = "1a";
-                api.UpdateContactAsync(contact).Wait();
+                await api.UpdateContactAsync(contact);
             }
 
-            var re = await api.GetRealEstateAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
+            ApartmentRent re = null;
+
+            try
+            {
+                re = await api.GetRealEstateAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
+            }
+            catch (IS24Exception ex)
+            {
+                if (ex.Messages.message.First().messageCode != MessageCode.ERROR_RESOURCE_NOT_FOUND) throw;
+            }
+
             if (re == null)
             {
                 re = new ApartmentRent
@@ -83,13 +94,14 @@ namespace IS24RestApi
                     baseRent = 500.0,
                     livingSpace = 100.0,
                     numberOfRooms = 4.0,
-                    showAddress = true
+                    showAddress = true,
+                    courtage = new CourtageInfo { hasCourtage = YesNoNotApplicableType.NO }
                 };
 
-                api.CreateRealEstateAsync(re).Wait();
+                await api.CreateRealEstateAsync(re);
 
                 re.baseRent += 100.0;
-                api.UpdateRealEstateAsync(re).Wait();
+                await api.UpdateRealEstateAsync(re);
             }
 
             var atts = await api.GetAttachmentsAsync(re);
@@ -102,10 +114,10 @@ namespace IS24RestApi
                     title = "Zimmer",
                 };
 
-                api.CreateAttachmentAsync(re, att, @"..\..\test.jpg").Wait();
+                await api.CreateAttachmentAsync(re, att, @"..\..\test.jpg");
 
                 att.title = "Zimmer 1";
-                api.UpdateAttachmentAsync(re, att).Wait();
+                await api.UpdateAttachmentAsync(re, att);
             }
 
             var res = new List<RealEstate>();

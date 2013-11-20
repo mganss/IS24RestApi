@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Text;
@@ -19,6 +20,10 @@ namespace IS24RestApi
         /// Gets or sets the detailed error messages. See http://developerwiki.immobilienscout24.de/wiki/Status_codes for more.
         /// </summary>
         public messages Messages { get; set; }
+        /// <summary>
+        /// Gets or sets the HTTP status code of the response.
+        /// </summary>
+        public HttpStatusCode StatusCode { get; set; }
         /// <summary>
         /// Initializes a new instance of the IS24Exception class.
         /// </summary>
@@ -45,6 +50,7 @@ namespace IS24RestApi
             : base(info, context)
         {
             Messages = (messages)info.GetValue("Messages", typeof(messages));
+            StatusCode = (HttpStatusCode)info.GetValue("StatusCode", typeof(HttpStatusCode));
         }
 
         // see http://stackoverflow.com/a/100369
@@ -63,6 +69,7 @@ namespace IS24RestApi
             }
 
             info.AddValue("Messages", Messages, typeof(messages));
+            info.AddValue("StatusCode", StatusCode, typeof(HttpStatusCode));
 
             // MUST call through to the base class to let it save its own state
             base.GetObjectData(info, context);

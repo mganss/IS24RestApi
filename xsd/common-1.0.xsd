@@ -179,6 +179,12 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
+			<xs:element name="realEstateState" type="RealEstateState" minOccurs="0">
+		        <xs:annotation>
+		            <xs:documentation xml:lang="en">Publication state of a real Estate.</xs:documentation>
+		            <xs:documentation xml:lang="de-DE">Veröffentlichungsstatus einer Immobilie.</xs:documentation>
+       			</xs:annotation>		
+			</xs:element>            
         </xs:sequence>
         <xs:attribute name="id" type="xs:long"
                       use="optional"><!-- optional because	POST for a realestate CANNOT have an id -->
@@ -678,6 +684,17 @@
                         <xs:maxLength value="300"/>
                     </xs:restriction>
                 </xs:simpleType>
+            </xs:element> 
+            <xs:element name="portraitUrl" minOccurs="0">
+               <xs:annotation>
+                   <xs:documentation xml:lang="en">Url to Contacts Portrait</xs:documentation>
+                   <xs:documentation xml:lang="de-DE">Url zum Bild des Anbieters</xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                   <xs:restriction base="xs:anyURI">
+                       <xs:maxLength value="300"/>
+                   </xs:restriction>
+               </xs:simpleType>
             </xs:element>
         </xs:sequence>
     </xs:complexType>
@@ -828,8 +845,8 @@
                             <xs:documentation xml:lang="en">URL to realtor's logo</xs:documentation>
                             <xs:documentation xml:lang="de-DE">URL zum Relatorlogo</xs:documentation>
                         </xs:annotation>
-                    </xs:element>
-                </xs:sequence>
+                    </xs:element>                   
+                </xs:sequence>                
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -5656,6 +5673,12 @@
                     <xs:documentation xml:lang="de-DE">Stellplatzmiete</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="useAsFlatshareRoom" type="YesNotApplicableType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">usable as flat share room</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">"WG-geeigne</xs:documentation>
+                </xs:annotation>
+            </xs:element>           
         </xs:sequence>
     </xs:group>
 
@@ -6101,12 +6124,12 @@
 
     <xs:group name="BaseShortTermAccommodation">
         <xs:sequence>
-            <xs:element name="price" type="Price">
+            <xs:element name="price" type="Price" minOccurs="1">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">Price, the attributes named the type, the currency and the
+                    <xs:documentation xml:lang="en">total rent, the attributes named the type, the currency and the
                         interval
                     </xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Preis, die Attribute geben die Art, die Währung und den Intervall
+                    <xs:documentation xml:lang="de-DE">Pauschalmiete, die Attribute geben die Art, die Währung und den Intervall
                         an
                     </xs:documentation>
                 </xs:annotation>
@@ -6129,20 +6152,20 @@
                     <xs:documentation xml:lang="de-DE">Frühester Mietbeginn</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="balcony" type="xs:boolean">
+            <xs:element name="balcony" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">has a balcony</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Balkon</xs:documentation>
                 </xs:annotation>
             </xs:element>
 
-            <xs:element name="garden" type="xs:boolean">
+            <xs:element name="garden" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">has a garden</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Garten</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="nonSmoker" type="xs:boolean">
+            <xs:element name="nonSmoker" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">if you cannot smoke in the rooms</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Raucher oder Nichtraucher</xs:documentation>
@@ -6254,7 +6277,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="industrialArea" type="xs:double">
+            <xs:element name="industrialArea" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">area for rent</xs:documentation>
                     <xs:documentation xml:lang="de-DE">vermietbare Fläche</xs:documentation>
@@ -9082,43 +9105,43 @@
 
     <xs:group name="ExtendedInvestment">
         <xs:sequence>
-            <xs:element name="totalFloorSpace" type="xs:double">
+            <xs:element name="totalFloorSpace" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">total area of the real estate</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Gesamtfläche der Immobilie</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="livingSpace" type="xs:double">
+            <xs:element name="livingSpace" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">living space</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Wohnfläche der Immobilie</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="pricePerSQM" type="Price">
+            <xs:element name="pricePerSQM" type="Price" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">price per sqm (user defined)</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Preis pro Quadratmeter (Nutzerangabe)</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="priceMultiplier" type="xs:double">
+            <xs:element name="priceMultiplier" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">purchase price divided by rent per year</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Kaufpreis geteilt durch Mieteinnahmen pro Jahr</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="rentalIncomeActual" type="Price">
+            <xs:element name="rentalIncomeActual" type="Price" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">current rent</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Mieteinahmen aktuell.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="rentalIncomeTarget" type="Price">
+            <xs:element name="rentalIncomeTarget" type="Price" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">possible rent</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Mögliche Mieteinahmen.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="otherCosts" type="Price">
+            <xs:element name="otherCosts" type="Price" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">not reversible costs</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Nicht umlegbare Kosten.</xs:documentation>
@@ -9153,7 +9176,7 @@
                     <xs:documentation xml:lang="de-DE">Energieverbrauchskennwert</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="cellar" type="xs:boolean">
+            <xs:element name="cellar" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">cellar</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Keller</xs:documentation>
@@ -9171,13 +9194,13 @@
                     <xs:documentation xml:lang="de-DE">Kaution</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="endRentalDate" type="xs:date">
+            <xs:element name="endRentalDate" type="xs:date"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">end rental date</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Frei bis</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="energyConsumptionContainsWarmWater" type="YesNotApplicableType">
+            <xs:element name="energyConsumptionContainsWarmWater" type="YesNotApplicableType"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">energy consumption contains warm water</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Energieverbrauch für Warmwasser enthalten</xs:documentation>
@@ -9201,13 +9224,13 @@
                     <xs:documentation xml:lang="de-DE">Geschlecht</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="guestToilet" type="xs:boolean">
+            <xs:element name="guestToilet" type="xs:boolean"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">guest toilet</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Gaeste-WC</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="handicappedAccessible" type="xs:boolean">
+            <xs:element name="handicappedAccessible" type="xs:boolean"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">handicapped accessible</xs:documentation>
                     <xs:documentation xml:lang="de-DE">barrierefrei</xs:documentation>
@@ -9225,7 +9248,7 @@
                     <xs:documentation xml:lang="de-DE">Heizungsart</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="lift" type="xs:boolean">
+            <xs:element name="lift" type="xs:boolean"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">lift</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Personenaufzug</xs:documentation>
@@ -9290,14 +9313,14 @@
                     <xs:documentation xml:lang="en">thermal characteristic</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Energieverbrauchskennwert</xs:documentation>
                 </xs:annotation>
-            </xs:element>
+            </xs:element>            
             <xs:element name="totalRent" type="xs:double" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">total rent</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Pauschalmiete</xs:documentation>
+                    <xs:documentation xml:lang="en">DEPRECATED total rent, use the element "price" in BaseShortTermAccommodation</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">DEPRECATED Pauschalmiete, das Element "price" in BaseShortTermAccommodation ist zu benutzen</xs:documentation>
                 </xs:annotation>
             </xs:element>
-        </xs:sequence>
+       </xs:sequence>
     </xs:group>
 
     <xs:group name="ExtendedHouseType">
