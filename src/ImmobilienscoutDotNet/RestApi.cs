@@ -1,5 +1,4 @@
-﻿using IS24;
-using RestSharp;
+﻿using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
@@ -14,7 +13,7 @@ using System.Web;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace IS24RestApi
+namespace ImmobilienscoutDotNet
 {
     /// <summary>
     /// Represents an endpoint of the Immobilienscout24-REST-API.

@@ -1,15 +1,11 @@
-﻿using IS24;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Net;
+using System.Threading.Tasks;
+using ImmobilienscoutDotNet;
 
-namespace IS24RestApi
+namespace SampleConsole
 {
     class Program
     {
@@ -121,7 +117,7 @@ namespace IS24RestApi
             }
 
             var res = new List<RealEstate>();
-            await api.GetRealEstatesAsync().ForEachAsync(r => res.Add(r));
+            await api.GetRealEstatesAsync().ForEachAsync(res.Add);
         }
     }
 }

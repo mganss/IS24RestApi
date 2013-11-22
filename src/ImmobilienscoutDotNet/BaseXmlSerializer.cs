@@ -1,13 +1,10 @@
-﻿using RestSharp.Serializers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
+using RestSharp.Serializers;
 
-namespace IS24RestApi
+namespace ImmobilienscoutDotNet
 {
     /// <summary>
     /// A serializer which can serialize objects into XML representations of their base class,

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IS24
+namespace ImmobilienscoutDotNet
 {
     public partial class Message
     {

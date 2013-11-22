@@ -1,15 +1,13 @@
-﻿using RestSharp;
-using RestSharp.Deserializers;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using RestSharp;
+using RestSharp.Deserializers;
 
-namespace IS24RestApi
+namespace ImmobilienscoutDotNet
 {
     /// <summary>
     /// A deserializer which can deserialize derived classes.

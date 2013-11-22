@@ -1,14 +1,9 @@
-﻿using IS24;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IS24RestApi
+namespace ImmobilienscoutDotNet
 {
     /// <summary>
     /// Represents error that occur during interaction with the IS24 REST API.
@@ -60,7 +55,7 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="info">The SerializationInfo that holds the serialized object data about the exception being thrown.</param>
         /// <param name="context">The StreamingContext that contains contextual information about the source or destination.</param>
-        [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)

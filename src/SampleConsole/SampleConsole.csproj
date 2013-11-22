@@ -7,10 +7,12 @@
     <ProjectGuid>{F73B3606-BD7F-4C2B-BC9E-843DD577C2D3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IS24RestApi</RootNamespace>
-    <AssemblyName>IS24RestApi</AssemblyName>
+    <RootNamespace>SampleConsole</RootNamespace>
+    <AssemblyName>SampleConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\IS24RestApi.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\SampleConsole.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -60,17 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseXmlDeserializer.cs" />
-    <Compile Include="BaseXmlSerializer.cs" />
-    <Compile Include="IS24.cs" />
-    <Compile Include="IS24.extra.cs">
-      <DependentUpon>IS24.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IS24Exception.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestApi.cs" />
-    <Compile Include="RestSharpExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -81,7 +74,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImmobilienscoutDotNet\ImmobilienscoutDotNet.csproj">
+      <Project>{C7A378E1-D9EE-45B9-B147-0F366B0CE314}</Project>
+      <Name>ImmobilienscoutDotNet</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
