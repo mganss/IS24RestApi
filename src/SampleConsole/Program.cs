@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -9,14 +10,6 @@ namespace SampleConsole
 {
     class Program
     {
-        class Config
-        {
-            public string ConsumerKey { get; set; }
-            public string ConsumerSecret { get; set; }
-            public string AccessToken { get; set; }
-            public string AccessSecret { get; set; }
-        }
-
         static void Main(string[] args)
         {
             TestAsync().Wait();
@@ -25,7 +18,7 @@ namespace SampleConsole
         private static async Task TestAsync()
         {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var api = new RestApi
+            var api = new ImmobilienscoutApi
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,
