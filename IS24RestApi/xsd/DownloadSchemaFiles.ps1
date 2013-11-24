@@ -5,7 +5,8 @@ $pg = $client.DownloadString($url)
 $links = $pg | Select-String -AllMatches '<a href="([^"]+)' | %{ $_.Matches } | %{ $base + $_.Groups[1].Value }
 
 foreach ($link in $links) {
-    $fn = $link | Select-String '[^/]+$' | %{ $_.Matches.Value }
+    $fn = $link | Select-String '[^/]+$' | %{ $_.Matches } | %{ $_.Value }
+    echo "downloading $link to $fn"
     $client.DownloadFile($link, $fn)
 }
 

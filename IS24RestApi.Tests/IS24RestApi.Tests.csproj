@@ -7,8 +7,8 @@
     <ProjectGuid>{C290D9C5-B131-44C0-A263-4CBCAB80C4D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ImmobilienscoutDotNet.Tests</RootNamespace>
-    <AssemblyName>ImmobilienscoutDotNet.Tests</AssemblyName>
+    <RootNamespace>IS24RestApi.Tests</RootNamespace>
+    <AssemblyName>IS24RestApi.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

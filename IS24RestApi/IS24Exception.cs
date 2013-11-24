@@ -3,10 +3,10 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     /// <summary>
-    /// Represents error that occur during interaction with the IS24 REST API.
+    /// Represents errors that occur during interaction with the IS24 REST API.
     /// </summary>
     [Serializable]
     public class IS24Exception : Exception

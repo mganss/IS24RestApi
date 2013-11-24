@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using RestSharp;
 using RestSharp.Deserializers;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     /// <summary>
     /// A deserializer which can deserialize derived classes.

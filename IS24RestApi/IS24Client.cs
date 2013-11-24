@@ -13,13 +13,13 @@ using System.Web;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     /// <summary>
     /// Represents an endpoint of the Immobilienscout24-REST-API.
     /// See http://developerwiki.immobilienscout24.de/wiki/ImmobilienScout24_API
     /// </summary>
-    public class ImmobilienscoutApi
+    public class IS24Client
     {
         const int ImmobilienscoutPublishChannelId = 10000;
         const string User = "me";
@@ -320,14 +320,12 @@ namespace ImmobilienscoutDotNet
             }
         }
 
-        #region Private Methods
-
-        private RestRequest Request(string resource, Method method = Method.GET)
+        RestRequest Request(string resource, Method method = Method.GET)
         {
             return new RestRequest(resource, method) { XmlSerializer = XmlSerializer };
         }
 
-        private IRestResponse<T> Deserialize<T>(IRestRequest request, IRestResponse raw)
+        IRestResponse<T> Deserialize<T>(IRestRequest request, IRestResponse raw)
         {
             IRestResponse<T> response = new RestResponse<T>();
 
@@ -357,7 +355,7 @@ namespace ImmobilienscoutDotNet
                         // An HTTP error occurred. Deserialize error messages.
 
                         var msgs = handler.Deserialize<messages>(raw);
-                        var ex = new IS24Exception("An error occurred. See Messages property for details.") { Messages = msgs, StatusCode = raw.StatusCode };
+                        var ex = new IS24Exception(msgs.message.Msg()) { Messages = msgs, StatusCode = raw.StatusCode };
 
                         response.ResponseStatus = ResponseStatus.Error;
                         response.ErrorMessage = ex.Message;
@@ -382,7 +380,7 @@ namespace ImmobilienscoutDotNet
         /// <param name="request">The request object.</param>
         /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="BaseUrl"/> will be used.</param>
         /// <returns>The task representing the request.</returns>
-        private async Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new()
+        async Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new()
         {
             baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
             var client = new RestClient(baseUrl);
@@ -412,7 +410,5 @@ namespace ImmobilienscoutDotNet
         {
             return (resp.message != null && resp.message.Count() > 0 && resp.message[0].messageCode == code);
         }
-
-        #endregion
     }
 }

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using RestSharp;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     static class RestSharpExtensions
     {

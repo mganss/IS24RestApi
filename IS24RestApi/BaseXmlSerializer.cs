@@ -4,10 +4,10 @@ using System.Text;
 using System.Xml.Serialization;
 using RestSharp.Serializers;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     /// <summary>
-    /// A serializer which can serialize objects into XML representations of their base class,
+    /// A serializer which can serialize objects into XML representations of their base class.
     /// </summary>
     class BaseXmlSerializer: DotNetXmlSerializer
     {

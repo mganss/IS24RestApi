@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace ImmobilienscoutDotNet
+namespace IS24RestApi
 {
     /// <summary>
     /// A <see cref="StringWriter"/> that uses <see cref="System.Text.Encoding.UTF8"/>.

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ImmobilienscoutDotNet")]
+[assembly: AssemblyTitle("IS24RestApi.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ImmobilienscoutDotNet")]
+[assembly: AssemblyProduct("IS24RestApi.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ce77545e-5fbe-4b4d-bf1f-1c5d4532070a")]
+[assembly: Guid("7bdd6f6e-f5af-44f1-a0df-7efad0c3f210")]
 
 // Version information for an assembly consists of the following four values:
 //

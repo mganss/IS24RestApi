@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ImmobilienscoutDotNet;
+using IS24RestApi;
 
 namespace SampleConsole
 {
@@ -18,7 +18,7 @@ namespace SampleConsole
         private static async Task TestAsync()
         {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var api = new ImmobilienscoutApi
+            var api = new IS24Client
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,

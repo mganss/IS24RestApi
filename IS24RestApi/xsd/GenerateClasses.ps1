@@ -7,7 +7,7 @@ $last = $xsds | select -last 1
 $last = '.\' + $last
 $xsds[$xsds.Count - 1] = $last
 
-& xsd $xsds /c /n:ImmobilienscoutDotNet
+& xsd $xsds /c /n:IS24RestApi
 
 # Generated .cs file is the last one written to
 $cs = ls *.cs | Sort-Object -Descending -Property LastWriteTime | select -first 1
