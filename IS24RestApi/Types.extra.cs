@@ -30,7 +30,7 @@ namespace IS24RestApi
         /// <returns>A single string containing all messages</returns>
         public static string Msg(this Message[] msgs)
         {
-            return string.Join(Environment.NewLine, msgs.Select(m => m.ToString()).ToArray());
+            return msgs == null ? "" : string.Join(Environment.NewLine, msgs.Select(m => m.ToString()).ToArray());
         }
     }
 }

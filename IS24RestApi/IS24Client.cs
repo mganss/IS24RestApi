@@ -44,6 +44,11 @@ namespace IS24RestApi
         /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0").
         /// </summary>
         public string BaseUrlPrefix { get; set; }
+        /// <summary>
+        /// The factory of IHttp objects that the RestClient uses to communicate with the service.
+        /// Used mainly for testing purposes.
+        /// </summary>
+        public IHttpFactory HttpFactory { get; set; }
 
         /// <summary>
         /// The XML deserializer
@@ -384,11 +389,12 @@ namespace IS24RestApi
         {
             baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
             var client = new RestClient(baseUrl);
-            client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
+            if (HttpFactory != null) client.HttpFactory = HttpFactory;
             client.AddHandler("application/xml", XmlDeserializer);
+            client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
             request.XmlSerializer = XmlSerializer;
 
-            var response = Deserialize<T>(request, await client.ExecuteAsync(request));
+            var response = Deserialize<T>(request, await client.ExecuteTaskAsync(request));
 
             if (response.ErrorException != null) throw response.ErrorException;
 

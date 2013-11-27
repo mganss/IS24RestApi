@@ -9,7 +9,7 @@ namespace IS24RestApi
     /// <summary>
     /// A serializer which can serialize objects into XML representations of their base class.
     /// </summary>
-    class BaseXmlSerializer: DotNetXmlSerializer
+    public class BaseXmlSerializer: DotNetXmlSerializer
     {
         /// <summary>
         /// Serializes an object into an XML document using the specified type.
