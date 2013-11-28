@@ -18,7 +18,7 @@ namespace SampleConsole
         private static async Task TestAsync()
         {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var restClient = new IS24RestClient
+            var is24Client = new IS24Client
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,
@@ -27,8 +27,7 @@ namespace SampleConsole
                 BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
-            var api = new IS24Client(restClient);
-
+            var api = new ImportExportClient(is24Client);
             RealtorContactDetails contact = null;
 
             try

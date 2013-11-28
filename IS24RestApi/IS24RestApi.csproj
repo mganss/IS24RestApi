@@ -63,9 +63,15 @@
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
     <Compile Include="ContactResource.cs" />
+    <Compile Include="IAttachmentResource.cs" />
+    <Compile Include="IContactResource.cs" />
+    <Compile Include="IIS24Client.cs" />
+    <Compile Include="IPublishResource.cs" />
+    <Compile Include="IRealEstateResource.cs" />
     <Compile Include="IS24Exception.cs" />
+    <Compile Include="ImportExportClient.cs" />
     <Compile Include="IS24Client.cs" />
-    <Compile Include="IS24RestClient.cs" />
+    <Compile Include="MessagesExtensions.cs" />
     <Compile Include="PublishResource.cs" />
     <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
