@@ -18,7 +18,7 @@ namespace SampleConsole
         private static async Task TestAsync()
         {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var api = new IS24Client
+            var restClient = new IS24RestClient
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,
@@ -27,11 +27,13 @@ namespace SampleConsole
                 BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
+            var api = new IS24Client(restClient);
+
             RealtorContactDetails contact = null;
 
             try
             {
-                contact = await api.GetContactAsync("Hans Meiser", isExternal: true);
+                contact = await api.Contacts.GetAsync("Hans Meiser", isExternal: true);
             }
             catch (IS24Exception ex)
             {
@@ -55,17 +57,17 @@ namespace SampleConsole
                     externalId = "Hans Meiser"
                 };
 
-                await api.CreateContactAsync(contact);
+                await api.Contacts.CreateAsync(contact);
 
                 contact.address.houseNumber = "1a";
-                await api.UpdateContactAsync(contact);
+                await api.Contacts.UpdateAsync(contact);
             }
 
             ApartmentRent re = null;
 
             try
             {
-                re = await api.GetRealEstateAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
+                re = await api.RealEstates.GetAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
             }
             catch (IS24Exception ex)
             {
@@ -87,13 +89,13 @@ namespace SampleConsole
                     courtage = new CourtageInfo { hasCourtage = YesNoNotApplicableType.NO }
                 };
 
-                await api.CreateRealEstateAsync(re);
+                await api.RealEstates.CreateAsync(re);
 
                 re.baseRent += 100.0;
-                await api.UpdateRealEstateAsync(re);
+                await api.RealEstates.UpdateAsync(re);
             }
 
-            var atts = await api.GetAttachmentsAsync(re);
+            var atts = await api.Attachments.GetAsync(re);
             if (atts == null || !atts.Any())
             {
                 var att = new Picture
@@ -103,14 +105,14 @@ namespace SampleConsole
                     title = "Zimmer",
                 };
 
-                await api.CreateAttachmentAsync(re, att, @"..\..\test.jpg");
+                await api.Attachments.CreateAsync(re, att, @"..\..\test.jpg");
 
                 att.title = "Zimmer 1";
-                await api.UpdateAttachmentAsync(re, att);
+                await api.Attachments.UpdateAsync(re, att);
             }
 
             var res = new List<RealEstate>();
-            await api.GetRealEstatesAsync().ForEachAsync(res.Add);
+            await api.RealEstates.GetAsync().ForEachAsync(res.Add);
         }
     }
 }

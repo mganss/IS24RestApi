@@ -59,10 +59,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
+    <Compile Include="ContactResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="IS24Client.cs" />
+    <Compile Include="IS24RestClient.cs" />
+    <Compile Include="PublishResource.cs" />
+    <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
     <Compile Include="Types.generated.cs" />
     <Compile Include="Types.extra.cs" />
