@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// Describes the resource responsible for managing real estate's attachments
+    /// </summary>
     public interface IAttachmentResource
     {
         /// <summary>

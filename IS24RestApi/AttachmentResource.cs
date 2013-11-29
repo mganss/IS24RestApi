@@ -7,13 +7,20 @@ using RestSharp;
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// The resource responsible for managing attachments for real estates.
+    /// </summary>
     public class AttachmentResource : IAttachmentResource
     {
-        private IIS24Client importExportClient;
+        private readonly IIS24Connection is24Connection;
 
-        public AttachmentResource(IIS24Client importExportClient)
+        /// <summary>
+        /// Creates a new <see cref="AttachmentResource"/> instance
+        /// </summary>
+        /// <param name="is24Connection"></param>
+        public AttachmentResource(IIS24Connection is24Connection)
         {
-            this.importExportClient = importExportClient;
+            this.is24Connection = is24Connection;
         }
 
         /// <summary>
@@ -23,9 +30,9 @@ namespace IS24RestApi
         /// <returns>The attachment.</returns>
         public async Task<IEnumerable<Attachment>> GetAsync(RealEstate realEstate)
         {
-            var req = importExportClient.Request("realestate/{id}/attachment");
+            var req = is24Connection.CreateRequest("realestate/{id}/attachment");
             req.AddParameter("id", realEstate.id, ParameterType.UrlSegment);
-            var atts = await importExportClient.ExecuteAsync<Attachments>(req);
+            var atts = await is24Connection.ExecuteAsync<Attachments>(req);
             return atts.attachment;
         }
 
@@ -37,10 +44,10 @@ namespace IS24RestApi
         /// <returns>The attachment or null.</returns>
         public Task<Attachment> GetAsync(RealEstate re, string id)
         {
-            var req = importExportClient.Request("realestate/{realEstate}/attachment/{id}");
+            var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}");
             req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
             req.AddParameter("id", id, ParameterType.UrlSegment);
-            return importExportClient.ExecuteAsync<Attachment>(req);
+            return is24Connection.ExecuteAsync<Attachment>(req);
         }
 
         /// <summary>
@@ -50,10 +57,10 @@ namespace IS24RestApi
         /// <param name="id">The attachment id.</param>
         public async Task DeleteAsync(RealEstate re, string id)
         {
-            var req = importExportClient.Request("realestate/{realEstate}/attachment/{id}", Method.DELETE);
+            var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.DELETE);
             req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
             req.AddParameter("id", id, ParameterType.UrlSegment);
-            var resp = await importExportClient.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<messages>(req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
                 throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, resp.message.ToMessage())) { Messages = resp };
@@ -68,7 +75,7 @@ namespace IS24RestApi
         /// <param name="path">The path to the attachment file.</param>
         public async Task CreateAsync(RealEstate re, Attachment att, string path)
         {
-            var req = importExportClient.Request("realestate/{id}/attachment", Method.POST);
+            var req = is24Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
             req.AddParameter("id", re.id, ParameterType.UrlSegment);
             var fileName = Path.GetFileName(path);
             if (fileName != null)
@@ -81,7 +88,7 @@ namespace IS24RestApi
             var metaData = Encoding.UTF8.GetBytes(sw.ToString());
             req.AddFile("metadata", metaData, "body.xml", "application/xml");
 
-            var resp = await importExportClient.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<messages>(req);
             var id = resp.ExtractCreatedResourceId();
 
             if (!id.HasValue)
@@ -99,12 +106,12 @@ namespace IS24RestApi
         /// <param name="att">The attachment.</param>
         public async Task UpdateAsync(RealEstate re, Attachment att)
         {
-            var req = importExportClient.Request("realestate/{realEstate}/attachment/{id}", Method.PUT);
+            var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.PUT);
             req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
             req.AddParameter("id", att.id, ParameterType.UrlSegment);
             req.AddBody(att, typeof(Attachment));
 
-            var resp = await importExportClient.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<messages>(req);
             if (!resp.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.title, resp.message.ToMessage())) { Messages = resp };

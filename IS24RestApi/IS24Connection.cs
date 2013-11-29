@@ -8,8 +8,14 @@ using RestSharp.Serializers;
 
 namespace IS24RestApi
 {
-    public class IS24Client : IIS24Client
+    /// <summary>
+    /// The connection used for preparing and executing the rest requests to IS24 
+    /// </summary>
+    public class IS24Connection : IIS24Connection
     {
+        /// <summary>
+        /// Gets the default value for the current user
+        /// </summary>
         public const string User = "me";
 
         /// <summary>
@@ -58,7 +64,13 @@ namespace IS24RestApi
         /// </summary>
         public string AccessTokenSecret { get; set; }
 
-        public RestRequest Request(string resource, Method method = Method.GET)
+        /// <summary>
+        /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public IRestRequest CreateRequest(string resource, Method method = Method.GET)
         {
             return new RestRequest(resource, method) { XmlSerializer = xmlSerializer };
         }
@@ -118,7 +130,7 @@ namespace IS24RestApi
         /// <param name="request">The request object.</param>
         /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="BaseUrl"/> will be used.</param>
         /// <returns>The task representing the request.</returns>
-        public async Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new()
+        public async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new()
         {
             baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
             var client = new RestClient(baseUrl)

@@ -4,17 +4,20 @@ using RestSharp;
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// The Resource responsible for managing contacts for customer using the IS24 REST API
+    /// </summary>
     public class ContactResource : IContactResource
     {
-        private IIS24Client is24Client;
+        private readonly IIS24Connection is24Connection;
 
         /// <summary>
         /// Creates a new <see cref="ContactResource"/> instance
         /// </summary>
-        /// <param name="is24Client></param>
-        public ContactResource(IIS24Client is24Client)
+        /// <param name="is24Connection"></param>
+        public ContactResource(IIS24Connection is24Connection)
         {
-            this.is24Client = is24Client;
+            this.is24Connection = is24Connection;
         }
 
         /// <summary>
@@ -23,7 +26,7 @@ namespace IS24RestApi
         /// <returns>The contacts.</returns>
         public async Task<IEnumerable<RealtorContactDetails>> GetAsync()
         {
-            var contacts = await is24Client.ExecuteAsync<realtorContactDetailsList>(is24Client.Request("contact"));
+            var contacts = await is24Connection.ExecuteAsync<realtorContactDetailsList>(is24Connection.CreateRequest("contact"));
             return contacts.realtorContactDetails;
         }
 
@@ -35,9 +38,9 @@ namespace IS24RestApi
         /// <returns>The contact or null.</returns>
         public Task<RealtorContactDetails> GetAsync(string id, bool isExternal = false)
         {
-            var req = is24Client.Request("contact/{id}");
+            var req = is24Connection.CreateRequest("contact/{id}");
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            return is24Client.ExecuteAsync<RealtorContactDetails>(req);
+            return is24Connection.ExecuteAsync<RealtorContactDetails>(req);
         }
 
         /// <summary>
@@ -46,10 +49,10 @@ namespace IS24RestApi
         /// <param name="contact">The contact.</param>
         public async Task CreateAsync(RealtorContactDetails contact)
         {
-            var request = is24Client.Request("contact", Method.POST);
+            var request = is24Connection.CreateRequest("contact", Method.POST);
             request.AddBody(contact);
 
-            var resp = await is24Client.ExecuteAsync<messages>(request);
+            var resp = await is24Connection.ExecuteAsync<messages>(request);
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
@@ -65,11 +68,11 @@ namespace IS24RestApi
         /// <param name="contact">The contact.</param>
         public async Task UpdateAsync(RealtorContactDetails contact)
         {
-            var req = is24Client.Request("contact/{id}", Method.PUT);
+            var req = is24Connection.CreateRequest("contact/{id}", Method.PUT);
             req.AddParameter("id", contact.id, ParameterType.UrlSegment);
             req.AddBody(contact);
 
-            var resp = await is24Client.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<messages>(req);
             if (!resp.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating contact {0}: {1}", contact.lastname, resp.message.ToMessage())) { Messages = resp };

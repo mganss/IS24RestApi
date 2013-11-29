@@ -5,13 +5,20 @@ using RestSharp;
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// The resource responsible for managing real estate data
+    /// </summary>
     public class RealEstateResource : IRealEstateResource
     {
-        private IIS24Client client;
+        private readonly IIS24Connection connection;
 
-        public RealEstateResource(IIS24Client client)
+        /// <summary>
+        /// Creates a new <see cref="RealEstateResource"/> instance
+        /// </summary>
+        /// <param name="connection"></param>
+        public RealEstateResource(IIS24Connection connection)
         {
-            this.client = client;
+            this.connection = connection;
         }
 
         /// <summary>
@@ -27,16 +34,16 @@ namespace IS24RestApi
 
                     while (true)
                     {
-                        var req = client.Request("realestate");
+                        var req = connection.CreateRequest("realestate");
                         req.AddParameter("pagesize", 100);
                         req.AddParameter("pagenumber", page);
-                        var rel = await client.ExecuteAsync<realEstates>(req);
+                        var rel = await connection.ExecuteAsync<realEstates>(req);
 
                         foreach (var ore in rel.realEstateList)
                         {
-                            var oreq = client.Request("realestate/{id}");
+                            var oreq = connection.CreateRequest("realestate/{id}");
                             oreq.AddParameter("id", ore.id, ParameterType.UrlSegment);
-                            var re = await client.ExecuteAsync<RealEstate>(oreq);
+                            var re = await connection.ExecuteAsync<RealEstate>(oreq);
                             o.OnNext(re);
                         }
 
@@ -54,9 +61,9 @@ namespace IS24RestApi
         /// <returns>The RealEstate object or null.</returns>
         public Task<RealEstate> GetAsync(string id, bool isExternal = false)
         {
-            var req = client.Request("realestate/{id}");
+            var req = connection.CreateRequest("realestate/{id}");
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            return client.ExecuteAsync<RealEstate>(req);
+            return connection.ExecuteAsync<RealEstate>(req);
         }
 
         /// <summary>
@@ -65,9 +72,9 @@ namespace IS24RestApi
         /// <param name="re">The RealEstate object.</param>
         public async Task CreateAsync(RealEstate re)
         {
-            var req = client.Request("realestate", Method.POST);
+            var req = connection.CreateRequest("realestate", Method.POST);
             req.AddBody(re);
-            var resp = await client.ExecuteAsync<messages>(req);
+            var resp = await connection.ExecuteAsync<messages>(req);
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
@@ -83,10 +90,10 @@ namespace IS24RestApi
         /// <param name="re">The RealEstate object.</param>
         public async Task UpdateAsync(RealEstate re)
         {
-            var req = client.Request("realestate/{id}", Method.PUT);
+            var req = connection.CreateRequest("realestate/{id}", Method.PUT);
             req.AddParameter("id", re.id, ParameterType.UrlSegment);
             req.AddBody(re);
-            var messages = await client.ExecuteAsync<messages>(req);
+            var messages = await connection.ExecuteAsync<messages>(req);
             if (!messages.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating RealEstate {0}: {1}", re.externalId, messages.message.ToMessage())) { Messages = messages };

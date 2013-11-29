@@ -65,12 +65,13 @@
     <Compile Include="ContactResource.cs" />
     <Compile Include="IAttachmentResource.cs" />
     <Compile Include="IContactResource.cs" />
-    <Compile Include="IIS24Client.cs" />
+    <Compile Include="IImportExportClient.cs" />
+    <Compile Include="IIS24Connection.cs" />
     <Compile Include="IPublishResource.cs" />
     <Compile Include="IRealEstateResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExportClient.cs" />
-    <Compile Include="IS24Client.cs" />
+    <Compile Include="IS24Connection.cs" />
     <Compile Include="MessagesExtensions.cs" />
     <Compile Include="PublishResource.cs" />
     <Compile Include="RealEstateResource.cs" />

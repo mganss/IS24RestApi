@@ -3,7 +3,10 @@ using RestSharp;
 
 namespace IS24RestApi
 {
-    public interface IIS24Client
+    /// <summary>
+    /// Describes the connection used for preparing and executing the rest requests to IS24
+    /// </summary>
+    public interface IIS24Connection
     {
         /// <summary>
         /// The URL prefix including the user part
@@ -35,15 +38,21 @@ namespace IS24RestApi
         /// </summary>
         string AccessTokenSecret { get; set; }
 
-        RestRequest Request(string resource, Method method = Method.GET);
+        /// <summary>
+        /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        IRestRequest CreateRequest(string resource, Method method = Method.GET);
 
         /// <summary>
         /// Performs an API request as an asynchronous task.
         /// </summary>
         /// <typeparam name="T">The type of the response object.</typeparam>
         /// <param name="request">The request object.</param>
-        /// <param name="baseUrl">The suffix added to <see cref="IS24Client.BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="IS24Client.BaseUrl"/> will be used.</param>
+        /// <param name="baseUrl">The suffix added to <see cref="IS24Connection.BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="IS24Connection.BaseUrl"/> will be used.</param>
         /// <returns>The task representing the request.</returns>
-        Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new();
+        Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new();
     }
 }

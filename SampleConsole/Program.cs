@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -18,7 +17,7 @@ namespace SampleConsole
         private static async Task TestAsync()
         {
             var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
-            var is24Client = new IS24Client
+            var connection = new IS24Connection
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,
@@ -27,7 +26,7 @@ namespace SampleConsole
                 BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
             };
 
-            var api = new ImportExportClient(is24Client);
+            var api = new ImportExportClient(connection);
             RealtorContactDetails contact = null;
 
             try

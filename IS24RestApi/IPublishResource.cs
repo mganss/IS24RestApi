@@ -2,6 +2,9 @@
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// Describes the resource responsible for publishing real estates
+    /// </summary>
     public interface IPublishResource
     {
         /// <summary>
