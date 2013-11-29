@@ -390,6 +390,7 @@ namespace IS24RestApi
             baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
             var client = new RestClient(baseUrl);
             if (HttpFactory != null) client.HttpFactory = HttpFactory;
+            client.ClearHandlers();
             client.AddHandler("application/xml", XmlDeserializer);
             client.Authenticator = OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
             request.XmlSerializer = XmlSerializer;
