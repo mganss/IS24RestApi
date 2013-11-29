@@ -27,6 +27,11 @@
         IAttachmentResource Attachments { get; }
 
         /// <summary>
+        /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
+        /// </summary>
+        IPublishChannelResource PublishChannels { get; }
+
+        /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
         PublishResource Publish { get; }

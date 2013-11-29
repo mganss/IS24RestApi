@@ -17,19 +17,24 @@
         public IIS24Connection Is24Connection { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="RealEstateResource"/> to manage real estates
+        /// Gets the <see cref="IRealEstateResource"/> to manage real estates
         /// </summary>
         public IRealEstateResource RealEstates { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ContactResource"/> managing the contacts
+        /// Gets the <see cref="IContactResource"/> managing the contacts
         /// </summary>
         public IContactResource Contacts { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="AttachmentResource"/> managing attachments
+        /// Gets the <see cref="IAttachmentResource"/> managing attachments
         /// </summary>
         public IAttachmentResource Attachments { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
+        /// </summary>
+        public IPublishChannelResource PublishChannels { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
@@ -47,6 +52,7 @@
             Contacts = new ContactResource(Is24Connection);
             Attachments = new AttachmentResource(Is24Connection);
             Publish = new PublishResource(Is24Connection);
+            PublishChannels = new PublishChannelResource(Is24Connection);
         }
     }
 }
