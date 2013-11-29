@@ -99,5 +99,16 @@ namespace IS24RestApi
                 throw new IS24Exception(string.Format("Error updating RealEstate {0}: {1}", re.externalId, messages.message.ToMessage())) { Messages = messages };
             }
         }
+
+        /// <summary>
+        /// Deletes a RealEstate object. This seems to be possible if the real estate is not published.
+        /// </summary>
+        /// <param name="id">The id of the RealEstate object to be deleted.</param>
+        public async Task DeleteAsync(string id)
+        {
+            var request = connection.CreateRequest("realestate/{id}", Method.DELETE);
+            request.AddParameter("id", id, ParameterType.UrlSegment);
+            await connection.ExecuteAsync<messages>(request);
+        }
     }
 }

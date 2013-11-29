@@ -33,5 +33,11 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="re">The RealEstate object.</param>
         Task UpdateAsync(RealEstate re);
+
+        /// <summary>
+        /// Deletes a RealEstate object. This seems to be possible if the real estate is not published.
+        /// </summary>
+        /// <param name="id">The id of the RealEstate object to be deleted.</param>
+        Task DeleteAsync(string id);
     }
 }
