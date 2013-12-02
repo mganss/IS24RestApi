@@ -65,6 +65,12 @@ namespace IS24RestApi
         public string AccessTokenSecret { get; set; }
 
         /// <summary>
+        /// The factory of IHttp objects that the RestClient uses to communicate with the service.
+        /// Used mainly for testing purposes.
+        /// </summary>
+        public IHttpFactory HttpFactory { get; set; }
+
+        /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
         /// </summary>
         /// <param name="resource"></param>
@@ -139,11 +145,12 @@ namespace IS24RestApi
                                  OAuth1Authenticator.ForProtectedResource(ConsumerKey,
                                      ConsumerSecret, AccessToken, AccessTokenSecret)
                          };
+            if (HttpFactory != null) client.HttpFactory = HttpFactory;
             client.ClearHandlers();
             client.AddHandler("application/xml", xmlDeserializer);
             request.XmlSerializer = xmlSerializer;
 
-            var response = Deserialize<T>(request, await client.ExecuteAsync(request));
+            var response = Deserialize<T>(request, await client.ExecuteTaskAsync(request));
 
             if (response.ErrorException != null) throw response.ErrorException;
 
