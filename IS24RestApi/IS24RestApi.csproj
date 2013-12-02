@@ -32,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp">
@@ -59,10 +60,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
+    <Compile Include="ContactResource.cs" />
+    <Compile Include="IAttachmentResource.cs" />
+    <Compile Include="IContactResource.cs" />
+    <Compile Include="IImportExportClient.cs" />
+    <Compile Include="IIS24Connection.cs" />
+    <Compile Include="IPublishChannelResource.cs" />
+    <Compile Include="IPublishResource.cs" />
+    <Compile Include="IRealEstateResource.cs" />
     <Compile Include="IS24Exception.cs" />
-    <Compile Include="IS24Client.cs" />
+    <Compile Include="ImportExportClient.cs" />
+    <Compile Include="IS24Connection.cs" />
+    <Compile Include="MessagesExtensions.cs" />
+    <Compile Include="PublishChannelResource.cs" />
+    <Compile Include="PublishResource.cs" />
+    <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
     <Compile Include="Types.generated.cs" />
     <Compile Include="Types.extra.cs" />
