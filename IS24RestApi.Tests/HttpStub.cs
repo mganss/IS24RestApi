@@ -7,10 +7,11 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace IS24RestApi.Tests
 {
-    class HttpStubResponse
+    public class HttpStubResponse
     {
         public HttpStubResponse()
         {
@@ -21,11 +22,19 @@ namespace IS24RestApi.Tests
         public object ResponseObject { get; set; }
     }
 
-    class HttpStub: IHttp
+    public class HttpStub: IHttp
     {
-        public Func<string, HttpStubResponse> GetResponse { get; set; }
+        public List<Func<string, HttpStubResponse>> GetResponses { get; set; }
+        public int CurrentCallNumber { get; set; }
 
         public HttpStub()
+        {
+            Reset();
+            GetResponses = new List<Func<string, HttpStubResponse>>();
+            CurrentCallNumber = 0;
+        }
+
+        public void Reset()
         {
             Headers = new List<HttpHeader>();
             Files = new List<HttpFile>();
@@ -35,18 +44,28 @@ namespace IS24RestApi.Tests
 
         public HttpStub RespondWith(Func<string, HttpStubResponse> getResponse)
         {
-            GetResponse = getResponse;
+            GetResponses.Add(getResponse);
             return this;
+        }
+
+        public HttpStub ThenWith(Func<string, HttpStubResponse> getResponse)
+        {
+            return RespondWith(getResponse);
         }
 
         public HttpStub RespondWith(Func<string, object> getObject)
         {
-            GetResponse = m =>
+            GetResponses.Add(m =>
             {
                 return new HttpStubResponse { StatusCode = HttpStatusCode.OK, ResponseObject = getObject(m) };
-            };
+            });
 
             return this;
+        }
+
+        public HttpStub ThenWith(Func<string, object> getObject)
+        {
+            return RespondWith(getObject);
         }
 
         private HttpResponse GetStyleMethodInternal(string p)
@@ -79,7 +98,10 @@ namespace IS24RestApi.Tests
 
             try
             {
-                var r = GetResponse(method);
+                Assert.InRange(CurrentCallNumber, 0, GetResponses.Count - 1);
+                var r = GetResponses[CurrentCallNumber](method);
+                CurrentCallNumber++;
+
                 var bytes = Encoding.UTF8.GetBytes(new BaseXmlSerializer().Serialize(r.ResponseObject));
                 response.ResponseStatus = ResponseStatus.Completed;
                 response.StatusCode = r.StatusCode;
@@ -93,6 +115,8 @@ namespace IS24RestApi.Tests
                 response.ErrorException = ex;
                 response.ResponseStatus = ResponseStatus.Error;
             }
+
+            Reset();
 
             return response;
         }

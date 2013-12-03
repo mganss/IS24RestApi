@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using System.Reactive.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,30 +10,15 @@ using Xunit;
 
 namespace IS24RestApi.Tests
 {
-    public class ImportExportTests
+    public class RealEstateTests: TestBase
     {
-        ImportExportClient Client { get; set; }
-        HttpStub Http { get; set; }
-
-        public ImportExportTests()
+        public RealEstateTests()
+            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
         {
-            Http = new HttpStub();
-
-            var connection = new IS24Connection 
-            {
-                HttpFactory = new HttpFactory(Http),
-                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0",
-                AccessToken = "AccessToken",
-                AccessTokenSecret = "AccessTokenSecret",
-                ConsumerKey = "ConsumerKey",
-                ConsumerSecret = "ConsumerSecret"
-            };
-
-            Client = new ImportExportClient(connection);
         }
 
         [Fact]
-        public async Task GetRealEstateAsync_RequestsCorrectResource()
+        public async Task RealEstate_Get_RequestsCorrectResource()
         {
             Http.RespondWith(m =>
             {
@@ -45,7 +31,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task GetRealEstateAsync_RequestsCorrectExternalIdPrefix()
+        public async Task RealEstate_Get_RequestsCorrectExternalIdPrefix()
         {
             Http.RespondWith(m =>
             {
@@ -57,7 +43,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task GetRealEstateAsync_ResourceDoesNotExist_ThrowsIS24Exception()
+        public async Task RealEstate_Get_ResourceDoesNotExist_ThrowsIS24Exception()
         {
             Http.RespondWith(m =>
             {
@@ -71,7 +57,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task GetRealEstateAsync_CanDeserializeResponse()
+        public async Task RealEstate_Get_CanDeserializeResponse()
         {
             Http.RespondWith(m =>
             {
@@ -85,7 +71,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task CreateRealEstateAsync_RequestsCorrectResource()
+        public async Task RealEstate_Create_RequestsCorrectResource()
         {
             Http.RespondWith(m =>
             {
@@ -100,7 +86,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task CreateRealEstateAsync_CallSucceeds_RealEstateObjectHasNewId()
+        public async Task RealEstate_Create_CallSucceeds_RealEstateObjectHasNewId()
         {
             Http.RespondWith(m =>
             {
@@ -115,7 +101,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task CreateRealEstateAsync_PostsRealEstateObject()
+        public async Task RealEstate_Create_PostsRealEstateObject()
         {
             Http.RespondWith(m =>
             {
@@ -131,7 +117,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task CreateRealEstateAsync_ErrorOccurs_ThrowsIS24Exception()
+        public async Task RealEstate_Create_ErrorOccurs_ThrowsIS24Exception()
         {
             Http.RespondWith(m =>
             {
@@ -145,7 +131,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task UpdateRealEstateAsync_RequestsCorrectResource()
+        public async Task RealEstate_Update_RequestsCorrectResource()
         {
             Http.RespondWith(m =>
             {
@@ -160,7 +146,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task CreateRealEstateAsync_CallSucceeds_NoExceptionThrown()
+        public async Task RealEstate_Create_CallSucceeds_NoExceptionThrown()
         {
             Http.RespondWith(m =>
             {
@@ -173,7 +159,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task UpdateRealEstateAsync_PostsRealEstateObject()
+        public async Task RealEstate_Update_PostsRealEstateObject()
         {
             Http.RespondWith(m =>
             {
@@ -189,7 +175,7 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
-        public async Task UpdateRealEstateAsync_ErrorOccurs_ThrowsIS24Exception()
+        public async Task RealEstate_Update_ErrorOccurs_ThrowsIS24Exception()
         {
             Http.RespondWith(m =>
             {
@@ -200,6 +186,70 @@ namespace IS24RestApi.Tests
             {
                 await Client.RealEstates.UpdateAsync(new ApartmentRent());
             });
+        }
+
+        [Fact]
+        public async Task RealEstate_Delete_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("DELETE", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_DELETED, message = "" } } };
+            });
+
+            await Client.RealEstates.DeleteAsync("4711");
+        }
+
+        [Fact]
+        public void RealEstate_GetAll_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
+                var url = Http.Url.GetLeftPart(UriPartial.Path);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
+                return new realEstates { realEstateList = new OfferRealEstateForList[] { }, Paging = new Paging { numberOfPages = 1, numberOfPagesSpecified = true } };
+            });
+
+            var res = Client.RealEstates.GetAsync().ToEnumerable().ToList();
+        }
+
+        [Fact]
+        public void RealEstate_GetAll_RequestsCorrectPages()
+        {
+            Http.RespondWith(m =>
+            {
+                return new realEstates { realEstateList = new OfferRealEstateForList[] { new OfferApartmentRent { id = 4711, idSpecified = true } }, 
+                    Paging = new Paging { numberOfPages = 2, numberOfPagesSpecified = true } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                return new ApartmentRent { id = 4711, idSpecified = true, title = "Test 1" };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(2, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                return new realEstates { realEstateList = new OfferRealEstateForList[] { new OfferApartmentRent { id = 4712, idSpecified = true } }, 
+                    Paging = new Paging { numberOfPages = 2, numberOfPagesSpecified = true } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.ToString());
+                return new ApartmentRent { id = 4712, idSpecified = true, title = "Test 2" };
+            }).ThenWith(m =>
+            {
+                Assert.True(false, "Must not request more pages than available.");
+                return new messages { message = new[] { new Message { message = "fail", messageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };
+            });
+
+            var res = Client.RealEstates.GetAsync().ToEnumerable().ToList();
+
+            Assert.Equal(2, res.Count);
+            Assert.Equal(4711, res[0].id);
+            Assert.Equal(4712, res[1].id);
         }
     }
 }

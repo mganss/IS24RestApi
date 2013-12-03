@@ -63,5 +63,18 @@ namespace IS24RestApi.Tests
                 }
             }
         }
+
+        public static void CollectionEqual<T>(IList<T> l1, IList<T> l2)
+        {
+            if (l1 == null && l2 == null) return;
+            Assert.NotNull(l1);
+            Assert.NotNull(l2);
+
+            Assert.Equal(l1.Count, l2.Count);
+            for (int i = 0; i < l1.Count; i++)
+            {
+                Assert.Equal(l1[i], l2[i]);
+            }
+        }
     }
 }
