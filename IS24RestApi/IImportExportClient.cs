@@ -21,10 +21,10 @@
         /// </summary>
         IContactResource Contacts { get; }
 
-        /// <summary>
-        /// Gets the <see cref="AttachmentResource"/> managing attachments
-        /// </summary>
-        IAttachmentResource Attachments { get; }
+        /////// <summary>
+        /////// Gets the <see cref="AttachmentResource"/> managing attachments
+        /////// </summary>
+        ////IAttachmentResource Attachments { get; }
 
         /// <summary>
         /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels

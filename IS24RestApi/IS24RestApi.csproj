@@ -70,6 +70,7 @@
     <Compile Include="IIS24Connection.cs" />
     <Compile Include="IPublishChannelResource.cs" />
     <Compile Include="IPublishResource.cs" />
+    <Compile Include="IRealEstate.cs" />
     <Compile Include="IRealEstateResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExportClient.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="MessagesExtensions.cs" />
     <Compile Include="PublishChannelResource.cs" />
     <Compile Include="PublishResource.cs" />
+    <Compile Include="RealEstateItem.cs" />
     <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
     <Compile Include="Types.generated.cs" />

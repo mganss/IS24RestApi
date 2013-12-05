@@ -25,9 +25,9 @@ namespace IS24RestApi
         /// Get all RealEstate objects as an observable sequence.
         /// </summary>
         /// <returns>The RealEstate objects.</returns>
-        public IObservable<RealEstate> GetAsync()
+        public IObservable<IRealEstate> GetAsync()
         {
-            return Observable.Create<RealEstate>(
+            return Observable.Create<IRealEstate>(
                 async o =>
                 {
                     var page = 1;
@@ -44,7 +44,8 @@ namespace IS24RestApi
                             var oreq = connection.CreateRequest("realestate/{id}");
                             oreq.AddParameter("id", ore.id, ParameterType.UrlSegment);
                             var re = await connection.ExecuteAsync<RealEstate>(oreq);
-                            o.OnNext(re);
+                            var item = new RealEstateItem(re, connection);
+                            o.OnNext(item);
                         }
 
                         if (page >= rel.Paging.numberOfPages) break;
@@ -59,11 +60,12 @@ namespace IS24RestApi
         /// <param name="id">The id.</param>
         /// <param name="isExternal">true if the id is an external id.</param>
         /// <returns>The RealEstate object or null.</returns>
-        public Task<RealEstate> GetAsync(string id, bool isExternal = false)
+        public async Task<IRealEstate> GetAsync(string id, bool isExternal = false)
         {
             var req = connection.CreateRequest("realestate/{id}");
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            return connection.ExecuteAsync<RealEstate>(req);
+            var realEstate = await connection.ExecuteAsync<RealEstate>(req);
+            return new RealEstateItem(realEstate, connection);
         }
 
         /// <summary>

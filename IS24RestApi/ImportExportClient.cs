@@ -26,10 +26,10 @@
         /// </summary>
         public IContactResource Contacts { get; private set; }
 
-        /// <summary>
-        /// Gets the <see cref="IAttachmentResource"/> managing attachments
-        /// </summary>
-        public IAttachmentResource Attachments { get; private set; }
+        ///// <summary>
+        ///// Gets the <see cref="IAttachmentResource"/> managing attachments
+        ///// </summary>
+        //public IAttachmentResource Attachments { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
@@ -50,7 +50,7 @@
             Is24Connection = connection;
             RealEstates = new RealEstateResource(Is24Connection);
             Contacts = new ContactResource(Is24Connection);
-            Attachments = new AttachmentResource(Is24Connection);
+            //Attachments = new AttachmentResource(Is24Connection);
             Publish = new PublishResource(Is24Connection);
             PublishChannels = new PublishChannelResource(Is24Connection);
         }

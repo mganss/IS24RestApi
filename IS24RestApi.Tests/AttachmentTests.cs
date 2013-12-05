@@ -12,9 +12,13 @@ namespace IS24RestApi.Tests
 {
     public class AttachmentTests : TestBase
     {
+        private IRealEstate realEstate;
+
         public AttachmentTests()
             : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
-        { }
+        {
+            this.realEstate = new RealEstateItem(new ApartmentRent { id = 4711, idSpecified = true }, Client.Is24Connection);
+        }
 
         [Fact]
         public async Task Attachment_Get_RequestsCorrectResource()
@@ -22,11 +26,14 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.ToString());
+                Assert.Equal(
+                    "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1",
+                    Http.Url.ToString());
                 return new Picture { id = 1, idSpecified = true };
             });
 
-            var a = await Client.Attachments.GetAsync(new ApartmentRent { id = 4711, idSpecified = true }, "1");
+            var a = await realEstate.Attachments.GetAsync("1");
+
         }
 
         [Fact]
@@ -39,7 +46,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                var a = await Client.Attachments.GetAsync(new ApartmentRent(), "x");
+                var a = await realEstate.Attachments.GetAsync("x");
             });
         }
 
@@ -51,7 +58,7 @@ namespace IS24RestApi.Tests
                 return new Picture { id = 1, idSpecified = true };
             });
 
-            var a = await Client.Attachments.GetAsync(new ApartmentRent { id = 4711, idSpecified = true }, "1");
+            var a = await realEstate.Attachments.GetAsync("1");
 
             Assert.IsType<Picture>(a);
             Assert.Equal(1, a.id);
@@ -67,7 +74,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, message = "" } } };
             });
 
-            await Client.Attachments.UpdateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { id = 1, idSpecified = true });
+            await realEstate.Attachments.UpdateAsync(new Picture { id = 1, idSpecified = true });
         }
 
         [Fact]
@@ -78,7 +85,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, message = "" } } };
             });
 
-            await Client.Attachments.UpdateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { id = 1, idSpecified = true });
+            await realEstate.Attachments.UpdateAsync(new Picture { id = 1, idSpecified = true });
         }
 
         [Fact]
@@ -92,7 +99,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, message = "" } } };
             });
 
-            await Client.Attachments.UpdateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { id = 1, idSpecified = true });
+            await realEstate.Attachments.UpdateAsync(new Picture { id = 1, idSpecified = true });
         }
 
         [Fact]
@@ -105,7 +112,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.Attachments.UpdateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { id = 1, idSpecified = true });
+                await realEstate.Attachments.UpdateAsync(new Picture { id = 1, idSpecified = true });
             });
         }
 
@@ -119,7 +126,7 @@ namespace IS24RestApi.Tests
                 return new Attachments { attachment = new Attachment[] { } };
             });
 
-            var a = await Client.Attachments.GetAsync(new ApartmentRent { id = 4711, idSpecified = true });
+            var a = await realEstate.Attachments.GetAsync();
         }
 
         [Fact]
@@ -129,14 +136,14 @@ namespace IS24RestApi.Tests
             {
                 return new Attachments
                 {
-                    attachment = new [] { 
+                    attachment = new[] { 
                         new Attachment { id = 4711, idSpecified = true },
                         new Attachment { id = 4712, idSpecified = true },
                     }
                 };
             });
 
-            var a = (await Client.Attachments.GetAsync(new ApartmentRent { id = 4711, idSpecified = true })).ToList();
+            var a = (await realEstate.Attachments.GetAsync()).ToList();
 
             Assert.Equal(2, a.Count);
             Assert.Equal(4711, a[0].id);
@@ -153,7 +160,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_DELETED, message = "" } } };
             });
 
-            await Client.Attachments.DeleteAsync(new ApartmentRent { id = 4711, idSpecified = true }, "1");
+            await realEstate.Attachments.DeleteAsync("1");
         }
 
         [Fact]
@@ -166,7 +173,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_CREATED, message = "Resource with id [4711] has been created." } } };
             });
 
-            await Client.Attachments.CreateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { title = "Test" }, @"..\..\test.jpg");
+            await realEstate.Attachments.CreateAsync(new Picture { title = "Test" }, @"..\..\test.jpg");
         }
 
         [Fact]
@@ -186,7 +193,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_CREATED, message = "Resource with id [4711] has been created." } } };
             });
 
-            await Client.Attachments.CreateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { title = "Test" }, @"..\..\test.jpg");
+            await realEstate.Attachments.CreateAsync(new Picture { title = "Test" }, @"..\..\test.jpg");
         }
 
         [Fact]
@@ -209,7 +216,7 @@ namespace IS24RestApi.Tests
                 return new messages { message = new[] { new Message { messageCode = MessageCode.MESSAGE_RESOURCE_CREATED, message = "Resource with id [4711] has been created." } } };
             });
 
-            await Client.Attachments.CreateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { title = "Test" }, @"..\..\test.jpg");
+            await realEstate.Attachments.CreateAsync(new Picture { title = "Test" }, @"..\..\test.jpg");
         }
 
         [Fact]
@@ -222,7 +229,7 @@ namespace IS24RestApi.Tests
 
             var att = new Picture { title = "Test" };
 
-            await Client.Attachments.CreateAsync(new ApartmentRent { id = 4711, idSpecified = true }, att, @"..\..\test.jpg");
+            await realEstate.Attachments.CreateAsync(att, @"..\..\test.jpg");
 
             Assert.Equal(4711, att.id);
         }
@@ -237,7 +244,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.Attachments.CreateAsync(new ApartmentRent { id = 4711, idSpecified = true }, new Picture { id = 1, idSpecified = true }, @"..\..\test.jpg");
+                await realEstate.Attachments.CreateAsync(new Picture { id = 1, idSpecified = true }, @"..\..\test.jpg");
             });
         }
     }
