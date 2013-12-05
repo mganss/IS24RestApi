@@ -1,4 +1,6 @@
-﻿namespace IS24RestApi
+﻿using System;
+
+namespace IS24RestApi
 {
     /// <summary>
     /// Represents an endpoint of the Immobilienscout24-REST-API for importing and exporting real estate data
@@ -34,7 +36,7 @@
         /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
-        public PublishResource Publish { get; private set; }
+        public IPublishResource Publish { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="ImportExportClient"/> instance
@@ -42,6 +44,11 @@
         /// <param name="connection"></param>
         public ImportExportClient(IIS24Connection connection)
         {
+            if (connection == null)
+            {
+                throw new ArgumentNullException("connection");
+            }
+
             Connection = connection;
             RealEstates = new RealEstateResource(Connection);
             Contacts = new ContactResource(Connection);

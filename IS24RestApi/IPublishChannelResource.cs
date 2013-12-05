@@ -7,7 +7,7 @@ namespace IS24RestApi
     /// Describes the resources responsible for getting the publish channels the current user
     /// has access to
     /// </summary>
-    public interface IPublishChannelResource
+    public interface IPublishChannelResource : IResource
     {
         /// <summary>
         /// Gets all <see cref="PublishChannel"/>s the user has access to

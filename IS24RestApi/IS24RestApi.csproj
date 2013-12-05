@@ -72,6 +72,7 @@
     <Compile Include="IPublishResource.cs" />
     <Compile Include="IRealEstate.cs" />
     <Compile Include="IRealEstateResource.cs" />
+    <Compile Include="IResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExportClient.cs" />
     <Compile Include="IS24Connection.cs" />

@@ -29,6 +29,6 @@
         /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
-        PublishResource Publish { get; }
+        IPublishResource Publish { get; }
     }
 }

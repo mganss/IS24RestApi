@@ -6,7 +6,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes the resource responsible for managing real estate data
     /// </summary>
-    public interface IRealEstateResource
+    public interface IRealEstateResource : IResource
     {
         /// <summary>
         /// Get all RealEstate objects as an observable sequence.
