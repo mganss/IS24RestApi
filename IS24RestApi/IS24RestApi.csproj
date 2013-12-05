@@ -61,10 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachmentResource.cs" />
+    <Compile Include="AttachmentsOrderResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
     <Compile Include="ContactResource.cs" />
     <Compile Include="IAttachmentResource.cs" />
+    <Compile Include="IAttachmentsOrderResource.cs" />
     <Compile Include="IContactResource.cs" />
     <Compile Include="IImportExportClient.cs" />
     <Compile Include="IIS24Connection.cs" />

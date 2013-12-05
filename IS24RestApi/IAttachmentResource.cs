@@ -7,12 +7,17 @@ namespace IS24RestApi
     /// <summary>
     /// Describes the resource responsible for managing real estate's attachments
     /// </summary>
-    public interface IAttachmentResource
+    public interface IAttachmentResource : IResource
     {
         /// <summary>
         /// Gets the <see cref="RealEstate"/> instance the attachments belong to
         /// </summary>
         RealEstate RealEstate { get; }
+
+        /// <summary>
+        /// Gets the resource responsible for managing the order of uploaded <see cref="Attachment"/>s
+        /// </summary>
+        IAttachmentsOrderResource AttachmentsOrder { get; }
 
         /// <summary>
         /// Gets all attachments of a RealEstate object.

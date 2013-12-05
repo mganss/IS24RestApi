@@ -13,7 +13,20 @@ namespace IS24RestApi
     /// </summary>
     public class AttachmentResource : IAttachmentResource
     {
-        private readonly IIS24Connection connection;
+        /// <summary>
+        /// Gets the underlying <see cref="IIS24Connection"/> for executing the requests
+        /// </summary>
+        public IIS24Connection Connection { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="IAttachmentResource.RealEstate"/> instance the attachments belong to
+        /// </summary>
+        public RealEstate RealEstate { get; private set; }
+
+        /// <summary>
+        /// Gets the resource responsible for managing the order of uploaded <see cref="Attachment"/>s
+        /// </summary>
+        public IAttachmentsOrderResource AttachmentsOrder { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="AttachmentResource"/> instance
@@ -22,14 +35,10 @@ namespace IS24RestApi
         /// <param name="connection"></param>
         public AttachmentResource(RealEstate realEstate, IIS24Connection connection)
         {
-            this.RealEstate = realEstate;
-            this.connection = connection;
+            RealEstate = realEstate;
+            Connection = connection;
+            AttachmentsOrder = new AttachmentsOrderResource(realEstate, connection);
         }
-
-        /// <summary>
-        /// Gets the <see cref="IAttachmentResource.RealEstate"/> instance the attachments belong to
-        /// </summary>
-        public RealEstate RealEstate { get; private set; }
 
         /// <summary>
         /// Gets all attachments of a RealEstate object.
@@ -37,10 +46,10 @@ namespace IS24RestApi
         /// <returns>The attachment.</returns>
         public async Task<IEnumerable<Attachment>> GetAsync()
         {
-            var req = connection.CreateRequest("realestate/{id}/attachment");
-            req.AddParameter("id", RealEstate.id, ParameterType.UrlSegment);
-            var atts = await connection.ExecuteAsync<Attachments>(req);
-            return atts.attachment;
+            var request = Connection.CreateRequest("realestate/{id}/attachment");
+            request.AddParameter("id", RealEstate.id, ParameterType.UrlSegment);
+            var attachments = await Connection.ExecuteAsync<Attachments>(request);
+            return attachments.attachment;
         }
 
         /// <summary>
@@ -50,10 +59,10 @@ namespace IS24RestApi
         /// <returns>The attachment or null.</returns>
         public Task<Attachment> GetAsync(string id)
         {
-            var req = connection.CreateRequest("realestate/{realEstate}/attachment/{id}");
-            req.AddParameter("realEstate", RealEstate.id, ParameterType.UrlSegment);
-            req.AddParameter("id", id, ParameterType.UrlSegment);
-            return connection.ExecuteAsync<Attachment>(req);
+            var request = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}");
+            request.AddParameter("realEstate", RealEstate.id, ParameterType.UrlSegment);
+            request.AddParameter("id", id, ParameterType.UrlSegment);
+            return Connection.ExecuteAsync<Attachment>(request);
         }
 
         /// <summary>
@@ -62,13 +71,13 @@ namespace IS24RestApi
         /// <param name="id">The attachment id.</param>
         public async Task DeleteAsync(string id)
         {
-            var req = connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.DELETE);
-            req.AddParameter("realEstate", RealEstate.id, ParameterType.UrlSegment);
-            req.AddParameter("id", id, ParameterType.UrlSegment);
-            var resp = await connection.ExecuteAsync<messages>(req);
-            if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
+            var request = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.DELETE);
+            request.AddParameter("realEstate", RealEstate.id, ParameterType.UrlSegment);
+            request.AddParameter("id", id, ParameterType.UrlSegment);
+            var response = await Connection.ExecuteAsync<messages>(request);
+            if (!response.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, response.message.ToMessage())) { Messages = response };
             }
         }
 
@@ -82,7 +91,7 @@ namespace IS24RestApi
         /// <returns>The updated <see cref="Attachment"/> data. It now contains the ScoutId if uploaded successfully</returns>
         public async Task<Attachment> CreateAsync(Attachment attachment, Stream content, string fileName, string mimeType)
         {
-            var request = connection.CreateRequest("realestate/{id}/attachment", Method.POST);
+            var request = Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
             request.AddParameter("id", RealEstate.id, ParameterType.UrlSegment);
 
             byte[] binaryContent = null;
@@ -99,7 +108,7 @@ namespace IS24RestApi
             var metaData = Encoding.UTF8.GetBytes(sw.ToString());
             request.AddFile("metadata", metaData, "body.xml", "application/xml");
 
-            var resp = await connection.ExecuteAsync<messages>(request);
+            var resp = await Connection.ExecuteAsync<messages>(request);
             var id = resp.ExtractCreatedResourceId();
 
             if (!id.HasValue)
@@ -138,12 +147,12 @@ namespace IS24RestApi
         /// <param name="att">The attachment.</param>
         public async Task UpdateAsync(Attachment att)
         {
-            var req = connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.PUT);
+            var req = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.PUT);
             req.AddParameter("realEstate", RealEstate.id, ParameterType.UrlSegment);
             req.AddParameter("id", att.id, ParameterType.UrlSegment);
             req.AddBody(att, typeof(Attachment));
 
-            var resp = await connection.ExecuteAsync<messages>(req);
+            var resp = await Connection.ExecuteAsync<messages>(req);
             if (!resp.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.title, resp.message.ToMessage())) { Messages = resp };
