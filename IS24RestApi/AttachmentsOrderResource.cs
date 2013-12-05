@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using RestSharp;
 
 namespace IS24RestApi
@@ -37,7 +36,7 @@ namespace IS24RestApi
         public async Task<list> GetAsync()
         {
             var request = Connection.CreateRequest("realestate/{realEstateId}/attachment/attachmentsorder");
-            request.AddParameter("realEstateId", RealEstate.id);
+            request.AddParameter("realEstateId", RealEstate.id, ParameterType.UrlSegment);
             return await Connection.ExecuteAsync<list>(request);
         }
 
@@ -49,7 +48,7 @@ namespace IS24RestApi
         public async Task UpdateAsync(list attachmentsOrder)
         {
             var request = Connection.CreateRequest("realestate/{realEstateId}/attachment/attachmentsorder", Method.PUT);
-            request.AddParameter("realEstateId", RealEstate.id);
+            request.AddParameter("realEstateId", RealEstate.id, ParameterType.UrlSegment);
             request.AddBody(attachmentsOrder);
             var resp = await Connection.ExecuteAsync<messages>(request);
             if (!resp.IsSuccessful())
