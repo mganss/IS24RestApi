@@ -17,7 +17,7 @@ namespace IS24RestApi.Tests
         public AttachmentTests()
             : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
         {
-            this.realEstate = new RealEstateItem(new ApartmentRent { id = 4711, idSpecified = true }, Client.Is24Connection);
+            this.realEstate = new RealEstateItem(new ApartmentRent { id = 4711, idSpecified = true }, Client.Connection);
         }
 
         [Fact]
