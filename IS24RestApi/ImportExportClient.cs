@@ -12,9 +12,9 @@
         public const int ImmobilienscoutPublishChannelId = 10000;
 
         /// <summary>
-        /// Gets the underlying <see cref="Is24Connection"/> which manages the RESTful calls
+        /// Gets the underlying <see cref="Connection"/> which manages the RESTful calls
         /// </summary>
-        public IIS24Connection Is24Connection { get; private set; }
+        public IIS24Connection Connection { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IRealEstateResource"/> to manage real estates
@@ -25,11 +25,6 @@
         /// Gets the <see cref="IContactResource"/> managing the contacts
         /// </summary>
         public IContactResource Contacts { get; private set; }
-
-        ///// <summary>
-        ///// Gets the <see cref="IAttachmentResource"/> managing attachments
-        ///// </summary>
-        //public IAttachmentResource Attachments { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
@@ -47,12 +42,11 @@
         /// <param name="connection"></param>
         public ImportExportClient(IIS24Connection connection)
         {
-            Is24Connection = connection;
-            RealEstates = new RealEstateResource(Is24Connection);
-            Contacts = new ContactResource(Is24Connection);
-            //Attachments = new AttachmentResource(Is24Connection);
-            Publish = new PublishResource(Is24Connection);
-            PublishChannels = new PublishChannelResource(Is24Connection);
+            Connection = connection;
+            RealEstates = new RealEstateResource(Connection);
+            Contacts = new ContactResource(Connection);
+            Publish = new PublishResource(Connection);
+            PublishChannels = new PublishChannelResource(Connection);
         }
     }
 }
