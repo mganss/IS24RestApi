@@ -6,7 +6,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes the resource responsible for managing contacts
     /// </summary>
-    public interface IContactResource
+    public interface IContactResource : IResource
     {
         /// <summary>
         /// Gets all contacts.

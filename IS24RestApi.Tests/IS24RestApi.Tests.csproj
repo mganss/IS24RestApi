@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.1.1311.0615\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
@@ -68,6 +71,7 @@
     <Compile Include="ContactTests.cs" />
     <Compile Include="HttpFactory.cs" />
     <Compile Include="HttpStub.cs" />
+    <Compile Include="ImportExportClientTest.cs" />
     <Compile Include="PublishChannelTests.cs" />
     <Compile Include="PublishTests.cs" />
     <Compile Include="RealEstateTests.cs" />

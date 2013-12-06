@@ -6,13 +6,13 @@ namespace IS24RestApi
     /// <summary>
     /// Describes the resource responsible for managing real estate data
     /// </summary>
-    public interface IRealEstateResource
+    public interface IRealEstateResource : IResource
     {
         /// <summary>
         /// Get all RealEstate objects as an observable sequence.
         /// </summary>
         /// <returns>The RealEstate objects.</returns>
-        IObservable<RealEstate> GetAsync();
+        IObservable<IRealEstate> GetAsync();
 
         /// <summary>
         /// Gets a single RealEstate object identified by the specified id.
@@ -20,7 +20,7 @@ namespace IS24RestApi
         /// <param name="id">The id.</param>
         /// <param name="isExternal">true if the id is an external id.</param>
         /// <returns>The RealEstate object or null.</returns>
-        Task<RealEstate> GetAsync(string id, bool isExternal = false);
+        Task<IRealEstate> GetAsync(string id, bool isExternal = false);
 
         /// <summary>
         /// Creates a RealEstate object.

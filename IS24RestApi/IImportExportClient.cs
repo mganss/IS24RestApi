@@ -7,9 +7,9 @@
     public interface IImportExportClient
     {
         /// <summary>
-        /// Gets the underlying <see cref="Is24Connection"/> which manages the RESTful calls
+        /// Gets the underlying <see cref="Connection"/> which manages the RESTful calls
         /// </summary>
-        IIS24Connection Is24Connection { get; }
+        IIS24Connection Connection { get; }
 
         /// <summary>
         /// Gets the <see cref="RealEstateResource"/> to manage real estates
@@ -22,11 +22,6 @@
         IContactResource Contacts { get; }
 
         /// <summary>
-        /// Gets the <see cref="AttachmentResource"/> managing attachments
-        /// </summary>
-        IAttachmentResource Attachments { get; }
-
-        /// <summary>
         /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
         /// </summary>
         IPublishChannelResource PublishChannels { get; }
@@ -34,6 +29,6 @@
         /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
-        PublishResource Publish { get; }
+        IPublishResource Publish { get; }
     }
 }

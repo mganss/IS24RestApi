@@ -61,22 +61,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachmentResource.cs" />
+    <Compile Include="AttachmentsOrderResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
     <Compile Include="ContactResource.cs" />
     <Compile Include="IAttachmentResource.cs" />
+    <Compile Include="IAttachmentsOrderResource.cs" />
     <Compile Include="IContactResource.cs" />
     <Compile Include="IImportExportClient.cs" />
     <Compile Include="IIS24Connection.cs" />
     <Compile Include="IPublishChannelResource.cs" />
     <Compile Include="IPublishResource.cs" />
+    <Compile Include="IRealEstate.cs" />
     <Compile Include="IRealEstateResource.cs" />
+    <Compile Include="IResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExportClient.cs" />
     <Compile Include="IS24Connection.cs" />
     <Compile Include="MessagesExtensions.cs" />
     <Compile Include="PublishChannelResource.cs" />
     <Compile Include="PublishResource.cs" />
+    <Compile Include="RealEstateItem.cs" />
     <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
     <Compile Include="Types.generated.cs" />

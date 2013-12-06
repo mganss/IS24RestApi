@@ -1,4 +1,6 @@
-﻿namespace IS24RestApi
+﻿using System;
+
+namespace IS24RestApi
 {
     /// <summary>
     /// Represents an endpoint of the Immobilienscout24-REST-API for importing and exporting real estate data
@@ -12,9 +14,9 @@
         public const int ImmobilienscoutPublishChannelId = 10000;
 
         /// <summary>
-        /// Gets the underlying <see cref="Is24Connection"/> which manages the RESTful calls
+        /// Gets the underlying <see cref="Connection"/> which manages the RESTful calls
         /// </summary>
-        public IIS24Connection Is24Connection { get; private set; }
+        public IIS24Connection Connection { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IRealEstateResource"/> to manage real estates
@@ -27,11 +29,6 @@
         public IContactResource Contacts { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IAttachmentResource"/> managing attachments
-        /// </summary>
-        public IAttachmentResource Attachments { get; private set; }
-
-        /// <summary>
         /// Gets the <see cref="IPublishChannelResource"/> accessing the user's publish channels
         /// </summary>
         public IPublishChannelResource PublishChannels { get; private set; }
@@ -39,7 +36,7 @@
         /// <summary>
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
-        public PublishResource Publish { get; private set; }
+        public IPublishResource Publish { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="ImportExportClient"/> instance
@@ -47,12 +44,16 @@
         /// <param name="connection"></param>
         public ImportExportClient(IIS24Connection connection)
         {
-            Is24Connection = connection;
-            RealEstates = new RealEstateResource(Is24Connection);
-            Contacts = new ContactResource(Is24Connection);
-            Attachments = new AttachmentResource(Is24Connection);
-            Publish = new PublishResource(Is24Connection);
-            PublishChannels = new PublishChannelResource(Is24Connection);
+            if (connection == null)
+            {
+                throw new ArgumentNullException("connection");
+            }
+
+            Connection = connection;
+            RealEstates = new RealEstateResource(Connection);
+            Contacts = new ContactResource(Connection);
+            Publish = new PublishResource(Connection);
+            PublishChannels = new PublishChannelResource(Connection);
         }
     }
 }

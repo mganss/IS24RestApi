@@ -93,7 +93,8 @@ namespace SampleConsole
                 await api.RealEstates.UpdateAsync(re);
             }
 
-            var atts = await api.Attachments.GetAsync(re);
+            var realEstate = await api.RealEstates.GetAsync(re.id.ToString());
+            var atts = await realEstate.Attachments.GetAsync();
             if (atts == null || !atts.Any())
             {
                 var att = new Picture
@@ -103,14 +104,14 @@ namespace SampleConsole
                     title = "Zimmer",
                 };
 
-                await api.Attachments.CreateAsync(re, att, @"..\..\test.jpg");
+                await realEstate.Attachments.CreateAsync(att, @"..\..\test.jpg");
 
                 att.title = "Zimmer 1";
-                await api.Attachments.UpdateAsync(re, att);
+                await realEstate.Attachments.UpdateAsync(att);
             }
 
             var res = new List<RealEstate>();
-            await api.RealEstates.GetAsync().ForEachAsync(res.Add);
+            await api.RealEstates.GetAsync().ForEachAsync(x => res.Add(x.RealEstate));
         }
     }
 }

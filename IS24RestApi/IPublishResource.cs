@@ -5,7 +5,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes the resource responsible for publishing real estates
     /// </summary>
-    public interface IPublishResource
+    public interface IPublishResource : IResource
     {
         /// <summary>
         /// Depublishes a RealEstate object.

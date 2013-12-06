@@ -66,8 +66,8 @@ namespace IS24RestApi.Tests
 
             var re = await Client.RealEstates.GetAsync("test");
 
-            Assert.IsType<ApartmentRent>(re);
-            Assert.Equal("test", re.title);
+            Assert.IsType<ApartmentRent>(re.RealEstate);
+            Assert.Equal("test", re.RealEstate.title);
         }
 
         [Fact]
@@ -248,8 +248,8 @@ namespace IS24RestApi.Tests
             var res = Client.RealEstates.GetAsync().ToEnumerable().ToList();
 
             Assert.Equal(2, res.Count);
-            Assert.Equal(4711, res[0].id);
-            Assert.Equal(4712, res[1].id);
+            Assert.Equal(4711, res[0].RealEstate.id);
+            Assert.Equal(4712, res[1].RealEstate.id);
         }
     }
 }
