@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using IS24RestApi.Offer;
+using IS24RestApi.Common;
 
 namespace IS24RestApi
 {

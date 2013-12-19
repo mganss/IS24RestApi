@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using RestSharp;
+using IS24RestApi.Common;
+using IS24RestApi.Offer.RealEstates;
 
 namespace IS24RestApi
 {
@@ -31,9 +33,9 @@ namespace IS24RestApi
         public async Task<IEnumerable<Attachment>> GetAsync(RealEstate realEstate)
         {
             var req = is24Connection.CreateRequest("realestate/{id}/attachment");
-            req.AddParameter("id", realEstate.id, ParameterType.UrlSegment);
+            req.AddParameter("id", realEstate.Id, ParameterType.UrlSegment);
             var atts = await is24Connection.ExecuteAsync<Attachments>(req);
-            return atts.attachment;
+            return atts.Attachment;
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace IS24RestApi
         public Task<Attachment> GetAsync(RealEstate re, string id)
         {
             var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}");
-            req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
+            req.AddParameter("realEstate", re.Id, ParameterType.UrlSegment);
             req.AddParameter("id", id, ParameterType.UrlSegment);
             return is24Connection.ExecuteAsync<Attachment>(req);
         }
@@ -58,12 +60,12 @@ namespace IS24RestApi
         public async Task DeleteAsync(RealEstate re, string id)
         {
             var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.DELETE);
-            req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
+            req.AddParameter("realEstate", re.Id, ParameterType.UrlSegment);
             req.AddParameter("id", id, ParameterType.UrlSegment);
-            var resp = await is24Connection.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<Messages>(req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, resp.Message.ToMessage())) { Messages = resp };
             }
         }
 
@@ -76,7 +78,7 @@ namespace IS24RestApi
         public async Task CreateAsync(RealEstate re, Attachment att, string path)
         {
             var req = is24Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
-            req.AddParameter("id", re.id, ParameterType.UrlSegment);
+            req.AddParameter("id", re.Id, ParameterType.UrlSegment);
             var fileName = Path.GetFileName(path);
             if (fileName != null)
                 req.AddFile("attachment", File.ReadAllBytes(path), fileName, MimeMapping.GetMimeMapping(fileName));
@@ -88,15 +90,15 @@ namespace IS24RestApi
             var metaData = Encoding.UTF8.GetBytes(sw.ToString());
             req.AddFile("metadata", metaData, "body.xml", "application/xml");
 
-            var resp = await is24Connection.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<Messages>(req);
             var id = resp.ExtractCreatedResourceId();
 
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", path, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", path, resp.Message.ToMessage())) { Messages = resp };
             }
-            att.id = id.Value;
-            att.idSpecified = true;
+            att.Id = id.Value;
+            att.IdSpecified = true;
         }
 
         /// <summary>
@@ -107,14 +109,14 @@ namespace IS24RestApi
         public async Task UpdateAsync(RealEstate re, Attachment att)
         {
             var req = is24Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.PUT);
-            req.AddParameter("realEstate", re.id, ParameterType.UrlSegment);
-            req.AddParameter("id", att.id, ParameterType.UrlSegment);
+            req.AddParameter("realEstate", re.Id, ParameterType.UrlSegment);
+            req.AddParameter("id", att.Id, ParameterType.UrlSegment);
             req.AddBody(att, typeof(Attachment));
 
-            var resp = await is24Connection.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<Messages>(req);
             if (!resp.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.title, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.Title, resp.Message.ToMessage())) { Messages = resp };
             }
         }
     }

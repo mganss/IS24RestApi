@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -35,30 +36,29 @@ namespace IS24RestApi.Tests
             var type2 = o2.GetType();
             Assert.Equal(type1, type2);
 
-            foreach (var prop in type1.GetProperties(BindingFlags.Public|BindingFlags.Instance).Where(p => p.CanRead))
+            if (type1.IsPrimitive || type1.IsEnum || type1 == typeof(string) || type1 == typeof(System.DateTime))
             {
-                var val1 = prop.GetValue(o1);
-                var val2 = prop.GetValue(o2);
+                Assert.Equal(o1, o2);
+            }
+            else if (typeof(IList).IsAssignableFrom(type1))
+            {
+                var arr1 = (IList)o1;
+                var arr2 = (IList)o2;
 
-                if (prop.PropertyType.IsPrimitive || prop.PropertyType.IsEnum || prop.PropertyType == typeof(string) || prop.PropertyType == typeof(System.DateTime))
+                Assert.Equal(arr1.Count, arr2.Count);
+
+                for (int i = 0; i < arr1.Count; i++)
                 {
-                    Assert.Equal(val1, val2);
+                    Equal(arr1[i], arr2[i]);
                 }
-                else if (prop.PropertyType.IsArray)
+            }
+            else
+            {
+                foreach (var prop in type1.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead))
                 {
-                    if (val1 == null && val2 == null) return;
+                    var val1 = prop.GetValue(o1);
+                    var val2 = prop.GetValue(o2);
 
-                    var arr1 = (Array)val1;
-                    var arr2 = (Array)val2;
-                    Assert.Equal(arr1.Length, arr2.Length);
-
-                    for (int i = 0; i < arr1.Length; i++)
-                    {
-                        Equal(arr1.GetValue(i), arr2.GetValue(i));
-                    }
-                }
-                else
-                {
                     Equal(val1, val2);
                 }
             }

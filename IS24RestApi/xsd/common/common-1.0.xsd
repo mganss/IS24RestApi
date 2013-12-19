@@ -510,7 +510,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="(:?([1-9]\d{1,9})|\(0(\d{1,9})\))"/>
+                        <xs:pattern value="\d{1,10}"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -533,7 +533,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern
-                                value="(\+[1-9]\d{0,3}) +(:?([1-9]\d{1,9})|\(0(\d{1,9})\)) +([\d][\d \-]{0,24}[\d])"/>
+                                value="(\+[1-9]\d{0,3}) +\d{1,10} +([\d][\d \-]{0,24}[\d])"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -556,7 +556,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="(:?([1-9]\d{1,9})|\(0(\d{1,9})\))"/>
+                        <xs:pattern value="\d{1,10}"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -579,7 +579,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern
-                                value="(\+[1-9]\d{0,3}) +(:?([1-9]\d{1,9})|\(0(\d{1,9})\)) +([\d][\d \-]{0,24}[\d])"/>
+                                value="(\+[1-9]\d{0,3}) +\d{1,10} +([\d][\d \-]{0,24}[\d])"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -601,7 +601,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
-                        <xs:pattern value="(:?([1-9]\d{1,9})|\(0(\d{1,9})\))"/>
+                        <xs:pattern value="\d{1,10}"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -625,7 +625,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
                         <xs:pattern
-                                value="(\+[1-9]\d{0,3}) +(:?([1-9]\d{1,9})|\(0(\d{1,9})\)) +([\d][\d \-]{0,24}[\d])"/>
+                                value="(\+[1-9]\d{0,3}) +\d{1,10} +([\d][\d \-]{0,24}[\d])"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -1391,8 +1391,7 @@
         <xs:restriction base="xs:string">
             <xs:minLength value="5"/>
             <xs:maxLength value="300"/>
-            <xs:pattern
-                    value="[A-Za-z0-9_-]+([-+.'][A-Za-z0-9_-]+)*@[A-Za-z0-9öüäÖÜÄß_]+([-.][A-Za-z0-9_]+)*\.[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*"></xs:pattern>
+            <xs:pattern value=".+@.+\..+"></xs:pattern>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="Password">
@@ -1795,6 +1794,30 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+  
+    <xs:simpleType name="MandatoryOptionalType">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">Enumeration for optional or mandatory elements</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Aufzählung für Pflichtfeld oder optionales Feld</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MANDATORY">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">mandatory</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Pflichtfeld</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OPTIONAL">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">optional</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">optionales Feld</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    
+    
     <xs:simpleType name="ApartmentType">
         <xs:annotation>
             <xs:documentation xml:lang="en">Enumeration for apartment types</xs:documentation>
@@ -6224,7 +6247,7 @@
                     <xs:documentation xml:lang="de-DE">Zimmeranzahl</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="courtage" type="CourtageInfo" minOccurs="1">
+            <xs:element name="courtage" type="CourtageInfo" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">courtage elements</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Provisionselemente</xs:documentation>
@@ -8443,6 +8466,39 @@
                 </xs:annotation>
             </xs:element>
         </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="FloorRange">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">floor range</xs:documentation>
+        <xs:documentation xml:lang="de-DE">Bereich der Etage</xs:documentation>
+      </xs:annotation>
+      <xs:all>
+        <xs:element name="minimal" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">minimal floor</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Minimale Nummer der Etage</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="0"/>
+              <xs:maxInclusive value="999"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="maximal" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">maximal floor</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Maximale Nummer der Etage</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="0"/>
+              <xs:maxInclusive value="999"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:all>
     </xs:complexType>
 
     <xs:complexType name="PriceRange">

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
+using IS24RestApi.Offer;
+using IS24RestApi.Common;
 
 namespace IS24RestApi
 {
@@ -26,8 +28,8 @@ namespace IS24RestApi
         /// <returns>The contacts.</returns>
         public async Task<IEnumerable<RealtorContactDetails>> GetAsync()
         {
-            var contacts = await is24Connection.ExecuteAsync<realtorContactDetailsList>(is24Connection.CreateRequest("contact"));
-            return contacts.realtorContactDetails;
+            var contacts = await is24Connection.ExecuteAsync<RealtorContactDetailsList>(is24Connection.CreateRequest("contact"));
+            return contacts.RealtorContactDetails;
         }
 
         /// <summary>
@@ -52,14 +54,14 @@ namespace IS24RestApi
             var request = is24Connection.CreateRequest("contact", Method.POST);
             request.AddBody(contact);
 
-            var resp = await is24Connection.ExecuteAsync<messages>(request);
+            var resp = await is24Connection.ExecuteAsync<Messages>(request);
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating contact {0}: {1}", contact.lastname, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating contact {0}: {1}", contact.Lastname, resp.Message.ToMessage())) { Messages = resp };
             }
-            contact.id = id.Value;
-            contact.idSpecified = true;
+            contact.Id = id.Value;
+            contact.IdSpecified = true;
         }
 
         /// <summary>
@@ -69,13 +71,13 @@ namespace IS24RestApi
         public async Task UpdateAsync(RealtorContactDetails contact)
         {
             var req = is24Connection.CreateRequest("contact/{id}", Method.PUT);
-            req.AddParameter("id", contact.id, ParameterType.UrlSegment);
+            req.AddParameter("id", contact.Id, ParameterType.UrlSegment);
             req.AddBody(contact);
 
-            var resp = await is24Connection.ExecuteAsync<messages>(req);
+            var resp = await is24Connection.ExecuteAsync<Messages>(req);
             if (!resp.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating contact {0}: {1}", contact.lastname, resp.message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error updating contact {0}: {1}", contact.Lastname, resp.Message.ToMessage())) { Messages = resp };
             }
         }
     }

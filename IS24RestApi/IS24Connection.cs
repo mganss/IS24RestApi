@@ -5,6 +5,7 @@ using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Extensions;
 using RestSharp.Serializers;
+using IS24RestApi.Common;
 
 namespace IS24RestApi
 {
@@ -110,8 +111,8 @@ namespace IS24RestApi
                     {
                         // An HTTP error occurred. Deserialize error messages.
 
-                        var msgs = handler.Deserialize<messages>(raw);
-                        var ex = new IS24Exception(MessagesExtensions.ToMessage(msgs.message)) { Messages = msgs, StatusCode = raw.StatusCode };
+                        var msgs = handler.Deserialize<Messages>(raw);
+                        var ex = new IS24Exception(MessagesExtensions.ToMessage(msgs.Message)) { Messages = msgs, StatusCode = raw.StatusCode };
 
                         response.ResponseStatus = ResponseStatus.Error;
                         response.ErrorMessage = ex.Message;

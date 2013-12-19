@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IS24RestApi.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", Http.Url.AbsoluteUri);
-                return new publishChannels { publishChannel = new PublishChannel[] { } };
+                return new PublishChannels { PublishChannel = { } };
             });
 
             var cs = await Client.PublishChannels.GetAsync();
@@ -31,11 +32,11 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m =>
             {
-                return new publishChannels
+                return new PublishChannels
                 {
-                    publishChannel = new[] { 
-                        new PublishChannel { id = 4711, idSpecified = true },
-                        new PublishChannel { id = 4712, idSpecified = true },
+                    PublishChannel = { 
+                        new PublishChannel { Id = 4711, IdSpecified = true },
+                        new PublishChannel { Id = 4712, IdSpecified = true },
                     }
                 };
             });
@@ -43,8 +44,8 @@ namespace IS24RestApi.Tests
             var pcs = (await Client.PublishChannels.GetAsync()).ToList();
 
             Assert.Equal(2, pcs.Count);
-            Assert.Equal(4711, pcs[0].id);
-            Assert.Equal(4712, pcs[1].id);
+            Assert.Equal(4711, pcs[0].Id);
+            Assert.Equal(4712, pcs[1].Id);
         }
     }
 }

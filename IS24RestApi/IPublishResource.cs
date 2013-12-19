@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using IS24RestApi.Offer;
+using IS24RestApi.Offer.RealEstates;
 
 namespace IS24RestApi
 {

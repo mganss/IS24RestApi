@@ -39,6 +39,7 @@
       <HintPath>..\packages\RestSharp.104.3.3\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
@@ -64,6 +65,28 @@
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
     <Compile Include="ContactResource.cs" />
+    <Compile Include="generated\IS24RestApi.AttachmentsOrder.cs" />
+    <Compile Include="generated\IS24RestApi.Common.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.AlterationDate.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ListElement.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ProductBookingOverview.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ProductRecommendation.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealEstates.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealEstateStock.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.Realtor.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.User.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ZipAndLocationToRegion.cs" />
+    <Compile Include="generated\IS24RestApi.Platform.Gis.cs" />
+    <Compile Include="generated\IS24RestApi.Realestate.Counts.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Common.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Expose.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Region.cs" />
+    <Compile Include="generated\IS24RestApi.Search.ResultList.cs" />
+    <Compile Include="generated\IS24RestApi.Search.SavedSearch.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Searcher.cs" />
+    <Compile Include="generated\IS24RestApi.Search.ShortList.cs" />
+    <Compile Include="generated\IS24RestApi.User.cs" />
+    <Compile Include="generated\IS24RestApi.VideoUpload.cs" />
     <Compile Include="IAttachmentResource.cs" />
     <Compile Include="IContactResource.cs" />
     <Compile Include="IImportExportClient.cs" />
@@ -79,7 +102,6 @@
     <Compile Include="PublishResource.cs" />
     <Compile Include="RealEstateResource.cs" />
     <Compile Include="RestSharpExtensions.cs" />
-    <Compile Include="Types.generated.cs" />
     <Compile Include="Types.extra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utf8StringWriter.cs" />
@@ -98,8 +120,17 @@
     <None Include="xsd\common-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xsd\common_common-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\DownloadSchemaFiles.ps1" />
+    <None Include="xsd\expose-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\GenerateClasses.ps1" />
+    <None Include="xsd\gis-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\includes\messages-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -122,6 +153,24 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\realtor-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\region-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\savedSearch-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\searcher-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\shortlist-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\user-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\videoupload-1.0.xsd">

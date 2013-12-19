@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using IS24RestApi.Common;
+using IS24RestApi.Offer.RealEstates;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IS24RestApi

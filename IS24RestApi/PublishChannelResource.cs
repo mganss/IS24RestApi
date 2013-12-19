@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using IS24RestApi.Common;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IS24RestApi
@@ -27,8 +28,8 @@ namespace IS24RestApi
         public async Task<IEnumerable<PublishChannel>> GetAsync()
         {
             var request = is24Connection.CreateRequest("publishchannel");
-            var publishObjectsResult = await is24Connection.ExecuteAsync<publishChannels>(request);
-            return publishObjectsResult.publishChannel;
+            var publishObjectsResult = await is24Connection.ExecuteAsync<PublishChannels>(request);
+            return publishObjectsResult.PublishChannel;
         }
     }
 }
