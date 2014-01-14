@@ -61,20 +61,20 @@ namespace SampleConsole
                 await api.Contacts.UpdateAsync(contact);
             }
 
-            ApartmentRent re = null;
+            IRealEstate realEstate = null;
 
             try
             {
-                re = await api.RealEstates.GetAsync("Hauptstraße 1", isExternal: true) as ApartmentRent;
+                realEstate = await api.RealEstates.GetAsync("Hauptstraße 1", isExternal: true);
             }
             catch (IS24Exception ex)
             {
                 if (ex.Messages.message.First().messageCode != MessageCode.ERROR_RESOURCE_NOT_FOUND) throw;
             }
 
-            if (re == null)
+            if (realEstate.RealEstate == null)
             {
-                re = new ApartmentRent
+                var re = new ApartmentRent
                 {
                     contact = new RealEstateContact { id = contact.id, idSpecified = true },
                     externalId = "Hauptstraße 1",
@@ -91,9 +91,10 @@ namespace SampleConsole
 
                 re.baseRent += 100.0;
                 await api.RealEstates.UpdateAsync(re);
+
+                realEstate = new RealEstateItem(re, connection);
             }
 
-            var realEstate = await api.RealEstates.GetAsync(re.id.ToString());
             var atts = await realEstate.Attachments.GetAsync();
             if (atts == null || !atts.Any())
             {

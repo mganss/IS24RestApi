@@ -78,7 +78,6 @@
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExportClient.cs" />
     <Compile Include="IS24Connection.cs" />
-    <Compile Include="MessagesExtensions.cs" />
     <Compile Include="PublishChannelResource.cs" />
     <Compile Include="PublishResource.cs" />
     <Compile Include="RealEstateItem.cs" />
