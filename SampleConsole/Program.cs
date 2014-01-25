@@ -44,6 +44,7 @@ namespace SampleConsole
                 {
                     lastname = "Meiser",
                     firstname = "Hans",
+                    email = "hans.meiser@example.com",
                     address = new Address
                     {
                         street = "Hauptstraße",
@@ -72,7 +73,7 @@ namespace SampleConsole
                 if (ex.Messages.message.First().messageCode != MessageCode.ERROR_RESOURCE_NOT_FOUND) throw;
             }
 
-            if (realEstate.RealEstate == null)
+            if (realEstate == null)
             {
                 var re = new ApartmentRent
                 {
@@ -110,6 +111,9 @@ namespace SampleConsole
                 att.title = "Zimmer 1";
                 await realEstate.Attachments.UpdateAsync(att);
             }
+
+            await api.Publish.PublishAsync(realEstate.RealEstate);
+            await api.Publish.UnpublishAsync(realEstate.RealEstate);
 
             var res = new List<RealEstate>();
             await api.RealEstates.GetAsync().ForEachAsync(x => res.Add(x.RealEstate));
