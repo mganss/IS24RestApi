@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Michael Ganss")]
 [assembly: AssemblyProduct("IS24RestApi")]
-[assembly: AssemblyCopyright("Copyright © 2013 IS24RestApi project contributors")]
+[assembly: AssemblyCopyright("Copyright © 2013-2014 IS24RestApi project contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
