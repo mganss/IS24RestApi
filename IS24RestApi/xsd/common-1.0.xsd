@@ -513,7 +513,7 @@
                         <xs:pattern value="\d{1,10}"/>
                     </xs:restriction>
                 </xs:simpleType>
-            </xs:element>
+            </xs:element>          
             <xs:element name="faxNumberSubscriber" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Facsimile subscriber number of this contact.</xs:documentation>
@@ -524,20 +524,19 @@
                         <xs:pattern value="[\d][\d \-]{0,24}[\d]"/>
                     </xs:restriction>
                 </xs:simpleType>
-            </xs:element>
-            <xs:element name="faxNumber" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">Whole facsimile number of this contact.</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Komplette Faxnummer des Kontakts.</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:pattern
-                                value="(\+[1-9]\d{0,3}) +\d{1,10} +([\d][\d \-]{0,24}[\d])"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-
+            </xs:element>           
+           <xs:element name="faxNumber" minOccurs="0">
+               <xs:annotation>
+                   <xs:documentation xml:lang="en">Whole facsimile number of this contact.</xs:documentation>
+                   <xs:documentation xml:lang="de-DE">Komplette Faxnummer des Kontakts.</xs:documentation>
+               </xs:annotation>
+               <xs:simpleType>
+                   <xs:restriction base="xs:string">
+                       <xs:pattern
+                               value="(\+[1-9]\d{0,3}) +\d{1,10} +([\d][\d \-]{0,24}[\d])"/>
+                   </xs:restriction>
+               </xs:simpleType>
+           </xs:element>
             <xs:element name="phoneNumberCountryCode" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Phonenumber country code of this contact.</xs:documentation>
@@ -1295,7 +1294,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="TextField">
-                        <xs:maxLength value="500"/>
+                        <xs:maxLength value="100"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -1306,7 +1305,7 @@
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="TextField">
-                        <xs:maxLength value="500"/>
+                        <xs:maxLength value="1800"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -1974,6 +1973,12 @@
                 <xs:annotation>
                     <xs:documentation xml:lang="en">special real estate</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Besondere Immobilie</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TERRACE_HOUSE">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">terrace house</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Reihenhaus</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="OTHER">
@@ -5672,7 +5677,7 @@
                     <xs:documentation xml:lang="de-DE">Heizungskosten</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="heatingCostsInServiceCharge" type="YesNotApplicableType" minOccurs="0">
+            <xs:element name="heatingCostsInServiceCharge" type="YesNoNotApplicableType" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">heating costs in service charge</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Heizkosten in Nebenkosten enthalten</xs:documentation>
@@ -6448,7 +6453,6 @@
                     <xs:documentation xml:lang="de-DE">Balkon</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice></xs:choice>
         </xs:sequence>
     </xs:group>
 

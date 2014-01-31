@@ -4458,8 +4458,6 @@ namespace IS24RestApi {
         
         private bool balconyField;
         
-        private object itemField;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string shortDescription {
@@ -4513,16 +4511,6 @@ namespace IS24RestApi {
             }
             set {
                 this.balconyField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public object Item {
-            get {
-                return this.itemField;
-            }
-            set {
-                this.itemField = value;
             }
         }
     }
@@ -8225,6 +8213,9 @@ namespace IS24RestApi {
         SPECIAL_REAL_ESTATE,
         
         /// <remarks/>
+        TERRACE_HOUSE,
+        
+        /// <remarks/>
         OTHER,
     }
     
@@ -8500,7 +8491,7 @@ namespace IS24RestApi {
         
         private bool heatingCostsFieldSpecified;
         
-        private YesNotApplicableType heatingCostsInServiceChargeField;
+        private YesNoNotApplicableType heatingCostsInServiceChargeField;
         
         private bool heatingCostsInServiceChargeFieldSpecified;
         
@@ -9099,7 +9090,7 @@ namespace IS24RestApi {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public YesNotApplicableType heatingCostsInServiceCharge {
+        public YesNoNotApplicableType heatingCostsInServiceCharge {
             get {
                 return this.heatingCostsInServiceChargeField;
             }
@@ -11839,7 +11830,7 @@ namespace IS24RestApi {
         
         private bool heatingCostsFieldSpecified;
         
-        private YesNotApplicableType heatingCostsInServiceChargeField;
+        private YesNoNotApplicableType heatingCostsInServiceChargeField;
         
         private bool heatingCostsInServiceChargeFieldSpecified;
         
@@ -12458,7 +12449,7 @@ namespace IS24RestApi {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public YesNotApplicableType heatingCostsInServiceCharge {
+        public YesNoNotApplicableType heatingCostsInServiceCharge {
             get {
                 return this.heatingCostsInServiceChargeField;
             }
@@ -21799,7 +21790,7 @@ namespace IS24RestApi {
         
         private bool heatingCostsFieldSpecified;
         
-        private YesNotApplicableType heatingCostsInServiceChargeField;
+        private YesNoNotApplicableType heatingCostsInServiceChargeField;
         
         private bool heatingCostsInServiceChargeFieldSpecified;
         
@@ -22169,7 +22160,7 @@ namespace IS24RestApi {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public YesNotApplicableType heatingCostsInServiceCharge {
+        public YesNoNotApplicableType heatingCostsInServiceCharge {
             get {
                 return this.heatingCostsInServiceChargeField;
             }
