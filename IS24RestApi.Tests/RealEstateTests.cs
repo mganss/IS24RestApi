@@ -13,10 +13,10 @@ using IS24RestApi.Offer.ListElement;
 
 namespace IS24RestApi.Tests
 {
-    public class RealEstateTests: TestBase
+    public class RealEstateTests: ImportExportTestBase
     {
         public RealEstateTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
+            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
         {
         }
 
@@ -172,7 +172,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
-            var r = new ApartmentRent { Id = 4711, IdSpecified = true, Title = "Test" };
+            var r = new ApartmentRent { Id = 4711, Title = "Test" };
 
             await Client.RealEstates.UpdateAsync(r);
         }
@@ -187,7 +187,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.RealEstates.UpdateAsync(new ApartmentRent());
+                await Client.RealEstates.UpdateAsync(new ApartmentRent { Id = 1 });
             });
         }
 
@@ -214,7 +214,7 @@ namespace IS24RestApi.Tests
                 Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
-                return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1, NumberOfPagesSpecified = true } };
+                return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
             });
 
             var res = Client.RealEstates.GetAsync().ToEnumerable().ToList();
@@ -227,27 +227,27 @@ namespace IS24RestApi.Tests
             {
                 return new RealEstates
                 {
-                    RealEstateList = { new OfferApartmentRent { Id = 4711, IdSpecified = true } },
-                    Paging = new Paging { NumberOfPages = 2, NumberOfPagesSpecified = true }
+                    RealEstateList = { new OfferApartmentRent { Id = 4711 } },
+                    Paging = new Paging { NumberOfPages = 2 }
                 };
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
-                return new ApartmentRent { Id = 4711, IdSpecified = true, Title = "Test 1" };
+                return new ApartmentRent { Id = 4711, Title = "Test 1" };
             }).ThenWith(m =>
             {
                 Assert.Equal(2, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
                 return new RealEstates
                 {
-                    RealEstateList = { new OfferApartmentRent { Id = 4712, IdSpecified = true } },
-                    Paging = new Paging { NumberOfPages = 2, NumberOfPagesSpecified = true }
+                    RealEstateList = { new OfferApartmentRent { Id = 4712 } },
+                    Paging = new Paging { NumberOfPages = 2 }
                 };
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.ToString());
-                return new ApartmentRent { Id = 4712, IdSpecified = true, Title = "Test 2" };
+                return new ApartmentRent { Id = 4712, Title = "Test 2" };
             }).ThenWith(m =>
             {
                 Assert.True(false, "Must not request more pages than available.");

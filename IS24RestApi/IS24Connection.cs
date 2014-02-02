@@ -15,11 +15,6 @@ namespace IS24RestApi
     public class IS24Connection : IIS24Connection
     {
         /// <summary>
-        /// Gets the default value for the current user
-        /// </summary>
-        public const string User = "me";
-
-        /// <summary>
         /// The XML deserializer
         /// </summary>
         private  static readonly IDeserializer xmlDeserializer = new BaseXmlDeserializer();
@@ -30,18 +25,7 @@ namespace IS24RestApi
         private static readonly ISerializer xmlSerializer = new BaseXmlSerializer();
 
         /// <summary>
-        /// The URL prefix including the user part
-        /// </summary>
-        public string BaseUrl
-        {
-            get
-            {
-                return string.Format("{0}/user/{1}/", BaseUrlPrefix, Uri.EscapeDataString(User));
-            }
-        }
-
-        /// <summary>
-        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0").
+        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api").
         /// </summary>
         public string BaseUrlPrefix { get; set; }
 
@@ -135,12 +119,12 @@ namespace IS24RestApi
         /// </summary>
         /// <typeparam name="T">The type of the response object.</typeparam>
         /// <param name="request">The request object.</param>
-        /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="BaseUrl"/> will be used.</param>
+        /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL.</param>
         /// <returns>The task representing the request.</returns>
         public async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new()
         {
-            baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
-            var client = new RestClient(baseUrl)
+            var url = string.Join("/", BaseUrlPrefix, baseUrl);
+            var client = new RestClient(url)
                          {
                              Authenticator =
                                  OAuth1Authenticator.ForProtectedResource(ConsumerKey,

@@ -8,7 +8,7 @@ namespace IS24RestApi
     /// The resources responsible for getting the publish channels the current user
     /// has access to
     /// </summary>
-    public class PublishChannelResource : IPublishChannelResource
+    public class PublishChannelResource : ImportExportResourceBase, IPublishChannelResource
     {
         private readonly IIS24Connection is24Connection;
 
@@ -28,7 +28,7 @@ namespace IS24RestApi
         public async Task<IEnumerable<PublishChannel>> GetAsync()
         {
             var request = is24Connection.CreateRequest("publishchannel");
-            var publishObjectsResult = await is24Connection.ExecuteAsync<PublishChannels>(request);
+            var publishObjectsResult = await ExecuteAsync<PublishChannels>(is24Connection, request);
             return publishObjectsResult.PublishChannel;
         }
     }

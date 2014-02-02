@@ -11,10 +11,10 @@ using Xunit;
 
 namespace IS24RestApi.Tests
 {
-    public class PublishTests : TestBase
+    public class PublishTests : ImportExportTestBase
     {
         public PublishTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
+            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
     
         [Fact]
@@ -28,9 +28,19 @@ namespace IS24RestApi.Tests
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
+                return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
+                return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
             });
 
-            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 });
+            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 }, 4711);
+            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 }, new PublishChannel { Id = 4711 });
         }
 
         [Fact]
@@ -49,7 +59,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Publish Object with id [4711] has been created." } } };
             });
 
-            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+            await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 });
         }
 
         [Fact]
@@ -66,7 +76,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+                await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 });
             });
         }
 
@@ -81,9 +91,19 @@ namespace IS24RestApi.Tests
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
+                return new PublishObjects { PublishObject = { } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
+                return new PublishObjects { PublishObject = { } };
             });
 
-            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711 });
+            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711 }, 4711);
+            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711 }, new PublishChannel { Id = 4711 });
         }
 
         [Fact]
@@ -100,7 +120,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
-            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+            await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711 });
         }
 
         [Fact]
@@ -117,7 +137,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711, IdSpecified = true });
+                await Client.Publish.UnpublishAsync(new ApartmentRent { Id = 4711 });
             });
         }
     }

@@ -10,10 +10,10 @@ using Xunit;
 
 namespace IS24RestApi.Tests
 {
-    public class ContactTests: TestBase
+    public class ContactTests: ImportExportTestBase
     {
         public ContactTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
+            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", Http.Url.ToString());
-                return new RealtorContactDetails { Id = 4711, IdSpecified = true };
+                return new RealtorContactDetails { Id = 4711 };
             });
 
             var contact = await Client.Contacts.GetAsync("4711");
@@ -35,7 +35,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.True(Http.Url.AbsoluteUri.EndsWith("/ext-Hans%20Meiser"));
-                return new RealtorContactDetails { ExternalId = "Hans Meiser", Id = 4711, IdSpecified = true };
+                return new RealtorContactDetails { ExternalId = "Hans Meiser", Id = 4711 };
             });
 
             var contact = await Client.Contacts.GetAsync("Hans Meiser", isExternal: true);
@@ -60,7 +60,7 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m =>
             {
-                return new RealtorContactDetails { Id = 4711, IdSpecified = true };
+                return new RealtorContactDetails { Id = 4711 };
             });
 
             var contact = await Client.Contacts.GetAsync("4711");
@@ -139,7 +139,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
-            var contact = new RealtorContactDetails { Id = 4711, IdSpecified = true };
+            var contact = new RealtorContactDetails { Id = 4711 };
 
             await Client.Contacts.UpdateAsync(contact);
         }
@@ -152,7 +152,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
-            var contact = new RealtorContactDetails { Id = 4711, IdSpecified = true };
+            var contact = new RealtorContactDetails { Id = 4711 };
 
             await Client.Contacts.UpdateAsync(contact);
         }
@@ -168,7 +168,7 @@ namespace IS24RestApi.Tests
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
-            var contact = new RealtorContactDetails { Id = 4711, IdSpecified = true };
+            var contact = new RealtorContactDetails { Id = 4711 };
 
             await Client.Contacts.UpdateAsync(contact);
         }
@@ -183,7 +183,7 @@ namespace IS24RestApi.Tests
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
-                await Client.Contacts.UpdateAsync(new RealtorContactDetails());
+                await Client.Contacts.UpdateAsync(new RealtorContactDetails { Id = 1 });
             });
         }
 
@@ -208,8 +208,8 @@ namespace IS24RestApi.Tests
                 return new RealtorContactDetailsList
                 {
                     RealtorContactDetails = { 
-                        new RealtorContactDetails { Id = 4711, IdSpecified = true },
-                        new RealtorContactDetails { Id = 4712, IdSpecified = true },
+                        new RealtorContactDetails { Id = 4711 },
+                        new RealtorContactDetails { Id = 4712 },
                     }
                 };
             });

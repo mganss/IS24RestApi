@@ -10,7 +10,7 @@ namespace IS24RestApi
     /// <summary>
     /// The resource responsible for managing real estate data
     /// </summary>
-    public class RealEstateResource : IRealEstateResource
+    public class RealEstateResource : ImportExportResourceBase, IRealEstateResource
     {
         private readonly IIS24Connection connection;
 
@@ -39,13 +39,13 @@ namespace IS24RestApi
                         var req = connection.CreateRequest("realestate");
                         req.AddParameter("pagesize", 100);
                         req.AddParameter("pagenumber", page);
-                        var rel = await connection.ExecuteAsync<RealEstates>(req);
+                        var rel = await ExecuteAsync<RealEstates>(connection, req);
 
                         foreach (var ore in rel.RealEstateList)
                         {
                             var oreq = connection.CreateRequest("realestate/{id}");
                             oreq.AddParameter("id", ore.Id, ParameterType.UrlSegment);
-                            var re = await connection.ExecuteAsync<RealEstate>(oreq);
+                            var re = await ExecuteAsync<RealEstate>(connection, oreq);
                             o.OnNext(re);
                         }
 
@@ -65,7 +65,7 @@ namespace IS24RestApi
         {
             var req = connection.CreateRequest("realestate/{id}");
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            return connection.ExecuteAsync<RealEstate>(req);
+            return ExecuteAsync<RealEstate>(connection, req);
         }
 
         /// <summary>
@@ -76,14 +76,13 @@ namespace IS24RestApi
         {
             var req = connection.CreateRequest("realestate", Method.POST);
             req.AddBody(re);
-            var resp = await connection.ExecuteAsync<Messages>(req);
+            var resp = await ExecuteAsync<Messages>(connection, req);
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
                 throw new IS24Exception(string.Format("Error creating RealEstate {0}: {1}", re.ExternalId, resp.Message.ToMessage())) { Messages = resp };
             }
             re.Id = id.Value;
-            re.IdSpecified = true;
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace IS24RestApi
             var req = connection.CreateRequest("realestate/{id}", Method.PUT);
             req.AddParameter("id", re.Id, ParameterType.UrlSegment);
             req.AddBody(re);
-            var Messages = await connection.ExecuteAsync<Messages>(req);
+            var Messages = await ExecuteAsync<Messages>(connection, req);
             if (!Messages.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating RealEstate {0}: {1}", re.ExternalId, Messages.Message.ToMessage())) { Messages = Messages };
@@ -110,7 +109,7 @@ namespace IS24RestApi
         {
             var request = connection.CreateRequest("realestate/{id}", Method.DELETE);
             request.AddParameter("id", id, ParameterType.UrlSegment);
-            await connection.ExecuteAsync<Messages>(request);
+            await ExecuteAsync<Messages>(connection, request);
         }
     }
 }

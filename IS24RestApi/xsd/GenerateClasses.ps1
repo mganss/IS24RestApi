@@ -6,7 +6,8 @@ cd $dir
 # Powershell doesn't automatically set the .NET cwd >:(
 [Environment]::CurrentDirectory = (Get-Location -PSProvider FileSystem).ProviderPath
 
-[System.Reflection.Assembly]::LoadFrom('..\..\XmlSchemaClassGenerator\bin\Debug\XmlSchemaClassGenerator.dll') | Out-Null
+$dll = ls ..\..\packages\XmlSchemaClassGenerator*\*\XmlSchemaClassGenerator.dll | Sort-Object LastModificationTime -Descending | Select-Object -First 1
+[System.Reflection.Assembly]::LoadFrom($dll.FullName) | Out-Null
 $generator = New-Object XmlSchemaClassGenerator.Generator
 $generator.OutputFolder = '..\generated'
 $namespaceMapping = New-Object 'System.Collections.Generic.Dictionary[string,string]'
@@ -33,6 +34,7 @@ $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/search/resultlist
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/search/searcher/1.0", "IS24RestApi.Search.Searcher")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/search/shortlist/1.0", "IS24RestApi.Search.ShortList")
 $generator.NamespaceMapping = $namespaceMapping
+$generator.GenerateNullables = $true
 [XmlSchemaClassGenerator.SimpleModel]::IntegerDataType = [System.Type]::GetType("System.Int32")
 
 [System.String[]]$files = ls */*.xsd | %{ $_.FullName }

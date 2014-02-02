@@ -9,12 +9,7 @@ namespace IS24RestApi
     public interface IIS24Connection
     {
         /// <summary>
-        /// The URL prefix including the user part
-        /// </summary>
-        string BaseUrl { get; }
-
-        /// <summary>
-        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0").
+        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api").
         /// </summary>
         string BaseUrlPrefix { get; set; }
 
@@ -39,6 +34,12 @@ namespace IS24RestApi
         string AccessTokenSecret { get; set; }
 
         /// <summary>
+        /// The factory of IHttp objects that the RestClient uses to communicate with the service.
+        /// Used mainly for testing purposes.
+        /// </summary>
+        IHttpFactory HttpFactory { get; set; }
+
+        /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
         /// </summary>
         /// <param name="resource"></param>
@@ -51,7 +52,7 @@ namespace IS24RestApi
         /// </summary>
         /// <typeparam name="T">The type of the response object.</typeparam>
         /// <param name="request">The request object.</param>
-        /// <param name="baseUrl">The suffix added to <see cref="IS24Connection.BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="IS24Connection.BaseUrl"/> will be used.</param>
+        /// <param name="baseUrl">The suffix added to <see cref="IS24Connection.BaseUrlPrefix"/> to obtain the request URL.</param>
         /// <returns>The task representing the request.</returns>
         Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new();
     }

@@ -41,6 +41,21 @@ namespace IS24RestApi
         Task CreateAsync(RealEstate re, Attachment att, string path);
 
         /// <summary>
+        /// Creates a video stream attachment (upload to http://www.screen9.com/).
+        /// </summary>
+        /// <param name="re">The RealEstate.</param>
+        /// <param name="video">The attachment.</param>
+        /// <param name="path">The path to the attachment file.</param>
+        Task CreateStreamingVideoAsync(RealEstate re, StreamingVideo video, string path);
+
+        /// <summary>
+        /// Creates a link attachment.
+        /// </summary>
+        /// <param name="re">The RealEstate.</param>
+        /// <param name="link">The link attachment.</param>
+        Task CreateAsync(RealEstate re, Link link);
+
+        /// <summary>
         /// Updates an attachment.
         /// </summary>
         /// <param name="re">The RealEstate object.</param>

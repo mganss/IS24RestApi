@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IS24RestApi;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
+using IS24RestApi.Search;
 
 namespace SampleConsole
 {
@@ -25,8 +26,26 @@ namespace SampleConsole
                 ConsumerSecret = config.ConsumerSecret,
                 AccessToken = config.AccessToken,
                 AccessTokenSecret = config.AccessSecret,
-                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0"
+                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api"
             };
+
+            var searchResource = new SearchResource(connection);
+            var query = new RadiusQuery 
+            {
+                Latitude = 52.49023,
+                Longitude =  13.35939,
+                Radius = 1,
+                RealEstateType = RealEstateType.APARTMENT_RENT,
+                Parameters = new 
+                { 
+                    Price = new DecimalRange { Max = 1000 },
+                    LivingSpace = new DecimalRange { Min = 100 },
+                    NumberOfRooms = new DecimalRange { Min = 4 },
+                    Equipment = "balcony"
+                },
+                Channel = new HomepageChannel("me")
+            };
+            var results = await searchResource.Search(query);
 
             var api = new ImportExportClient(connection);
             RealtorContactDetails contact = null;
@@ -78,7 +97,7 @@ namespace SampleConsole
             {
                 re = new ApartmentRent
                 {
-                    Contact = new RealEstateContact { Id = contact.Id, IdSpecified = true },
+                    Contact = new RealEstateContact { Id = contact.Id },
                     ExternalId = "Hauptstraße 1",
                     Title = "IS24RestApi Test",
                     Address = new Wgs84Address { Street = "Hauptstraße", HouseNumber = "1", City = "Berlin", Postcode = "10827" },
@@ -109,6 +128,13 @@ namespace SampleConsole
 
                 att.Title = "Zimmer 1";
                 await api.Attachments.UpdateAsync(re, att);
+
+                var link = new Link { Title = "Test", Url = "http://www.example.com/" };
+
+                await api.Attachments.CreateAsync(re, link);
+
+                var video = new StreamingVideo { Title = "Video" };
+                await api.Attachments.CreateStreamingVideoAsync(re, video, @"..\..\test.avi");
             }
 
             var res = new List<RealEstate>();

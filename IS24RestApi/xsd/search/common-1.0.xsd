@@ -307,12 +307,18 @@
 							<xs:documentation xml:lang="de-DE">Der erste Bildanhang dieser Immobilie</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-		      <xs:element name="floorplan" type="xs:boolean" minOccurs="0">
-		        <xs:annotation>
-		          <xs:documentation xml:lang="en">has as attachment a floorplan</xs:documentation>
-		          <xs:documentation xml:lang="de-DE">Grundriss als Objektbild vorhanden</xs:documentation>
-		        </xs:annotation>
-		      </xs:element>
+          <xs:element name="floorplan" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">has as attachment a floorplan</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Grundriss als Objektbild vorhanden</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="streamingVideo" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">has a streaming video attached.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Ein Streaming Video ist vorhanden.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

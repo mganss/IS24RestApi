@@ -8,10 +8,10 @@ using Xunit;
 
 namespace IS24RestApi.Tests
 {
-    public class PublishChannelTests : TestBase
+    public class PublishChannelTests : ImportExportTestBase
     {
         public PublishChannelTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0")
+            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
 
         [Fact]
@@ -35,8 +35,8 @@ namespace IS24RestApi.Tests
                 return new PublishChannels
                 {
                     PublishChannel = { 
-                        new PublishChannel { Id = 4711, IdSpecified = true },
-                        new PublishChannel { Id = 4712, IdSpecified = true },
+                        new PublishChannel { Id = 4711 },
+                        new PublishChannel { Id = 4712 },
                     }
                 };
             });
