@@ -83,5 +83,77 @@ namespace IS24RestApi.Tests
             Assert.Equal(4711, res.ResultlistEntries.ResultlistEntry[0].RealEstate.Id);
             Assert.Equal(4712, res.ResultlistEntries.ResultlistEntry[1].RealEstate.Id);
         }
+
+        [Fact]
+        public void Search_CanSerializeRanges()
+        {
+            var intRange = new IntRange { Min = 3, Max = 9 };
+            Assert.Equal("3-9", intRange.ToString());
+            intRange = new IntRange { Min = 2 };
+            Assert.Equal("2-", intRange.ToString());
+            intRange = new IntRange { Max = 4 };
+            Assert.Equal("-4", intRange.ToString());
+
+            var doubleRange = new DoubleRange { Min = 1.23, Max = 4.56 };
+            Assert.Equal("1.23-4.56", doubleRange.ToString());
+
+            var decimalRange = new DecimalRange { Min = 1.23m, Max = 4.56m };
+            Assert.Equal("1.23-4.56", decimalRange.ToString());
+        }
+
+        [Fact]
+        public async Task Search_Get_CanPerformRegionSearch()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                var url = "http://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
+                Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
+                var parms = Http.Url.ParseQueryString();
+                Assert.Equal("grouping,matchcount", parms["features"]);
+                Assert.Equal("apartmentrent", parms["realestatetype"]);
+                Assert.Equal("1002003004005", parms["geocodes"]);
+                Assert.Equal("-1000.00", parms["price"]);
+                Assert.Equal("rentpermonth", parms["pricetype"]);
+                Assert.Equal("true", parms["freeofcourtageonly"]);
+                Assert.Equal("-distance", parms["sort"]);
+                Assert.Equal("4", parms["pagenumber"]);
+                Assert.Equal("10", parms["pagesize"]);
+                Assert.Equal("balcony,garden,lift", parms["equipment"]);
+                return new IS24RestApi.Search.ResultList.Resultlist
+                {
+                    ResultlistEntries = new Search.ResultList.ResultlistEntries
+                    {
+                        ResultlistEntry =
+                        {
+                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
+                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                        }
+                    }
+                };
+            });
+
+            var query = new RegionQuery
+            {
+                RealEstateType = Common.RealEstateType.APARTMENT_RENT,
+                GeoCodeId = new GeoCodeId { Continent = 1, Country = 2, Region = 3, City = 4, Quarter = 5 },
+                Features = { Feature.Grouping, Feature.MatchCount },
+                Parameters = new Dictionary<string, object>
+                {
+                    { "Price",  new DecimalRange { Max = 1000 } },
+                    { "PriceType", "rentpermonth" },
+                    { "FreeOfCourtageOnly",  true },
+                    { "Equipment", new[] { "balcony", "garden", "lift" } }
+                },
+                Sort = Sorting.Distance,
+                SortDirection = ListSortDirection.Descending
+            };
+
+            var res = await Client.Search(query, 4, 10);
+
+            Assert.Equal(2, res.ResultlistEntries.ResultlistEntry.Count);
+            Assert.Equal(4711, res.ResultlistEntries.ResultlistEntry[0].RealEstate.Id);
+            Assert.Equal(4712, res.ResultlistEntries.ResultlistEntry[1].RealEstate.Id);
+        }
     }
 }

@@ -7,7 +7,7 @@ using IS24RestApi.Common;
 namespace IS24RestApi
 {
     /// <summary>
-    /// The Resource responsible for managing contacts for customer using the IS24 REST API
+    /// The contacts resource.
     /// </summary>
     public class ContactResource : ImportExportResourceBase, IContactResource
     {

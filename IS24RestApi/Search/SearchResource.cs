@@ -10,6 +10,9 @@ using System.Globalization;
 
 namespace IS24RestApi.Search
 {
+    /// <summary>
+    /// The search resource.
+    /// </summary>
     public class SearchResource: ResourceBase
     {
         private readonly IIS24Connection connection;
@@ -23,6 +26,9 @@ namespace IS24RestApi.Search
             this.connection = connection;
         }
 
+        /// <summary>
+        /// The URL path segment identifying the resource, e.g. "offer/v1.0/user/{username}"
+        /// </summary>
         public override string UrlPath
         {
             get { return "search/v1.0"; }

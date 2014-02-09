@@ -7,6 +7,9 @@ using IS24RestApi;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
 using IS24RestApi.Search;
+using System.Diagnostics;
+using System;
+using RestSharp.Contrib;
 
 namespace SampleConsole
 {
@@ -14,12 +17,51 @@ namespace SampleConsole
     {
         static void Main(string[] args)
         {
-            TestAsync().Wait();
+            var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
+
+            if (args.Contains("-a"))
+                AuthorizeAsync(config).Wait();
+            else
+                TestAsync(config).Wait();
         }
 
-        private static async Task TestAsync()
+        private static async Task AuthorizeAsync(Config config)
         {
-            var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
+            // see http://developerwiki.immobilienscout24.de/wiki/Authentication_Detailed#Step_by_Step
+
+            var connection = new IS24Connection
+            {
+                ConsumerKey = config.ConsumerKey,
+                ConsumerSecret = config.ConsumerSecret,
+                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/security"
+            };
+
+            // step 1
+            await connection.GetRequestToken(callbackUrl: "oob");
+
+            // step 2
+            try
+            {
+                var url = string.Format("{0}/oauth/confirm_access?oauth_token={1}", connection.BaseUrlPrefix,
+                    HttpUtility.UrlEncode(connection.RequestToken));
+                Process.Start(url);
+            }
+            catch
+            {
+            }
+
+            Console.Out.Write("Enter verifier: ");
+            var verifier = Console.In.ReadLine().Trim();
+
+            // step 3
+            await connection.GetAccessToken(verifier);
+
+            Console.Out.WriteLine("Access Token: {0}", connection.AccessToken);
+            Console.Out.WriteLine("Access Token Secret: {0}", connection.AccessTokenSecret);
+        }
+
+        private static async Task TestAsync(Config config)
+        {
             var connection = new IS24Connection
             {
                 ConsumerKey = config.ConsumerKey,
