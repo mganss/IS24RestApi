@@ -20,10 +20,18 @@
       <xs:sequence>
       	<xs:element name="paging" type="common:Paging" minOccurs="0"/>
         <xs:element name="matchCountList" type="common:MatchCountList" minOccurs="0"/>
-  	  	<xs:element name="resultlistEntries" type="ResultlistEntries"/>  		      
+        <!-- max Occurs 2 makes not sense, BUT!!! a bug in our Json Workaround Code treat resultlistEntries as list. -->
+  	  	<xs:element name="resultlistEntries" type="ResultlistEntries" minOccurs="1" maxOccurs="2"/>
+        <xs:element name="description" type="ResultlistDescription" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>   
   </xs:element>
+
+  <xs:complexType name="ResultlistDescription">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="ResultlistEntries">
     <xs:annotation>
@@ -103,6 +111,7 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="publishedAfterRequestedDate" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="attributes" type="ResultListEntryAttributes" minOccurs="0"/>
 
       </xs:sequence>
 
@@ -110,4 +119,18 @@
       <xs:attributeGroup ref="common:Reference" />
     </xs:complexType>
 
+    <xs:complexType name="ResultListEntryAttributes">
+        <xs:sequence>
+            <xs:element name="attribute" type="ResultListEntryAttribute" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResultListEntryAttribute">
+        <xs:sequence>
+            <xs:element name="label" type="xs:string">
+            </xs:element>
+            <xs:element name="value" type="xs:string">
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
    </xs:schema>

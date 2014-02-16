@@ -18,6 +18,7 @@ $namespaceMapping.Add("ttp://rest.immobilienscout24.de/schema/offer/productbooki
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/listelement/1.0", "IS24RestApi.Offer.ListElement")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/user/1.0", "IS24RestApi.Offer.User")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/productrecommondation/1.0", "IS24RestApi.Offer.ProductRecommendation")
+$namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/toplisting/1.0", "IS24RestApi.Offer.TopListing")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/realestate/counts/1.0", "IS24RestApi.Realestate.Counts")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/realestates/1.0", "IS24RestApi.Offer.RealEstates")
 $namespaceMapping.Add("http://rest.immobilienscout24.de/schema/offer/realestatestock/1.0", "IS24RestApi.Offer.RealEstateStock")

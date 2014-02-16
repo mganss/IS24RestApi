@@ -260,13 +260,24 @@
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
-
                     <xs:element name="attachments" minOccurs="0" type="Attachments">
                         <xs:annotation>
                             <xs:documentation xml:lang="en">Attachments of the real estate</xs:documentation>
                             <xs:documentation xml:lang="de-DE">Anhänge der Immobilie</xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="referencePriceServiceCall" type="uri" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">reference price service call</xs:documentation>
+                            <xs:documentation xml:lang="de-DE">ReferencePrice Service Call</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                  <xs:element name="referencePriceApiCall" type="uri" minOccurs="0">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">reference price api call</xs:documentation>
+                      <xs:documentation xml:lang="de-DE">ReferencePrice API Call</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -896,7 +907,13 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="Wgs84Address">
+  <xs:complexType name="Wgs84AddressDescription">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Wgs84Address">
         <xs:annotation>
             <xs:documentation xml:lang="en">Base address enriched with WGS84 geocoordinates.</xs:documentation>
             <xs:documentation xml:lang="de-DE">Adresse erweitert mit WGS84 Geokoordinaten.</xs:documentation>
@@ -925,6 +942,7 @@
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="geoHierarchy" type="GeoHierarchy" minOccurs="0"/>
+                    <xs:element name="description" type="Wgs84AddressDescription" minOccurs="0" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -10062,5 +10080,24 @@
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
-
+    <xs:complexType name="DateRange">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">date range</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Datum von bis</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="dateFrom" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">date from</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">von Datum</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="dateTo" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">date to</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">bis Datum</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
 </xs:schema>

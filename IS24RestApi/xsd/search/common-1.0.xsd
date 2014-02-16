@@ -280,13 +280,24 @@
 		<xs:complexContent>
 			<xs:extension base="RealEstateForList">
 				<xs:sequence>
-					<xs:group ref="common:BaseSeniorCareGroup"></xs:group>
-				</xs:sequence>
+					<xs:group ref="common:BaseSenior"></xs:group>
+
+                    <!-- maxOccurs makes not sense, but the fucking is24 cxf json fix dreaded the careTypes attribute as array anyway. -->
+                    <xs:element name="careTypes" type="common:CareTypes" minOccurs="0" maxOccurs="unbounded"/>
+
+                    <xs:element name="balcony" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">has a balcony</xs:documentation>
+                            <xs:documentation xml:lang="de-DE">Balkon</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+
+                </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="RealEstateForList" abstract="true">
+    <xs:complexType name="RealEstateForList" abstract="true">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">General elements for all real estates within the search context.
       </xs:documentation>
@@ -301,7 +312,7 @@
 							<xs:documentation xml:lang="de-DE">Veröffentlichungsstatus der Immobilie.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="titlePicture" type="common:Picture">
+					<xs:element name="titlePicture" type="SearchPicture">
 						<xs:annotation>
 							<xs:documentation xml:lang="en">The first picture attachment of this real estate</xs:documentation>
 							<xs:documentation xml:lang="de-DE">Der erste Bildanhang dieser Immobilie</xs:documentation>
@@ -323,5 +334,64 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+    <xs:complexType name="SearchPicture">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">A single picture.</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Ein Bild</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="common:Attachment">
+                <xs:sequence>
+                    <xs:element name="floorplan" type="xs:boolean" default="false">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">Indicates whether this picture represents a floorplan.
+                            </xs:documentation>
+                            <xs:documentation xml:lang="de-DE">Gibt an ob dieses Bild einen Grundriss darstellt.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="titlePicture" type="xs:boolean" default="false">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">Indicates whether this picture is the titlepicture of this
+                                real estate.
+                            </xs:documentation>
+                            <xs:documentation xml:lang="de-DE">Gibt an, ob dieses Bild das Titelbild dieser Immobilie
+                                ist.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <!-- maxOccurs makes not sense, but the fucking is24 cxf json fix dreaded the urls attribute as array anyway. -->
+                    <xs:element name="urls" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="url" minOccurs="1" maxOccurs="unbounded">
+                                    <xs:annotation>
+                                        <xs:documentation xml:lang="en">URL for the picture.</xs:documentation>
+                                        <xs:documentation xml:lang="de-DE">URL des Bildes.</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                        <xs:attribute name="scale" type="common:PictureScaleType">
+                                            <xs:annotation>
+                                                <xs:documentation xml:lang="en">picture scale</xs:documentation>
+                                                <xs:documentation xml:lang="de-DE">Bildergröße</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                        <xs:attribute name="href" type="xs:anyURI">
+                                            <xs:annotation>
+                                                <xs:documentation xml:lang="en">URL to scaled picture</xs:documentation>
+                                                <xs:documentation xml:lang="de-DE">URL zum skaliertem Bild
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
 </xs:schema>
