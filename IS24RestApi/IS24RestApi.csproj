@@ -40,6 +40,7 @@
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,7 +56,7 @@
     </Reference>
     <Reference Include="System.Reactive.PlatformServices, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-PlatformServices.2.2.2\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -65,84 +66,141 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttachmentResource.cs" />
-    <Compile Include="AttachmentsOrderResource.cs" />
+    <Compile Include="ImportExport\AttachmentResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
-    <Compile Include="ContactResource.cs" />
-    <Compile Include="IAttachmentResource.cs" />
-    <Compile Include="IAttachmentsOrderResource.cs" />
-    <Compile Include="IContactResource.cs" />
-    <Compile Include="IImportExportClient.cs" />
+    <Compile Include="ImportExport\AttachmentsOrderResource.cs" />
+    <Compile Include="ImportExport\ContactResource.cs" />
+    <Compile Include="generated\IS24RestApi.AttachmentsOrder.cs" />
+    <Compile Include="generated\IS24RestApi.Common.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.AlterationDate.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ListElement.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ProductBookingOverview.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ProductRecommendation.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealEstates.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealEstateStock.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.Realtor.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.User.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ZipAndLocationToRegion.cs" />
+    <Compile Include="generated\IS24RestApi.Platform.Gis.cs" />
+    <Compile Include="generated\IS24RestApi.Realestate.Counts.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Common.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Expose.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Region.cs" />
+    <Compile Include="generated\IS24RestApi.Search.ResultList.cs" />
+    <Compile Include="generated\IS24RestApi.Search.SavedSearch.cs" />
+    <Compile Include="generated\IS24RestApi.Search.Searcher.cs" />
+    <Compile Include="generated\IS24RestApi.Search.ShortList.cs" />
+    <Compile Include="generated\IS24RestApi.User.cs" />
+    <Compile Include="generated\IS24RestApi.VideoUpload.cs" />
+    <Compile Include="ImportExport\IAttachmentResource.cs" />
+    <Compile Include="ImportExport\IAttachmentsOrderResource.cs" />
+    <Compile Include="ImportExport\IContactResource.cs" />
+    <Compile Include="ImportExport\IImportExportClient.cs" />
     <Compile Include="IIS24Connection.cs" />
-    <Compile Include="IPublishChannelResource.cs" />
-    <Compile Include="IPublishResource.cs" />
-    <Compile Include="IRealEstate.cs" />
-    <Compile Include="IRealEstateResource.cs" />
+    <Compile Include="ImportExport\ImportExportResourceBase.cs" />
+    <Compile Include="ImportExport\IPublishChannelResource.cs" />
+    <Compile Include="ImportExport\IPublishResource.cs" />
+    <Compile Include="ImportExport\IRealEstate.cs" />
+    <Compile Include="ImportExport\IRealEstateResource.cs" />
+    <Compile Include="ImportExport\RealEstateItem.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="IS24Exception.cs" />
-    <Compile Include="ImportExportClient.cs" />
+    <Compile Include="ImportExport\ImportExportClient.cs" />
     <Compile Include="IS24Connection.cs" />
-    <Compile Include="PublishChannelResource.cs" />
-    <Compile Include="PublishResource.cs" />
-    <Compile Include="RealEstateItem.cs" />
-    <Compile Include="RealEstateResource.cs" />
+    <Compile Include="ImportExport\PublishChannelResource.cs" />
+    <Compile Include="ImportExport\PublishResource.cs" />
+    <Compile Include="ImportExport\RealEstateResource.cs" />
+    <Compile Include="ResourceBase.cs" />
     <Compile Include="RestSharpExtensions.cs" />
-    <Compile Include="Types.generated.cs" />
+    <Compile Include="Search\Channel.cs" />
+    <Compile Include="Search\GeoCodeId.cs" />
+    <Compile Include="Search\Query.cs" />
+    <Compile Include="Search\Range.cs" />
+    <Compile Include="Search\SearchResource.cs" />
+    <Compile Include="Search\Sorting.cs" />
     <Compile Include="Types.extra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utf8StringWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="xsd\alterationdate-1.0.xsd">
+    <None Include="xsd\common\common-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\attachmentsorder-1.0.xsd">
+    <None Include="xsd\common\includes\messages-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\bookingoverview-1.0.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="xsd\common-1.0.xsd">
+    <None Include="xsd\common\xlink.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\DownloadSchemaFiles.ps1" />
     <None Include="xsd\GenerateClasses.ps1" />
-    <None Include="xsd\includes\messages-1.0.xsd">
+    <None Include="xsd\offer\alterationdate-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\offerListElement-1.0.xsd">
+    <None Include="xsd\offer\attachmentsorder-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\offerUser-1.0.xsd">
+    <None Include="xsd\offer\bookingoverview-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\productrecommendation-1.0.xsd">
+    <None Include="xsd\offer\offerListElement-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\realEstateCounts-1.0.xsd">
+    <None Include="xsd\offer\offerUser-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\realestates-1.0.xsd">
+    <None Include="xsd\offer\productrecommendation-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\realestatestock-1.0.xsd">
+    <None Include="xsd\offer\realEstateCounts-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\realtor-1.0.xsd">
+    <None Include="xsd\offer\realestates-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\videoupload-1.0.xsd">
+    <None Include="xsd\offer\realestatestock-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\xlink.xsd">
+    <None Include="xsd\offer\realtor-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xsd\zipandlocationtoregion-1.0.xsd">
+    <None Include="xsd\offer\videoupload-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\offer\zipandlocationtoregion-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\platform\gis-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\platform\user-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\common-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\expose-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\region-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\savedSearch-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\search-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\searcher-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\search\shortlist-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

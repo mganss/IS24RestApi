@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace IS24RestApi.Tests
 {
-    public class TestBase
+    public class TestBase<T>
     {
-        public ImportExportClient Client { get; set; }
+        public T Client { get; set; }
         public HttpStub Http { get; set; }
 
-        public TestBase(string baseUrlPrefix)
+        public TestBase(string baseUrlPrefix, Func<IIS24Connection, T> createClient)
         {
             Http = new HttpStub();
 
@@ -25,7 +25,12 @@ namespace IS24RestApi.Tests
                 ConsumerSecret = "ConsumerSecret"
             };
 
-            Client = new ImportExportClient(connection);
+            Client = createClient(connection);
         }
+    }
+
+    public class ImportExportTestBase: TestBase<ImportExportClient>
+    {
+        public ImportExportTestBase(string baseUrlPrefix): base(baseUrlPrefix, c => new ImportExportClient(c)) { }
     }
 }

@@ -5,6 +5,9 @@ using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Extensions;
 using RestSharp.Serializers;
+using IS24RestApi.Common;
+using System.Net;
+using RestSharp.Contrib;
 
 namespace IS24RestApi
 {
@@ -13,11 +16,6 @@ namespace IS24RestApi
     /// </summary>
     public class IS24Connection : IIS24Connection
     {
-        /// <summary>
-        /// Gets the default value for the current user
-        /// </summary>
-        public const string User = "me";
-
         /// <summary>
         /// The XML deserializer
         /// </summary>
@@ -29,38 +27,37 @@ namespace IS24RestApi
         private static readonly ISerializer xmlSerializer = new BaseXmlSerializer();
 
         /// <summary>
-        /// The URL prefix including the user part
-        /// </summary>
-        public string BaseUrl
-        {
-            get
-            {
-                return string.Format("{0}/user/{1}/", BaseUrlPrefix, Uri.EscapeDataString(User));
-            }
-        }
-
-        /// <summary>
-        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0").
+        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api").
         /// </summary>
         public string BaseUrlPrefix { get; set; }
 
         /// <summary>
-        /// The OAuth ConsumerSecret
+        /// The OAuth Consumer Secret
         /// </summary>
         public string ConsumerSecret { get; set; }
 
         /// <summary>
-        /// The OAuth ConsumerKey
+        /// The OAuth Consumer Key
         /// </summary>
         public string ConsumerKey { get; set; }
 
         /// <summary>
-        /// The OAuth AccessToken
+        /// The OAuth Request Token.
+        /// </summary>
+        public string RequestToken { get; set; }
+
+        /// <summary>
+        /// The OAuth Request Token Secret
+        /// </summary>
+        public string RequestTokenSecret { get; set; }
+
+        /// <summary>
+        /// The OAuth Access Token
         /// </summary>
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// The OAuth AccessTokenSecret
+        /// The OAuth Access Token Secret
         /// </summary>
         public string AccessTokenSecret { get; set; }
 
@@ -110,8 +107,8 @@ namespace IS24RestApi
                     {
                         // An HTTP error occurred. Deserialize error messages.
 
-                        var msgs = handler.Deserialize<messages>(raw);
-                        var ex = new IS24Exception(msgs.message.ToMessage()) { Messages = msgs, StatusCode = raw.StatusCode };
+                        var msgs = handler.Deserialize<Messages>(raw);
+                        var ex = new IS24Exception(MessagesExtensions.ToMessage(msgs.Message)) { Messages = msgs, StatusCode = raw.StatusCode };
 
                         response.ResponseStatus = ResponseStatus.Error;
                         response.ErrorMessage = ex.Message;
@@ -134,12 +131,12 @@ namespace IS24RestApi
         /// </summary>
         /// <typeparam name="T">The type of the response object.</typeparam>
         /// <param name="request">The request object.</param>
-        /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL. If null, <see cref="BaseUrl"/> will be used.</param>
+        /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL.</param>
         /// <returns>The task representing the request.</returns>
         public async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new()
         {
-            baseUrl = baseUrl == null ? BaseUrl : string.Join("/", BaseUrlPrefix, baseUrl);
-            var client = new RestClient(baseUrl)
+            var url = string.Join("/", BaseUrlPrefix, baseUrl);
+            var client = new RestClient(url)
                          {
                              Authenticator =
                                  OAuth1Authenticator.ForProtectedResource(ConsumerKey,
@@ -155,6 +152,64 @@ namespace IS24RestApi
             if (response.ErrorException != null) throw response.ErrorException;
 
             return response.Data;
+        }
+
+        /// <summary>
+        /// Gets an OAuth request token. If successful, the returned values will be in <see cref="RequestToken"/> and <see cref="RequestTokenSecret"/>.
+        /// </summary>
+        /// <param name="callbackUrl">The callback URL. Use "oob" when not calling from a web application.</param>
+        /// <returns>The task representing the request.</returns>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task GetRequestToken(string callbackUrl = "oob")
+        {
+            var url = string.Join("/", BaseUrlPrefix, "oauth/request_token");
+            var client = new RestClient
+            {
+                Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl)
+            };
+
+            if (HttpFactory != null) client.HttpFactory = HttpFactory;
+
+            var request = new RestRequest(url, Method.GET);
+            var response = await client.ExecuteTaskAsync(request);
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            if (response.StatusCode != HttpStatusCode.OK) throw new IS24Exception(string.Format("Error getting request token, status {0}: {1}",
+                response.StatusCode, response.StatusDescription));
+
+            var qs = HttpUtility.ParseQueryString(response.Content);
+
+            RequestToken = qs["oauth_token"];
+            RequestTokenSecret = qs["oauth_token_secret"];
+        }
+
+        /// <summary>
+        /// Gets an OAuth access token. If successful, the returned values will be in <see cref="AccessToken"/> and <see cref="AccessTokenSecret"/>.
+        /// </summary>
+        /// <param name="verifier">The verifier.</param>
+        /// <returns>The task representing the request.</returns>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task GetAccessToken(string verifier)
+        {
+            var url = string.Join("/", BaseUrlPrefix, "oauth/access_token");
+            var client = new RestClient
+            {
+                Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier)
+            };
+
+            if (HttpFactory != null) client.HttpFactory = HttpFactory;
+
+            var request = new RestRequest(url, Method.GET);
+            var response = await client.ExecuteTaskAsync(request);
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            if (response.StatusCode != HttpStatusCode.OK) throw new IS24Exception(string.Format("Error getting access token, status {0}: {1}",
+                response.StatusCode, response.StatusDescription));
+
+            var qs = HttpUtility.ParseQueryString(response.Content);
+
+            AccessToken = qs["oauth_token"];
+            AccessTokenSecret = qs["oauth_token_secret"];
         }
     }
 }

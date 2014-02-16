@@ -1,13 +1,38 @@
-﻿$url = New-Object uri('http://rest.immobilienscout24.de/restapi/api/offer/v1.0/?_wadl&_schema')
-$base = $url.GetLeftPart([UriPartial]::Authority)
-$client = (New-Object System.Net.WebClient)
-$pg = $client.DownloadString($url)
-$links = $pg | Select-String -AllMatches '<a href="([^"]+)' | %{ $_.Matches } | %{ $base + $_.Groups[1].Value }
+﻿foreach ($url in ((New-Object uri('http://rest.immobilienscout24.de/restapi/api/offer/v1.0/?_wadl&_schema')),
+    (New-Object uri('http://rest.immobilienscout24.de/restapi/api/search/v1.0/?_wadl&_schema')),
+    (New-Object uri('http://rest.immobilienscout24.de/restapi/api/gis/v1.0/?_wadl&_schema'))))
+{
+    $base = $url.GetLeftPart([UriPartial]::Authority)
+    $client = (New-Object System.Net.WebClient)
+    $pg = $client.DownloadString($url)
+    $matches = $pg | Select-String -AllMatches '<a href="([^"]+)">Namespace Prefix: (\S+)' | %{ $_.Matches }
 
-foreach ($link in $links) {
-    $fn = $link | Select-String '[^/]+$' | %{ $_.Matches } | %{ $_.Value }
-    echo "downloading $link to $fn"
-    $client.DownloadFile($link, $fn)
+    $scriptpath = $MyInvocation.MyCommand.Path
+    $dir = Split-Path $scriptpath
+
+    foreach ($match in $matches) 
+    {
+	    $link = $base + $match.Groups[1].Value
+	    $ns = $match.Groups[2].Value
+        $fn = $link | Select-String '[^/]+$' | %{ $_.Matches } | %{ $_.Value }
+
+        if ($fn -like "savedSearch*2*") 
+        {
+            continue;
+        }
+
+        $path = $dir + '\'
+        $path += $ns + '\'
+
+        if ($ns -eq "common" -and $fn -like "messages-*")
+        { 
+            $path += 'includes\'
+        }
+            
+        md $path -Force
+
+        $path += $fn
+        echo "downloading $link to $path"
+        $client.DownloadFile($link, $path)
+    }
 }
-
-mv -Force .\messages* includes
