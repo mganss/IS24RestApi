@@ -42,12 +42,15 @@ namespace IS24RestApi.Tests
                 Assert.Equal("-distance", parms["sort"]);
                 return new IS24RestApi.Search.ResultList.Resultlist
                 {
-                    ResultlistEntries = new Search.ResultList.ResultlistEntries
+                    ResultlistEntries =
                     {
-                        ResultlistEntry =
+                        new ResultlistEntries 
                         {
-                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
-                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                            ResultlistEntry =
+                            {
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                            }
                         }
                     }
                 };
@@ -79,9 +82,9 @@ namespace IS24RestApi.Tests
 
             var res = await Client.Search(query);
 
-            Assert.Equal(2, res.ResultlistEntries.ResultlistEntry.Count);
-            Assert.Equal(4711, res.ResultlistEntries.ResultlistEntry[0].RealEstate.Id);
-            Assert.Equal(4712, res.ResultlistEntries.ResultlistEntry[1].RealEstate.Id);
+            Assert.Equal(2, res.ResultlistEntries[0].ResultlistEntry.Count);
+            Assert.Equal(4711, res.ResultlistEntries[0].ResultlistEntry[0].RealEstate.Id);
+            Assert.Equal(4712, res.ResultlistEntries[0].ResultlistEntry[1].RealEstate.Id);
         }
 
         [Fact]
@@ -122,12 +125,15 @@ namespace IS24RestApi.Tests
                 Assert.Equal("balcony,garden,lift", parms["equipment"]);
                 return new IS24RestApi.Search.ResultList.Resultlist
                 {
-                    ResultlistEntries = new Search.ResultList.ResultlistEntries
+                    ResultlistEntries =
                     {
-                        ResultlistEntry =
+                        new ResultlistEntries 
                         {
-                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
-                            new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                            ResultlistEntry =
+                            {
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                            }
                         }
                     }
                 };
@@ -151,9 +157,9 @@ namespace IS24RestApi.Tests
 
             var res = await Client.Search(query, 4, 10);
 
-            Assert.Equal(2, res.ResultlistEntries.ResultlistEntry.Count);
-            Assert.Equal(4711, res.ResultlistEntries.ResultlistEntry[0].RealEstate.Id);
-            Assert.Equal(4712, res.ResultlistEntries.ResultlistEntry[1].RealEstate.Id);
+            Assert.Equal(2, res.ResultlistEntries[0].ResultlistEntry.Count);
+            Assert.Equal(4711, res.ResultlistEntries[0].ResultlistEntry[0].RealEstate.Id);
+            Assert.Equal(4712, res.ResultlistEntries[0].ResultlistEntry[1].RealEstate.Id);
         }
     }
 }
