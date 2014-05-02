@@ -48,6 +48,12 @@
           <xs:documentation xml:lang="de-DE">Definition welche Daten im Kontaktformular angezeigt werden soll.</xs:documentation>
         </xs:annotation>
       </xs:element>
+    <xs:element name="propertyDeveloper" type="xs:boolean" minOccurs="0">
+         <xs:annotation>
+             <xs:documentation xml:lang="en">property Developer</xs:documentation>
+             <xs:documentation xml:lang="de-DE">Bautraeger</xs:documentation>
+         </xs:annotation>
+     </xs:element>
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference"/>
