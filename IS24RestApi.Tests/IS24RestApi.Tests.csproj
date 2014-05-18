@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="AssertEx.cs" />
     <Compile Include="AttachmentTests.cs" />
+    <Compile Include="ChoiceAdapterPropertiesTests.cs" />
     <Compile Include="ContactTests.cs" />
     <Compile Include="HttpFactory.cs" />
     <Compile Include="HttpStub.cs" />
