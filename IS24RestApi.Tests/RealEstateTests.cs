@@ -80,7 +80,7 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("POST", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.ToString());
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
             var re = new ApartmentRent { Title = "Test" };
@@ -93,7 +93,7 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m =>
             {
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
             var re = new ApartmentRent { Title = "Test" };
@@ -111,7 +111,7 @@ namespace IS24RestApi.Tests
                 var re = new BaseXmlDeserializer().Deserialize<RealEstate>(new RestResponse { Content = Http.RequestBody });
                 Assert.IsType<ApartmentRent>(re);
                 Assert.Equal("Test", re.Title);
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
             var r = new ApartmentRent { Title = "Test" };

@@ -2,6 +2,7 @@
 using IS24RestApi.Offer;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
+using System.Collections.Generic;
 
 namespace IS24RestApi
 {

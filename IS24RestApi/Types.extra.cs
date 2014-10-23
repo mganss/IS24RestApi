@@ -35,8 +35,7 @@ namespace IS24RestApi.Common
                 && resp.Message.Any() 
                 && resp.Message[0].MessageCode == MessageCode.MESSAGE_RESOURCE_CREATED)
             {
-                var m = Regex.Match(resp.Message[0].MessageProperty, @"with id \[(\d+)\] has been created");
-                if (m.Success) return long.Parse(m.Groups[1].Value);
+                return long.Parse(resp.Message[0].Id);
             }
 
             return null;

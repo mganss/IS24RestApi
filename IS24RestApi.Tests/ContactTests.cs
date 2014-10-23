@@ -76,7 +76,7 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("POST", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact", Http.Url.ToString());
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
             });
 
             var contact = new RealtorContactDetails { Lastname = "Meiser" };
@@ -89,7 +89,7 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m =>
             {
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
             });
 
             var contact = new RealtorContactDetails { Lastname = "Meiser" };
@@ -107,7 +107,7 @@ namespace IS24RestApi.Tests
                 var c = new BaseXmlDeserializer().Deserialize<RealtorContactDetails>(new RestResponse { Content = Http.RequestBody });
                 Assert.IsType<RealtorContactDetails>(c);
                 Assert.Equal("Meiser", c.Lastname);
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
             });
 
             var contact = new RealtorContactDetails { Lastname = "Meiser" };
@@ -219,6 +219,19 @@ namespace IS24RestApi.Tests
             Assert.Equal(2, cs.Count);
             Assert.Equal(4711, cs[0].Id);
             Assert.Equal(4712, cs[1].Id);
+        }
+
+        [Fact]
+        public async Task Contact_Delete_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("DELETE", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", Http.Url.ToString());
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
+            });
+
+            await Client.Contacts.DeleteAsync("4711");
         }
     }
 }

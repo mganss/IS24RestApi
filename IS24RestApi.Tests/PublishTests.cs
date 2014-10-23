@@ -56,7 +56,7 @@ namespace IS24RestApi.Tests
                 var po = new BaseXmlDeserializer().Deserialize<PublishObject>(new RestResponse { Content = Http.RequestBody });
                 Assert.Equal(4711, po.RealEstate.Id);
                 Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, po.PublishChannel.Id);
-                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Publish Object with id [4711] has been created." } } };
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Publish Object with id [4711] has been created.", Id = "4711" } } };
             });
 
             await Client.Publish.PublishAsync(new ApartmentRent { Id = 4711 });

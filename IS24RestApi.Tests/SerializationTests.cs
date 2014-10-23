@@ -39,6 +39,7 @@ namespace IS24RestApi.Tests
             Test<RealEstate>("specialPurpose");
             Test<RealEstate>("store");
             Test<RealEstate>("tradeSite");
+            Test<RealEstate>("flatShareRoom");
         }
 
         void Test<T>(string file)

@@ -66,7 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="generated\IS24RestApi.Offer.PremiumPlacement.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealEstateProject.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.RealtorBadges.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.ShowcasePlacement.cs" />
     <Compile Include="generated\IS24RestApi.Offer.TopListing.cs" />
+    <Compile Include="generated\IS24RestApi.Offer.TopPlacement.cs" />
     <Compile Include="ImportExport\AttachmentResource.cs" />
     <Compile Include="BaseXmlDeserializer.cs" />
     <Compile Include="BaseXmlSerializer.cs" />
@@ -153,10 +158,16 @@
     <None Include="xsd\offer\offerUser-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xsd\offer\premiumplacement-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\offer\productrecommendation-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\offer\realEstateCounts-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\offer\realestateproject-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\offer\realestates-1.0.xsd">
@@ -168,7 +179,16 @@
     <None Include="xsd\offer\realtor-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xsd\offer\realtorbadges-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\offer\showcaseplacement-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\offer\toplisting-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\offer\topplacement-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\offer\videoupload-1.0.xsd">

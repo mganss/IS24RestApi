@@ -35,5 +35,13 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="contact">The contact.</param>
         Task UpdateAsync(RealtorContactDetails contact);
+
+        /// <summary>
+        /// Deletes a contact.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="isExternal">true if the id is an external id.</param>
+        /// <exception cref="IS24Exception"></exception>
+        Task DeleteAsync(string id, bool isExternal = false);
     }
 }
