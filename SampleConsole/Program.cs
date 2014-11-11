@@ -27,7 +27,7 @@ namespace SampleConsole
 
         private static async Task AuthorizeAsync(Config config)
         {
-            // see http://developerwiki.immobilienscout24.de/wiki/Authentication_Detailed#Step_by_Step
+            // see http://api.immobilienscout24.de/useful/authentication/authentication-detailed.html
 
             var connection = new IS24Connection
             {

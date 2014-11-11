@@ -13,7 +13,7 @@ namespace IS24RestApi
     public class IS24Exception : Exception
     {
         /// <summary>
-        /// Gets or sets the detailed error messages. See http://developerwiki.immobilienscout24.de/wiki/Status_codes for more.
+        /// Gets or sets the detailed error messages. See http://api.immobilienscout24.de/get-started/responses.html for more.
         /// </summary>
         public Messages Messages { get; set; }
         /// <summary>

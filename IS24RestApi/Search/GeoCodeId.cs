@@ -8,7 +8,7 @@ namespace IS24RestApi.Search
 {
     /// <summary>
     /// Represents an IS24 GeoCodeId.
-    /// <seealso cref="!:http://developerwiki.immobilienscout24.de/wiki/Glossary#GeoCodeId"/>
+    /// <seealso cref="!:http://api.immobilienscout24.de/get-started/glossary.html"/>
     /// </summary>
     public class GeoCodeId
     {

@@ -4,7 +4,7 @@ namespace IS24RestApi
 {
     /// <summary>
     /// Represents an endpoint of the Immobilienscout24-REST-API for importing and exporting real estate data
-    /// See http://developerwiki.immobilienscout24.de/wiki/ImmobilienScout24_API
+    /// See http://api.immobilienscout24.de/our-apis/import-export.html
     /// </summary>
     public class ImportExportClient : IImportExportClient
     {
