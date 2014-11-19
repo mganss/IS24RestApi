@@ -6,7 +6,7 @@ cd $dir
 # Powershell doesn't automatically set the .NET cwd >:(
 [Environment]::CurrentDirectory = (Get-Location -PSProvider FileSystem).ProviderPath
 
-$dll = ls ..\..\packages\XmlSchemaClassGenerator*\*\XmlSchemaClassGenerator.dll | Sort-Object LastModificationTime -Descending | Select-Object -First 1
+$dll = ls ..\..\packages\XmlSchemaClassGenerator*\lib\*\XmlSchemaClassGenerator.dll | Sort-Object LastModificationTime -Descending | Select-Object -First 1
 [System.Reflection.Assembly]::LoadFrom($dll.FullName) | Out-Null
 $generator = New-Object XmlSchemaClassGenerator.Generator
 $generator.OutputFolder = '..\generated'

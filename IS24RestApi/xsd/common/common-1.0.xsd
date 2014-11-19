@@ -732,6 +732,17 @@
                    </xs:restriction>
                </xs:simpleType>
             </xs:element>
+            <xs:element name="position" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The position or function in the company</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Die Position oder Taetigkeit im Unternehmen</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="TextField">
+                        <xs:maxLength value="100"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ContactMailCustomStyle">      
@@ -861,6 +872,12 @@
                                 Repräsentiert eine kundenspezifische Referenz einer Kontaktadresse.
                                 Der Kennzeichner muss eineindeutig in Verbindung mit der Kundennummer sein.
                             </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="showOnProfilePage" type="xs:boolean" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">Contact is visible on Profile Page</xs:documentation>
+                            <xs:documentation xml:lang="de-DE">Kontakt ist sichtbar in Profile Page</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
@@ -1062,10 +1079,59 @@
                             <xs:documentation xml:lang="de-DE">Die Identifikationsnummer des Videos</xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="videoInfo" type="VideoInfo" minOccurs="0" maxOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+
+    <xs:complexType name="VideoInfo">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">screen9 streaming video urls</xs:documentation>
+            <xs:documentation xml:lang="de-DE">streaming video urls von screen9</xs:documentation>
+        </xs:annotation>
+            <xs:sequence>
+                <xs:element name="videoUrlList" type="videoUrlList" minOccurs="1" maxOccurs="2">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">screen9 streaming video url list</xs:documentation>
+                        <xs:documentation xml:lang="de-DE">streaming video url Liste von screen9</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="xs:int" name="duration" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">Video duration in ms</xs:documentation>
+                        <xs:documentation xml:lang="de-DE">Video Abspieldauer in ms</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="xs:anyURI" name="teaserUrl" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">Picture teaser for this video</xs:documentation>
+                        <xs:documentation xml:lang="de-DE">Teaser Bild für das gegebene Video</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element type="TextField" name="title" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">Title of the video</xs:documentation>
+                        <xs:documentation xml:lang="de-DE">Titel vom Video</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="videoUrlList">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">screen9 single entity for one url</xs:documentation>
+            <xs:documentation xml:lang="de-DE">eine Entität einer screen9 streaming video url mit dem video Format</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element type="xs:string" name="format"/>
+            <xs:element type="xs:string" name="url"/>
+        </xs:all>
+    </xs:complexType>
+
+
+
     <xs:complexType name="PDFDocument">
         <xs:annotation>
             <xs:documentation xml:lang="en">A pdf document</xs:documentation>

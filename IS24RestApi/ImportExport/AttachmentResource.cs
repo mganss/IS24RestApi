@@ -198,9 +198,9 @@ namespace IS24RestApi
             var videoUploadTicket = await ExecuteAsync<VideoUploadTicket>(Connection, req);
 
             // 2. Upload your video to screen9
-            var uploadClient = new RestClient();
+            var uploadClient = new RestClient(videoUploadTicket.UploadUrl);
             if (Connection.HttpFactory != null) uploadClient.HttpFactory = Connection.HttpFactory;
-            req = new RestRequest(videoUploadTicket.UploadUrl);
+            req = new RestRequest();
 
             req.AddParameter("auth", videoUploadTicket.Auth);
 

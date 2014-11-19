@@ -285,6 +285,11 @@ namespace IS24RestApi.Tests
             return PutPostInternalAsync("PATCH", action);
         }
 
+        public HttpWebRequest MergeAsync(Action<HttpResponse> action)
+        {
+            return PutPostInternalAsync("MERGE", action);
+        }
+        
         /// <summary>
         /// Execute an async POST-style request with the specified HTTP Method.  
         /// </summary>
@@ -362,6 +367,14 @@ namespace IS24RestApi.Tests
         }
 
         /// <summary>
+        /// Execute a MERGE request
+        /// </summary>
+        public HttpResponse Merge()
+        {
+            return PostPutInternal("MERGE");
+        }
+
+        /// <summary>
         /// Execute a GET-style request with the specified HTTP Method.  
         /// </summary>
         /// <param name="httpMethod">The HTTP method to execute.</param>
@@ -380,5 +393,7 @@ namespace IS24RestApi.Tests
         {
             return PostPutInternal(httpMethod.ToUpperInvariant());
         }
+
+        public bool PreAuthenticate { get; set; }
     }
 }
