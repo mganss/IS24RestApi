@@ -55,6 +55,7 @@
   <constructionPhase>PROJECTED</constructionPhase>
   <buildingType>CASTLE_MANOR_HOUSE</buildingType>
   <energyCertificate>
+    <energyCertificateAvailability>AVAILABLE</energyCertificateAvailability>
     <energyCertificateCreationDate>BEFORE_01_MAY_2014</energyCertificateCreationDate>
     <energyEfficiencyClass>A+</energyEfficiencyClass>
     <electricityConsumption>10</electricityConsumption>

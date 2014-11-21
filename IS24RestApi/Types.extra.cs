@@ -105,26 +105,6 @@ namespace IS24RestApi
         {
             return value;
         }
-
-        public static EnergySourcesEnev2014 GetEnergySourcesEnev2014(object item)
-        {
-            return item as EnergySourcesEnev2014;
-        }
-
-        public static object SetEnergySourcesEnev2014(EnergySourcesEnev2014 value)
-        {
-            return value;
-        }
-
-        public static FiringTypes GetFiringTypes(object item)
-        {
-            return item as FiringTypes;
-        }
-
-        public static object SetFiringTypes(FiringTypes value)
-        {
-            return value;
-        }
     }
 
     public partial class HouseBuy
@@ -152,50 +132,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class HouseRent
@@ -222,50 +158,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
         }
     }
 
@@ -321,50 +213,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class ApartmentBuy
@@ -391,50 +239,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
         }
     }
 
@@ -490,50 +294,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class Investment
@@ -560,50 +320,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
         }
     }
 
@@ -632,50 +348,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class Store
@@ -702,50 +374,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
         }
     }
 
@@ -774,50 +402,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class Industry
@@ -844,50 +428,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
         }
     }
 
@@ -916,50 +456,6 @@ namespace IS24RestApi
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
         }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">wesentliche Energieträger</para>
-        /// <para xml:lang="en">energy sources</para>
-        /// </summary>
-        [XmlIgnore]
-        public EnergySourcesEnev2014 EnergySourcesEnev2014
-        {
-            get { return AdapterHelper.GetEnergySourcesEnev2014(Item2); }
-            set { Item2 = AdapterHelper.SetEnergySourcesEnev2014(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Befeuerungsarten</para>
-        /// <para xml:lang="en">firing types</para>
-        /// </summary>
-        [XmlIgnore]
-        public FiringTypes FiringTypes
-        {
-            get { return AdapterHelper.GetFiringTypes(Item2); }
-            set { Item2 = AdapterHelper.SetFiringTypes(value); }
-        }
     }
 
     public partial class FlatShareRoom
@@ -986,28 +482,6 @@ namespace IS24RestApi
         {
             get { return AdapterHelper.GetConstructionYearUnknown(Item); }
             set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">DEPRECATED benutze heatingTypeEnev2014 Heizungsart</para>
-        /// <para xml:lang="en">DEPRECATED use heatingTypeEnev2014 heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingType? HeatingType
-        {
-            get { return AdapterHelper.GetHeatingType(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingType(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Heizungsart</para>
-        /// <para xml:lang="en">heating type</para>
-        /// </summary>
-        [XmlIgnore]
-        public HeatingTypeEnev2014? HeatingTypeEnev2014
-        {
-            get { return AdapterHelper.GetHeatingTypeEnev2014(Item1); }
-            set { Item1 = AdapterHelper.SetHeatingTypeEnev2014(value); }
         }
     }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<realestates:houseType xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
+<realestates:houseType xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Immobilienscout24 Testobjekt! +++BITTE+++ NICHT kontaktieren - Typenhaus</title>
-    <address>
-    </address>
+    <address/>
     <showAddress>true</showAddress>
     <price>
         <value>948.687</value>

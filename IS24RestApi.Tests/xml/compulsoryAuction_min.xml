@@ -1,8 +1,9 @@
-<realestates:compulsoryAuction xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<realestates:compulsoryAuction xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Immoscout24 Testobjekt! +++BITTE+++ NICHT kontaktieren - Zwangsversteigerung</title>
     <address>
-    	<street>Heuersdorfer Str</street>
-    	<houseNumber>26</houseNumber>
+        <street>Heuersdorfer Str</street>
+        <houseNumber>26</houseNumber>
         <postcode>04574</postcode>
         <city>Heuersdorf</city>
     </address>

@@ -98,6 +98,7 @@
     <totalRent>2292.616</totalRent>
     <constructionYear>1999</constructionYear>
     <energyCertificate>
+      <energyCertificateAvailability>AVAILABLE</energyCertificateAvailability>
       <energyCertificateCreationDate>BEFORE_01_MAY_2014</energyCertificateCreationDate>
       <energyEfficiencyClass>A+</energyEfficiencyClass>
       <electricityConsumption>10</electricityConsumption>

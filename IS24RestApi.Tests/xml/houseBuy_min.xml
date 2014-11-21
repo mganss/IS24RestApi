@@ -1,4 +1,5 @@
-<realestates:houseBuy xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<realestates:houseBuy xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>Minimal Expose Immobilienscout24 Testobjekt! +++BITTE+++ NICHT kontaktieren haus kauf</title>
   <address>
     <street>Heuersdorfer Str</street>

@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C7A378E1-D9EE-45B9-B147-0F366B0CE314}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -119,10 +119,16 @@
     <None Include="xsd\offerUser-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xsd\premiumplacement-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="xsd\productrecommendation-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\realEstateCounts-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\realestateproject-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\realestates-1.0.xsd">
@@ -132,6 +138,18 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\realtor-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\realtorbadges-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\showcaseplacement-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\toplisting-1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="xsd\topplacement-1.0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="xsd\videoupload-1.0.xsd">

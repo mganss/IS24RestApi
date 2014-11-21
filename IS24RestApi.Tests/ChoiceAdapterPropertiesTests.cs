@@ -44,27 +44,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void ApartmentRentChoiceAdapterPropertiesWork()
@@ -83,27 +62,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void ApartmentBuyChoiceAdapterPropertiesWork()
@@ -122,27 +80,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void AssistedLivingChoiceAdapterPropertiesWork()
@@ -197,17 +134,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
         }
 
         private static void GastronomyChoiceAdapterPropertiesWork()
@@ -226,27 +152,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void HouseRentChoiceAdapterPropertiesWork()
@@ -265,27 +170,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void IndustryChoiceAdapterPropertiesWork()
@@ -304,27 +188,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void InvestmentChoiceAdapterPropertiesWork()
@@ -343,27 +206,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void OfficeChoiceAdapterPropertiesWork()
@@ -382,27 +224,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void ShortTermAccommodationChoiceAdapterPropertiesWork()
@@ -421,27 +242,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void SpecialPurposeChoiceAdapterPropertiesWork()
@@ -460,27 +260,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
 
         private static void StoreChoiceAdapterPropertiesWork()
@@ -499,27 +278,6 @@ namespace IS24RestApi.Tests
             Assert.IsType<bool>(re.Item);
             Assert.True((bool)re.Item);
             Assert.Null(re.ConstructionYear);
-
-            Assert.Null(re.Item1);
-            Assert.Null(re.HeatingType);
-            Assert.Null(re.HeatingTypeEnev2014);
-            re.HeatingType = HeatingType.STOVE_HEATING;
-            Assert.IsType<HeatingType>(re.Item1);
-            Assert.Equal(HeatingType.STOVE_HEATING, re.Item1);
-            re.HeatingTypeEnev2014 = HeatingTypeEnev2014.FLOOR_HEATING;
-            Assert.IsType<HeatingTypeEnev2014>(re.Item1);
-            Assert.Equal(HeatingTypeEnev2014.FLOOR_HEATING, re.Item1);
-            Assert.Null(re.HeatingType);
-
-            Assert.Null(re.Item2);
-            Assert.Null(re.FiringTypes);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.FiringTypes = new FiringTypes();
-            Assert.IsType<FiringTypes>(re.Item2);
-            Assert.Null(re.EnergySourcesEnev2014);
-            re.EnergySourcesEnev2014 = new EnergySourcesEnev2014();
-            Assert.IsType<EnergySourcesEnev2014>(re.Item2);
-            Assert.Null(re.FiringTypes);
         }
     }
 }

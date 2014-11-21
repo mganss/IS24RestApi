@@ -66,6 +66,7 @@
     <connectedLoad>2284</connectedLoad>
     <deposit>kaution</deposit>
     <energyCertificate>
+        <energyCertificateAvailability>AVAILABLE</energyCertificateAvailability>
         <energyCertificateCreationDate>BEFORE_01_MAY_2014</energyCertificateCreationDate>
         <energyEfficiencyClass>A+</energyEfficiencyClass>
         <electricityConsumption>10</electricityConsumption>

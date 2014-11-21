@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<realestates:store xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
+<realestates:store xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
   <title>RestAPI - Immobilienscout24 Testobjekt! +++BITTE+++ NICHT kontaktieren - Store</title>
   <address>
     <street>Heuersdorfer Str</street>

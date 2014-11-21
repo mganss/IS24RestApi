@@ -68,6 +68,7 @@
     </courtage>
     <buildingType>MULTI_FAMILY_HOUSE</buildingType>
     <energyCertificate>
+        <energyCertificateAvailability>AVAILABLE</energyCertificateAvailability>
         <energyCertificateCreationDate>BEFORE_01_MAY_2014</energyCertificateCreationDate>
         <energyEfficiencyClass>A+</energyEfficiencyClass>
         <electricityConsumption>10</electricityConsumption>

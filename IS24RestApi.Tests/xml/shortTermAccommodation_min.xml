@@ -1,17 +1,19 @@
-<realestates:shortTermAccommodation xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0">
-   <title>IS24 Testobjekt! +++BITTE+++ NICHT kontaktieren - ShortTermAccommodation</title>
+<realestates:shortTermAccommodation xmlns:realestates="http://rest.immobilienscout24.de/schema/offer/realestates/1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>IS24 Testobjekt! +++BITTE+++ NICHT kontaktieren - ShortTermAccommodation</title>
     <address>
-    	<street>Heuersdorfer Str</street>
-    	<houseNumber>26</houseNumber>
+        <street>Heuersdorfer Str</street>
+        <houseNumber>26</houseNumber>
         <postcode>04574</postcode>
         <city>Heuersdorf</city>
     </address>
-    <showAddress>true</showAddress>    
+    <showAddress>true</showAddress>
     <price>
         <value>193.229</value>
         <currency>EUR</currency>
     </price>
     <startRentalDate>2013-05-29</startRentalDate>
     <shortTermAccomodationType>HOUSE</shortTermAccomodationType>
-    <courtage><hasCourtage>NO</hasCourtage></courtage>
+    <courtage>
+        <hasCourtage>NO</hasCourtage>
+    </courtage>
 </realestates:shortTermAccommodation>

@@ -97,6 +97,7 @@
     <listed>YES</listed>
     <lift>YES</lift>
     <energyCertificate>
+        <energyCertificateAvailability>AVAILABLE</energyCertificateAvailability>
         <energyCertificateCreationDate>BEFORE_01_MAY_2014</energyCertificateCreationDate>
         <energyEfficiencyClass>A+</energyEfficiencyClass>
         <electricityConsumption>10</electricityConsumption>
