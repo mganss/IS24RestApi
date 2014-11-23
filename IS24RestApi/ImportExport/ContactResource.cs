@@ -73,7 +73,7 @@ namespace IS24RestApi
         public async Task UpdateAsync(RealtorContactDetails contact)
         {
             var req = Connection.CreateRequest("contact/{id}", Method.PUT);
-            req.AddParameter("id", contact.Id, ParameterType.UrlSegment);
+            req.AddParameter("id", contact.Id.HasValue ? contact.Id.Value.ToString() : "ext-" + contact.ExternalId, ParameterType.UrlSegment);
             req.AddBody(contact);
 
             var resp = await ExecuteAsync<Messages>(Connection, req);

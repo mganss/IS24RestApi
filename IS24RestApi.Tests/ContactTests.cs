@@ -174,6 +174,23 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
+        public async Task Contact_Update_ExternalIdIsUsedIfIdIsNull()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/ext-test", Http.Url.ToString());
+                var c = new BaseXmlDeserializer().Deserialize<RealtorContactDetails>(new RestResponse { Content = Http.RequestBody });
+                Assert.IsType<RealtorContactDetails>(c);
+                Assert.Null(c.Id);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            });
+
+            var contact = new RealtorContactDetails { ExternalId = "test" };
+
+            await Client.Contacts.UpdateAsync(contact);
+        }
+
+        [Fact]
         public async Task Contact_Update_ErrorOccurs_ThrowsIS24Exception()
         {
             Http.RespondWith(m =>

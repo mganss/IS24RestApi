@@ -26,7 +26,8 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Title = "Test" };
             });
 
@@ -38,7 +39,7 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m =>
             {
-                Assert.True(Http.Url.ToString().EndsWith("/ext-test"));
+                Assert.True(Http.Url.AbsolutePath.EndsWith("/ext-test"));
                 return new ApartmentRent { Title = "test" };
             });
 
@@ -79,7 +80,8 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("POST", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.ToString());
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query); 
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
@@ -139,7 +141,8 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("PUT", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 

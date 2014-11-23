@@ -68,6 +68,7 @@ namespace IS24RestApi
         public async Task<IRealEstate> GetAsync(string id, bool isExternal = false)
         {
             var req = Connection.CreateRequest("realestate/{id}");
+            req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
             var realEstate = await ExecuteAsync<RealEstate>(Connection, req);
             return new RealEstateItem(realEstate, Connection);
@@ -80,6 +81,7 @@ namespace IS24RestApi
         public async Task CreateAsync(RealEstate re)
         {
             var req = Connection.CreateRequest("realestate", Method.POST);
+            req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
             req.AddBody(re);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             var id = resp.ExtractCreatedResourceId();
@@ -98,6 +100,7 @@ namespace IS24RestApi
         public async Task UpdateAsync(RealEstate re)
         {
             var req = Connection.CreateRequest("realestate/{id}", Method.PUT);
+            req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
             req.AddParameter("id", re.Id, ParameterType.UrlSegment);
             req.AddBody(re);
             var messages = await ExecuteAsync<Messages>(Connection, req);
