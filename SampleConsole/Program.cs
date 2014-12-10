@@ -10,6 +10,7 @@ using IS24RestApi.Search;
 using System.Diagnostics;
 using System;
 using RestSharp.Contrib;
+using IS24RestApi.Offer.TopPlacement;
 
 namespace SampleConsole
 {
@@ -157,6 +158,15 @@ namespace SampleConsole
 
                 realEstate = new RealEstateItem(re, connection);
             }
+
+            await realEstate.PublishAsync();
+
+            var placements = await realEstate.TopPlacements.GetAsync();
+
+            if (placements.Topplacement.Any(p => p.MessageCode == MessageCode.MESSAGE_OPERATION_SUCCESSFUL))
+                await realEstate.TopPlacements.RemoveAsync();
+
+            await realEstate.TopPlacements.CreateAsync();
 
             var atts = await realEstate.Attachments.GetAsync();
             if (atts == null || !atts.Any())

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using IS24RestApi.Offer.PremiumPlacement;
+using IS24RestApi.Offer.ShowcasePlacement;
+using IS24RestApi.Offer.TopPlacement;
+using System;
 
 namespace IS24RestApi
 {
@@ -39,6 +42,38 @@ namespace IS24RestApi
         public IPublishResource Publish { get; private set; }
 
         /// <summary>
+        /// Gets the <see cref="RealEstateProjectResource" /> for managing real estate projects.
+        /// </summary>
+        /// <value>
+        /// The real estate projects.
+        /// </value>
+        public IRealEstateProjectResource RealEstateProjects { get; private set; }
+
+        /// <summary>
+        /// Gets the showcase placements.
+        /// </summary>
+        /// <value>
+        /// The showcase placements.
+        /// </value>
+        public IOnTopPlacementResource<Showcaseplacements> ShowcasePlacements { get; private set; }
+
+        /// <summary>
+        /// Gets the premium placements.
+        /// </summary>
+        /// <value>
+        /// The premium placements.
+        /// </value>
+        public IOnTopPlacementResource<Premiumplacements> PremiumPlacements { get; private set; }
+
+        /// <summary>
+        /// Gets the top placements.
+        /// </summary>
+        /// <value>
+        /// The top placements.
+        /// </value>
+        public IOnTopPlacementResource<Topplacements> TopPlacements { get; private set; }
+
+        /// <summary>
         /// Creates a new <see cref="ImportExportClient"/> instance
         /// </summary>
         /// <param name="connection"></param>
@@ -54,6 +89,10 @@ namespace IS24RestApi
             Contacts = new ContactResource(Connection);
             Publish = new PublishResource(Connection);
             PublishChannels = new PublishChannelResource(Connection);
+            RealEstateProjects = new RealEstateProjectResource(Connection);
+            ShowcasePlacements = new ShowcasePlacementResource(Connection);
+            PremiumPlacements = new PremiumPlacementResource(Connection);
+            TopPlacements = new TopPlacementResource(Connection);
         }
     }
 }

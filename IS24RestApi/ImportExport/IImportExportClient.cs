@@ -1,4 +1,7 @@
-﻿namespace IS24RestApi
+﻿using IS24RestApi.Offer.PremiumPlacement;
+using IS24RestApi.Offer.ShowcasePlacement;
+using IS24RestApi.Offer.TopPlacement;
+namespace IS24RestApi
 {
     /// <summary>
     /// Describes an endpoint of the Immobilienscout24-REST-API for importing and exporting real estate data
@@ -30,5 +33,37 @@
         /// Gets the <see cref="PublishResource"/> for publishing real estates
         /// </summary>
         IPublishResource Publish { get; }
+
+        /// <summary>
+        /// Gets the <see cref="RealEstateProjectResource"/> for managing real estate projects.
+        /// </summary>
+        /// <value>
+        /// The real estate projects.
+        /// </value>
+        IRealEstateProjectResource RealEstateProjects { get; }
+
+        /// <summary>
+        /// Gets the showcase placements.
+        /// </summary>
+        /// <value>
+        /// The showcase placements.
+        /// </value>
+        IOnTopPlacementResource<Showcaseplacements> ShowcasePlacements { get; }
+
+        /// <summary>
+        /// Gets the premium placements.
+        /// </summary>
+        /// <value>
+        /// The premium placements.
+        /// </value>
+        IOnTopPlacementResource<Premiumplacements> PremiumPlacements { get; }
+
+        /// <summary>
+        /// Gets the top placements.
+        /// </summary>
+        /// <value>
+        /// The top placements.
+        /// </value>
+        IOnTopPlacementResource<Topplacements> TopPlacements { get; }
     }
 }

@@ -74,8 +74,10 @@
     <Compile Include="ContactTests.cs" />
     <Compile Include="HttpFactory.cs" />
     <Compile Include="HttpStub.cs" />
+    <Compile Include="OnTopPlacementTests.cs" />
     <Compile Include="PublishChannelTests.cs" />
     <Compile Include="PublishTests.cs" />
+    <Compile Include="RealEstateProjectTests.cs" />
     <Compile Include="RealEstateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchTests.cs" />

@@ -22,7 +22,7 @@ namespace IS24RestApi
         public IIS24Connection Connection { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IAttachmentResource.RealEstate"/> instance the attachments belong to
+        /// Gets the <see cref="RealEstate"/> instance the attachments belong to
         /// </summary>
         public RealEstate RealEstate { get; private set; }
 

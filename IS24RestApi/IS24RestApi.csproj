@@ -105,11 +105,15 @@
     <Compile Include="ImportExport\IImportExportClient.cs" />
     <Compile Include="IIS24Connection.cs" />
     <Compile Include="ImportExport\ImportExportResourceBase.cs" />
+    <Compile Include="ImportExport\IOnTopPlacementResource.cs" />
     <Compile Include="ImportExport\IPublishChannelResource.cs" />
     <Compile Include="ImportExport\IPublishResource.cs" />
     <Compile Include="ImportExport\IRealEstate.cs" />
+    <Compile Include="ImportExport\IRealEstateProjectResource.cs" />
     <Compile Include="ImportExport\IRealEstateResource.cs" />
+    <Compile Include="ImportExport\OnTopPlacementResource.cs" />
     <Compile Include="ImportExport\RealEstateItem.cs" />
+    <Compile Include="ImportExport\RealEstateProjectResource.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="IS24Exception.cs" />
     <Compile Include="ImportExport\ImportExportClient.cs" />

@@ -6,7 +6,7 @@ namespace IS24RestApi
 {
     /// <summary>
     /// The resources responsible for getting the publish channels the current user
-    /// has access to
+    /// has access to.
     /// </summary>
     public class PublishChannelResource : ImportExportResourceBase, IPublishChannelResource
     {

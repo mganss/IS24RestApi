@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace IS24RestApi.Common
 {
@@ -66,3 +67,259 @@ namespace IS24RestApi.Common
     }
 }
 
+namespace IS24RestApi.Offer.RealEstateProject
+{
+    public partial class RealEstateProjectEntry
+    {
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
+        {
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
+        {
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
+        }
+    }
+}
+
+namespace IS24RestApi.Offer.TopPlacement
+{
+    public partial class Topplacement
+    {
+        /// <summary>
+        /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>
+        /// <para xml:lang="en">external id of real estate OUTPUT ONLY</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("externalId", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
+        {
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
+        {
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
+        }
+    }
+}
+
+namespace IS24RestApi.Offer.ShowcasePlacement
+{
+    public partial class Showcaseplacement
+    {
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
+        {
+            get
+            {
+                return new Message { MessageCode = (MessageCode)Enum.Parse(typeof(MessageCode), MessageCode), MessageProperty = Message };
+            }
+        }
+    }
+}
+
+namespace IS24RestApi.Offer.PremiumPlacement
+{
+    public partial class Premiumplacement
+    {
+        /// <summary>
+        /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>
+        /// <para xml:lang="en">external id of real estate OUTPUT ONLY</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("externalId", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
+        {
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
+        {
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
+        }
+    }
+}
