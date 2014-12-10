@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System;
 using RestSharp.Contrib;
 using IS24RestApi.Offer.TopPlacement;
+using IS24RestApi.Offer.RealEstateProject;
 
 namespace SampleConsole
 {
@@ -116,6 +117,7 @@ namespace SampleConsole
                         City = "Berlin",
                         InternationalCountryRegion = new CountryRegion { Country = CountryCode.DEU, Region = "Berlin" }
                     },
+                    Email = "hans.meiser@example.com",
                     ExternalId = "Hans Meiser"
                 };
 
@@ -158,15 +160,32 @@ namespace SampleConsole
 
                 realEstate = new RealEstateItem(re, connection);
             }
+            else
+            {
+                var re = (ApartmentRent)realEstate.RealEstate;
+                re.BaseRent += 100.0;
+                await api.RealEstates.UpdateAsync(re);
+                re.BaseRent -= 100.0;
+                await api.RealEstates.UpdateAsync(re);
+            }
+
+            var projects = await api.RealEstateProjects.GetAllAsync();
+            if (projects.RealEstateProject.Any())
+            {
+                var project = projects.RealEstateProject.First();
+                var entries = await api.RealEstateProjects.GetAllAsync(project.Id.Value);
+                if (!entries.RealEstateProjectEntry.Any(e => e.RealEstateId.Value == realEstate.RealEstate.Id.Value))
+                    await api.RealEstateProjects.AddAsync(project.Id.Value, realEstate.RealEstate);
+            }
 
             await realEstate.PublishAsync();
 
-            var placements = await realEstate.TopPlacements.GetAsync();
+            var placements = await realEstate.PremiumPlacements.GetAsync();
 
-            if (placements.Topplacement.Any(p => p.MessageCode == MessageCode.MESSAGE_OPERATION_SUCCESSFUL))
-                await realEstate.TopPlacements.RemoveAsync();
+            if (placements.Premiumplacement.Any(p => p.MessageCode == MessageCode.MESSAGE_OPERATION_SUCCESSFUL))
+                await realEstate.PremiumPlacements.RemoveAsync();
 
-            await realEstate.TopPlacements.CreateAsync();
+            await realEstate.PremiumPlacements.CreateAsync();
 
             var atts = await realEstate.Attachments.GetAsync();
             if (atts == null || !atts.Any())

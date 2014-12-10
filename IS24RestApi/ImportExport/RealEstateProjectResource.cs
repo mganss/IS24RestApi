@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IS24RestApi.Offer.RealEstateProject;
 using RestSharp;
 using IS24RestApi.Common;
+using IS24RestApi.Offer.RealEstates;
 
 namespace IS24RestApi
 {
@@ -30,13 +31,23 @@ namespace IS24RestApi
         public IIS24Connection Connection { get; private set; }
 
         /// <summary>
+        /// Gets all real estate projects.
+        /// </summary>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public Task<RealEstateProjects> GetAllAsync()
+        {
+            var req = Connection.CreateRequest("realestateproject");
+            return ExecuteAsync<RealEstateProjects>(Connection, req);
+        }
+
+        /// <summary>
         /// Gets a real estate project identified by the specified id.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns>
         /// The task object representing the asynchronous operation.
         /// </returns>
-        public Task<RealEstateProject> GetAsync(int id)
+        public Task<RealEstateProject> GetAsync(long id)
         {
             var req = Connection.CreateRequest("realestateproject/{id}");
             req.AddParameter("id", id, ParameterType.UrlSegment);
@@ -72,12 +83,41 @@ namespace IS24RestApi
         /// <returns>
         /// The task object representing the asynchronous operation.
         /// </returns>
-        public Task<RealEstateProjectEntries> AddAsync(int realEstateProjectId, RealEstateProjectEntries entries)
+        public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, RealEstateProjectEntries entries)
         {
             var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry", Method.POST);
             req.AddParameter("id", realEstateProjectId, ParameterType.UrlSegment);
             req.AddBody(entries);
             return ExecuteAsync<RealEstateProjectEntries>(Connection, req);
+        }
+
+        /// <summary>
+        /// Adds real estate objects to the real estate project identified by the specified id.
+        /// </summary>
+        /// <param name="realEstateProjectId">The id.</param>
+        /// <param name="realEstates">Identifies the real estate objects.</param>
+        /// <returns>
+        /// The task object representing the asynchronous operation.
+        /// </returns>
+        public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, IEnumerable<RealEstate> realEstates)
+        { 
+            var entries = new RealEstateProjectEntries();
+            foreach (var entry in realEstates.Select(r => new RealEstateProjectEntry { RealEstateId = r.Id.Value }))
+                entries.RealEstateProjectEntry.Add(entry);
+            return AddAsync(realEstateProjectId, entries);
+        }
+
+        /// <summary>
+        /// Adds a real estate object to the real estate project identified by the specified id.
+        /// </summary>
+        /// <param name="realEstateProjectId">The id.</param>
+        /// <param name="realEstate">Identifies the real estate object.</param>
+        /// <returns>
+        /// The task object representing the asynchronous operation.
+        /// </returns>
+        public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, RealEstate realEstate)
+        {
+            return AddAsync(realEstateProjectId, new[] { realEstate });
         }
 
         /// <summary>
@@ -87,7 +127,7 @@ namespace IS24RestApi
         /// <returns>
         /// The task object representing the asynchronous operation.
         /// </returns>
-        public Task<RealEstateProjectEntries> GetAllAsync(int realEstateProjectId)
+        public Task<RealEstateProjectEntries> GetAllAsync(long realEstateProjectId)
         {
             var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry");
             req.AddParameter("id", realEstateProjectId, ParameterType.UrlSegment);
@@ -104,7 +144,7 @@ namespace IS24RestApi
         /// The task object representing the asynchronous operation.
         /// </returns>
         /// <exception cref="IS24Exception"></exception>
-        public async Task RemoveAsync(int realEstateProjectId, string realEstateId, bool isExternal = false)
+        public async Task RemoveAsync(long realEstateProjectId, string realEstateId, bool isExternal = false)
         {
             var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry/{realestateid}", Method.DELETE);
             req.AddParameter("realestateprojectid", realEstateProjectId, ParameterType.UrlSegment);
@@ -124,7 +164,7 @@ namespace IS24RestApi
         /// The task object representing the asynchronous operation.
         /// </returns>
         /// <exception cref="IS24Exception"></exception>
-        public async Task RemoveAsync(int realEstateProjectId)
+        public async Task RemoveAsync(long realEstateProjectId)
         {
             var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry", Method.DELETE);
             req.AddParameter("realestateprojectid", realEstateProjectId, ParameterType.UrlSegment);

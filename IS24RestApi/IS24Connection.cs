@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -6,7 +8,6 @@ using RestSharp.Deserializers;
 using RestSharp.Extensions;
 using RestSharp.Serializers;
 using IS24RestApi.Common;
-using System.Net;
 using RestSharp.Contrib;
 
 namespace IS24RestApi
@@ -127,6 +128,31 @@ namespace IS24RestApi
         }
 
         /// <summary>
+        /// This exists temporarily to work around a bug in RestSharp:
+        /// https://groups.google.com/forum/#!topic/RestSharp/t3JKP_qZHs8
+        /// </summary>
+        class OAuthAuthenticator : IAuthenticator
+        {
+            private IAuthenticator Authenticator;
+
+            public OAuthAuthenticator(IAuthenticator authenticator)
+            {
+                Authenticator = authenticator;
+            }
+
+            public void Authenticate(IRestClient client, IRestRequest request)
+            {
+                var queryParams = request.Parameters.Where(p => p.Type == ParameterType.QueryString).ToList();
+                var dummyParameters = queryParams.Select(p => new Parameter { Name = p.Name, Value = p.Value, Type = ParameterType.GetOrPost }).ToList();
+                request.Parameters.AddRange(dummyParameters);
+                Authenticator.Authenticate(client, request);
+                foreach (var dummyParameter in dummyParameters)
+                    request.Parameters.Remove(dummyParameter);
+            }
+        }
+
+
+        /// <summary>
         /// Performs an API request as an asynchronous task.
         /// </summary>
         /// <typeparam name="T">The type of the response object.</typeparam>
@@ -139,8 +165,8 @@ namespace IS24RestApi
             var client = new RestClient(url)
                          {
                              Authenticator =
-                                 OAuth1Authenticator.ForProtectedResource(ConsumerKey,
-                                     ConsumerSecret, AccessToken, AccessTokenSecret)
+                                 new OAuthAuthenticator(OAuth1Authenticator.ForProtectedResource(ConsumerKey,
+                                     ConsumerSecret, AccessToken, AccessTokenSecret))
                          };
             if (HttpFactory != null) client.HttpFactory = HttpFactory;
             client.ClearHandlers();

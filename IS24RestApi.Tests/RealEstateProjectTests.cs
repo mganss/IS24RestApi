@@ -18,6 +18,19 @@ namespace IS24RestApi.Tests
         { }
 
         [Fact]
+        public async Task RealEstateProject_GetAllProjects_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject", Http.Url.ToString());
+                return new RealEstateProjects { RealEstateProject = { new RealEstateProject { Id = 4711 } } };
+            });
+
+            var RealEstateProject = await Client.RealEstateProjects.GetAllAsync();
+        }
+
+        [Fact]
         public async Task RealEstateProject_Get_RequestsCorrectResource()
         {
             Http.RespondWith(m =>
