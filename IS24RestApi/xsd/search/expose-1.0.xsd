@@ -31,13 +31,13 @@
           <xs:documentation xml:lang="en">The contact details from the realtor.</xs:documentation>
           <xs:documentation xml:lang="de-DE">Die Kontaktdaten des Anbieters.</xs:documentation>
         </xs:annotation>
-      </xs:element>      
+      </xs:element>
       <xs:element name="imprintLink" type="ImprintLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="cancellationPolicyLink" type="CancellationPolicyLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="realtorValuationJSONLink" type="realtorValuationJSONLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="realtorValuationV2JSONLink" type="realtorValuationJSONLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="realtorValuationV2JSONPLink" type="realtorValuationJSONPLink" minOccurs="0" maxOccurs="1"/>
-      <xs:element name="companyWideCustomerId" type="xs:string" minOccurs="0" maxOccurs="1">      
+      <xs:element name="companyWideCustomerId" type="xs:string" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">Company wide customer ID</xs:documentation>
           <xs:documentation xml:lang="de-DE">unternehmensweite Kunden-ID</xs:documentation>
@@ -61,21 +61,21 @@
 
     <xs:attributeGroup ref="common:Reference"/>
     <xs:attributeGroup ref="ContactFormType"/>
-   
+
   </xs:complexType>
 
   <xs:complexType name="ContactFormConfiguration">
     <xs:annotation>
       <xs:documentation xml:lang="en">Determines which fields are shown in the contact form.</xs:documentation>
       <xs:documentation xml:lang="de-DE">Definition welche Daten im Kontaktformular angezeigt werden soll.</xs:documentation>
-    </xs:annotation> 
+    </xs:annotation>
     <xs:all>
-      
+
       <xs:element name="moveInDateField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">moveInDate</xs:documentation>
           <xs:documentation xml:lang="de-DE">gewuenschtes Einzugsdatum</xs:documentation>
-        </xs:annotation>        
+        </xs:annotation>
       </xs:element>
 
       <xs:element name="petsInHouseholdField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
@@ -105,56 +105,56 @@
           <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="firstnameField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">firstname</xs:documentation>
           <xs:documentation xml:lang="de-DE">Vorname</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="lastnameField" type="common:MandatoryOptionalType" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">lastname</xs:documentation>
           <xs:documentation xml:lang="de-DE">Nachname</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="phoneNumberField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">phone number</xs:documentation>
           <xs:documentation xml:lang="de-DE">Telefonnummer</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="emailAddressField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">email address</xs:documentation>
           <xs:documentation xml:lang="de-DE">Email Adresse</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="addressField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">address</xs:documentation>
           <xs:documentation xml:lang="de-DE">Adresse</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="schufaInformationField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">Schufa Information</xs:documentation>
           <xs:documentation xml:lang="de-DE">Schufa Information</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="salutationField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">salutation</xs:documentation>
           <xs:documentation xml:lang="de-DE">Anrede</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="messageField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">free text message</xs:documentation>
@@ -163,7 +163,7 @@
       </xs:element>
     </xs:all>
   </xs:complexType>
-  
+
   <xs:complexType name="ImprintLink">
     <xs:attribute ref="xlink:href">
       <xs:annotation>
@@ -181,7 +181,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
-  
+
   <xs:complexType name="SimpleLink">
     <xs:attribute ref="xlink:href">
       <xs:annotation>
@@ -623,8 +623,8 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  
-  
+
+
 
     <xs:simpleType name="EmploymentRelationshipType">
         <xs:annotation>
@@ -661,7 +661,7 @@
                     <xs:documentation xml:lang="en">seekingEmployment</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Arbeitssuchend</xs:documentation>
                 </xs:annotation>
-            </xs:enumeration>            
+            </xs:enumeration>
             <xs:enumeration value="WORKER">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">worker</xs:documentation>
@@ -694,7 +694,7 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
-  
+
     <xs:simpleType name="IncomeRangeType">
         <xs:annotation>
             <xs:documentation xml:lang="en">Monthly income of household</xs:documentation>
@@ -843,7 +843,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:element>
-        
+
         <xs:element name="numberOfPersons" minOccurs="0">
             <xs:annotation>
                 <xs:documentation xml:lang="en">number of persons</xs:documentation>
@@ -861,15 +861,15 @@
                 <xs:documentation xml:lang="en">employment relationship</xs:documentation>
                 <xs:documentation xml:lang="de-DE">Beschaeftigungsverhaeltnis</xs:documentation>
             </xs:annotation>
-        </xs:element>        
-      
+        </xs:element>
+
         <xs:element name="income" type="IncomeRangeType" minOccurs="0">
             <xs:annotation>
                 <xs:documentation xml:lang="en">Monthly Income of household</xs:documentation>
                 <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</xs:documentation>
             </xs:annotation>
-        </xs:element>       
-        
+        </xs:element>
+
         <xs:element name="salutation" type="common:SalutationType" minOccurs="0">
             <xs:annotation>
                 <xs:documentation xml:lang="en">Salutation of this contact</xs:documentation>
@@ -896,6 +896,24 @@
             </xs:simpleType>
         </xs:element>
 
+        <xs:element name="sendProfile" type="xs:boolean" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">whether the profile should be sent along with the contact</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Gibt an, ob Profil sollte zusammen mit dem Kontakt gesendet.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      
+        <xs:element name="profileImageUrl" minOccurs="0">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">Profile image url</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Profil-Bild url</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="common:TextField">
+                    <xs:maxLength value="2000"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
 
     </xs:sequence>
     <xs:attributeGroup ref="ContactFormType">
