@@ -193,44 +193,58 @@ namespace IS24RestApi.Tests
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
                             ExternalId = "ext1"
-                        },
+                        }
+                    }
+                };
+            }).ThenWith(m =>
+            {
+                return new Topplacements
+                {
+                    Topplacement = 
+                    { 
                         new Topplacement 
                         { 
-                            Realestateid = "1", 
-                            MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
-                            Message = "toplisted",
-                            ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 3, 1), DateTo = new DateTime(2014, 4, 1) },
-                            ExternalId = "ext1"
+                            Realestateid = "2", 
+                            MessageCode = MessageCode.ERROR_REQUESTED_DATA_NOT_FOUND,
+                            Message = "not toplisted"
+                        }
+                    }
+                };
+            }).ThenWith(m =>
+            {
+                return new Topplacements
+                {
+                    Topplacement = 
+                    { 
+                        new Topplacement 
+                        { 
+                            Realestateid = "3", 
+                            MessageCode = MessageCode.ERROR_RESOURCE_NOT_FOUND,
+                            Message = "resource not found"
                         }
                     }
                 };
             });
 
             var result = await Client.TopPlacements.GetAsync("1");
-            var expected = new Topplacements
+            var expected = new Topplacement
             {
-                Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
-                            MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
-                            Message = "toplisted",
-                            ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
-                            ExternalId = "ext1"
-                        },
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
-                            MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
-                            Message = "toplisted",
-                            ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 3, 1), DateTo = new DateTime(2014, 4, 1) },
-                            ExternalId = "ext1"
-                        }
-                    }
+                Realestateid = "1",
+                MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
+                Message = "toplisted",
+                ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
+                ExternalId = "ext1"
             };
 
             AssertEx.Equal(expected, result);
+
+            result = await Client.TopPlacements.GetAsync("2");
+            Assert.Null(result);
+
+            await AssertEx.ThrowsAsync<IS24Exception>(async () =>
+            {
+                await Client.TopPlacements.GetAsync("3");
+            });
         }
 
         [Fact]

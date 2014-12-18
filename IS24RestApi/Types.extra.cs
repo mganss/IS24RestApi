@@ -141,9 +141,54 @@ namespace IS24RestApi.Offer.RealEstateProject
     }
 }
 
+namespace IS24RestApi.Offer
+{
+    /// <summary>
+    /// Common interface for OnTopPlacement classes.
+    /// </summary>
+    public interface ITopPlacement
+    {
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        Message MessageObject { get; }
+    }
+
+    /// <summary>
+    /// Common interface for collection of OnTopPlacement classes.
+    /// </summary>
+    public interface ITopPlacements<T> where T : ITopPlacement
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        IEnumerable<T> Placements { get; }
+    }
+}
+
 namespace IS24RestApi.Offer.TopPlacement
 {
-    public partial class Topplacement
+    public partial class Topplacements: ITopPlacements<Topplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Topplacement> Placements
+        {
+            get { return Topplacement; }
+        }
+    }
+
+    public partial class Topplacement: ITopPlacement
     {
         /// <summary>
         /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>
@@ -224,7 +269,21 @@ namespace IS24RestApi.Offer.TopPlacement
 
 namespace IS24RestApi.Offer.ShowcasePlacement
 {
-    public partial class Showcaseplacement
+    public partial class Showcaseplacements : ITopPlacements<Showcaseplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Showcaseplacement> Placements
+        {
+            get { return Showcaseplacement; }
+        }
+    }
+    
+    public partial class Showcaseplacement : ITopPlacement
     {
         /// <summary>
         /// Gets the message object.
@@ -245,7 +304,21 @@ namespace IS24RestApi.Offer.ShowcasePlacement
 
 namespace IS24RestApi.Offer.PremiumPlacement
 {
-    public partial class Premiumplacement
+    public partial class Premiumplacements : ITopPlacements<Premiumplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Premiumplacement> Placements
+        {
+            get { return Premiumplacement; }
+        }
+    }
+
+    public partial class Premiumplacement : ITopPlacement
     {
         /// <summary>
         /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>

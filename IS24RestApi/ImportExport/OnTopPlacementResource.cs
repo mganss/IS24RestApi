@@ -1,4 +1,5 @@
 ﻿using IS24RestApi.Common;
+using IS24RestApi.Offer;
 using IS24RestApi.Offer.PremiumPlacement;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Offer.ShowcasePlacement;
@@ -16,11 +17,14 @@ namespace IS24RestApi
     /// Abstract base class for placement resources.
     /// <a href="http://api.immobilienscout24.de/our-apis/import-export/ontop-placement.html">API Documentation</a>.
     /// </summary>
-    /// <typeparam name="T">The type of placement</typeparam>
-    public abstract class OnTopPlacementResource<T> : ImportExportResourceBase, IOnTopPlacementResource<T> where T : new()
+    /// <typeparam name="T">The type of placements</typeparam>
+    /// <typeparam name="V">The type of placement</typeparam>
+    public abstract class OnTopPlacementResource<T, V> : ImportExportResourceBase, IOnTopPlacementResource<T, V> 
+        where T : ITopPlacements<V>, new()
+        where V : class, ITopPlacement, new()
     {
         /// <summary>
-        /// Creates a new <see cref="OnTopPlacementResource{T}"/> instance
+        /// Creates a new <see cref="OnTopPlacementResource{T,V}"/> instance
         /// </summary>
         /// <param name="connection"></param>
         public OnTopPlacementResource(IIS24Connection connection)
@@ -34,7 +38,7 @@ namespace IS24RestApi
         public RealEstate RealEstate { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OnTopPlacementResource{T}"/> class.
+        /// Initializes a new instance of the <see cref="OnTopPlacementResource{T,V}"/> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="realEstate">The real estate.</param>
@@ -114,27 +118,44 @@ namespace IS24RestApi
         }
 
         /// <summary>
-        /// Gets the placements for the real estate identified by the specified id.
+        /// Gets the placement for the real estate identified by the specified id.
         /// </summary>
         /// <param name="id">The real estate id.</param>
         /// <param name="isExternal">true if the real estate id is an external id.</param>
         /// <returns>
         /// The task object representing the asynchronous operation.
         /// </returns>
-        public Task<T> GetAsync(string id, bool isExternal = false)
+        public async Task<V> GetAsync(string id, bool isExternal = false)
         {
             var req = Connection.CreateRequest("realestate/{id}/" + PlacementType);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            return ExecuteAsync<T>(Connection, req);
+            var placements = await ExecuteAsync<T>(Connection, req);
+            if (placements == null || placements.Placements == null || !placements.Placements.Any()) return null;
+            var placement = placements.Placements.First();
+            switch (placement.MessageObject.MessageCode)
+            {
+                case MessageCode.MESSAGE_OPERATION_SUCCESSFUL:
+                    return placement;
+                case MessageCode.ERROR_REQUESTED_DATA_NOT_FOUND:
+                    return null;
+                default:
+                    throw new IS24Exception(string.Format("Error getting placement {0} for real estate {1}: {2}", PlacementType, id, placement.MessageObject))
+                    {
+                        Messages = new Messages
+                        {
+                            Message = { placement.MessageObject }
+                        }
+                    };
+            }
         }
 
         /// <summary>
-        /// Gets the placements for the real estate associated with this resource.
+        /// Gets the placement for the real estate associated with this resource.
         /// </summary>
         /// <returns>
         /// The task object representing the asynchronous operation.
         /// </returns>
-        public Task<T> GetAsync()
+        public Task<V> GetAsync()
         {
             return GetAsync(RealEstate.Id.ToString());
         }
@@ -200,7 +221,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes showcaseplacement ("Schaufenster-Platzierung") resources.
     /// </summary>
-    public class ShowcasePlacementResource : OnTopPlacementResource<Showcaseplacements>, IShowcasePlacementResource
+    public class ShowcasePlacementResource : OnTopPlacementResource<Showcaseplacements, Showcaseplacement>, IShowcasePlacementResource
     {
         /// <summary>
         /// Gets the type of the placement.
@@ -230,7 +251,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes premiumplacement ("Premium-Platzierung") resources.
     /// </summary>
-    public class PremiumPlacementResource : OnTopPlacementResource<Premiumplacements>, IPremiumPlacementResource
+    public class PremiumPlacementResource : OnTopPlacementResource<Premiumplacements, Premiumplacement>, IPremiumPlacementResource
     {
         /// <summary>
         /// Gets the type of the placement.
@@ -260,7 +281,7 @@ namespace IS24RestApi
     /// <summary>
     /// Describes topplacement ("Top-Platzierung") resources.
     /// </summary>
-    public class TopPlacementResource : OnTopPlacementResource<Topplacements>, ITopPlacementResource
+    public class TopPlacementResource : OnTopPlacementResource<Topplacements, Topplacement>, ITopPlacementResource
     {
         /// <summary>
         /// Gets the type of the placement.

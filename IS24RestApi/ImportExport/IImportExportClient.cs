@@ -48,7 +48,7 @@ namespace IS24RestApi
         /// <value>
         /// The showcase placements.
         /// </value>
-        IOnTopPlacementResource<Showcaseplacements> ShowcasePlacements { get; }
+        IShowcasePlacementResource ShowcasePlacements { get; }
 
         /// <summary>
         /// Gets the premium placements.
@@ -56,7 +56,7 @@ namespace IS24RestApi
         /// <value>
         /// The premium placements.
         /// </value>
-        IOnTopPlacementResource<Premiumplacements> PremiumPlacements { get; }
+        IPremiumPlacementResource PremiumPlacements { get; }
 
         /// <summary>
         /// Gets the top placements.
@@ -64,6 +64,6 @@ namespace IS24RestApi
         /// <value>
         /// The top placements.
         /// </value>
-        IOnTopPlacementResource<Topplacements> TopPlacements { get; }
+        ITopPlacementResource TopPlacements { get; }
     }
 }

@@ -178,14 +178,7 @@ namespace SampleConsole
                     await api.RealEstateProjects.AddAsync(project.Id.Value, realEstate.RealEstate);
             }
 
-            await realEstate.PublishAsync();
-
-            var placements = await realEstate.PremiumPlacements.GetAsync();
-
-            if (placements.Premiumplacement.Any(p => p.MessageCode == MessageCode.MESSAGE_OPERATION_SUCCESSFUL))
-                await realEstate.PremiumPlacements.RemoveAsync();
-
-            await realEstate.PremiumPlacements.CreateAsync();
+            var placement = await realEstate.PremiumPlacements.GetAsync();
 
             var atts = await realEstate.Attachments.GetAsync();
             if (atts == null || !atts.Any())

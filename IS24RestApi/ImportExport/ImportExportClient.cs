@@ -55,7 +55,7 @@ namespace IS24RestApi
         /// <value>
         /// The showcase placements.
         /// </value>
-        public IOnTopPlacementResource<Showcaseplacements> ShowcasePlacements { get; private set; }
+        public IShowcasePlacementResource ShowcasePlacements { get; private set; }
 
         /// <summary>
         /// Gets the premium placements.
@@ -63,7 +63,7 @@ namespace IS24RestApi
         /// <value>
         /// The premium placements.
         /// </value>
-        public IOnTopPlacementResource<Premiumplacements> PremiumPlacements { get; private set; }
+        public IPremiumPlacementResource PremiumPlacements { get; private set; }
 
         /// <summary>
         /// Gets the top placements.
@@ -71,7 +71,7 @@ namespace IS24RestApi
         /// <value>
         /// The top placements.
         /// </value>
-        public IOnTopPlacementResource<Topplacements> TopPlacements { get; private set; }
+        public ITopPlacementResource TopPlacements { get; private set; }
 
         /// <summary>
         /// Creates a new <see cref="ImportExportClient"/> instance
