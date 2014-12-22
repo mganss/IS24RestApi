@@ -1,9 +1,12 @@
-﻿using System;
+﻿using IS24RestApi.Common;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-namespace IS24RestApi
+namespace IS24RestApi.Common
 {
     public partial class Message
     {
@@ -13,12 +16,12 @@ namespace IS24RestApi
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0}: {1}", messageCode, message);
+            return string.Format("{0}: {1}", MessageCode, MessageProperty);
         }
     }
 
     /// <summary>
-    /// ExtensionMethods extending the type <see cref="messages"/>
+    /// ExtensionMethods extending the type <see cref="Messages"/>
     /// </summary>
     public static class MessagesExtensions
     {
@@ -27,30 +30,29 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="resp"></param>
         /// <returns></returns>
-        public static long? ExtractCreatedResourceId(this messages resp)
+        public static long? ExtractCreatedResourceId(this Messages resp)
         {
-            if (resp.message != null 
-                && resp.message.Any() 
-                && resp.message[0].messageCode == MessageCode.MESSAGE_RESOURCE_CREATED)
+            if (resp.Message != null 
+                && resp.Message.Any() 
+                && resp.Message[0].MessageCode == MessageCode.MESSAGE_RESOURCE_CREATED)
             {
-                var m = Regex.Match(resp.message[0].message, @"with id \[(\d+)\] has been created");
-                if (m.Success) return long.Parse(m.Groups[1].Value);
+                return long.Parse(resp.Message[0].Id);
             }
 
             return null;
         }
 
         /// <summary>
-        /// Checks if the <see cref="messages"/> contains a successful content depending on the internal <see cref="MessageCode"/>
+        /// Checks if the <see cref="Messages"/> contains a successful content depending on the internal <see cref="MessageCode"/>
         /// </summary>
         /// <param name="resp"></param>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static bool IsSuccessful(this messages resp, MessageCode code = MessageCode.MESSAGE_RESOURCE_UPDATED)
+        public static bool IsSuccessful(this Messages resp, MessageCode code = MessageCode.MESSAGE_RESOURCE_UPDATED)
         {
-            return (resp.message != null
-                && resp.message.Any()
-                && resp.message[0].messageCode == code);
+            return (resp.Message != null
+                && resp.Message.Any()
+                && resp.Message[0].MessageCode == code);
         }
 
         /// <summary>
@@ -58,430 +60,339 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="msgs">The <see cref="Message"/>s</param>
         /// <returns>A single string containing all messages</returns>
-        public static string ToMessage(this Message[] msgs)
+        public static string ToMessage(this IEnumerable<Message> msgs)
         {
             return msgs == null ? "" : string.Join(Environment.NewLine, msgs.Select(m => m.ToString()).ToArray());
         }
     }
+}
 
-    class AdapterHelper
+namespace IS24RestApi.Offer.RealEstateProject
+{
+    public partial class RealEstateProjectEntry
     {
-        public static int? GetConstructionYear(object item)
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
         {
-            return item as int?;
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
         }
 
-        public static object SetConstructionYear(int? value)
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
         {
-            if (value.HasValue) return value.Value; else return true;
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
         }
+    }
+}
 
-        public static bool GetConstructionYearUnknown(object item)
-        {
-            return item is bool && ((bool)item);
-        }
+namespace IS24RestApi.Offer
+{
+    /// <summary>
+    /// Common interface for OnTopPlacement classes.
+    /// </summary>
+    public interface ITopPlacement
+    {
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        Message MessageObject { get; }
+    }
 
-        public static object SetConstructionYearUnknown(bool value)
-        {
-            return value;
-        }
+    /// <summary>
+    /// Common interface for collection of OnTopPlacement classes.
+    /// </summary>
+    public interface ITopPlacements<T> where T : ITopPlacement
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        IEnumerable<T> Placements { get; }
+    }
+}
 
-        public static HeatingType? GetHeatingType(object item)
+namespace IS24RestApi.Offer.TopPlacement
+{
+    public partial class Topplacements: ITopPlacements<Topplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Topplacement> Placements
         {
-            return item as HeatingType?;
-        }
-
-        public static object SetHeatingType(HeatingType? value)
-        {
-            return value;
-        }
-
-        public static HeatingTypeEnev2014? GetHeatingTypeEnev2014(object item)
-        {
-            return item as HeatingTypeEnev2014?;
-        }
-
-        public static object SetHeatingTypeEnev2014(HeatingTypeEnev2014? value)
-        {
-            return value;
+            get { return Topplacement; }
         }
     }
 
-    public partial class HouseBuy
+    public partial class Topplacement: ITopPlacement
     {
         /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
+        /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>
+        /// <para xml:lang="en">external id of real estate OUTPUT ONLY</para>
         /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
+        [System.Xml.Serialization.XmlElementAttribute("externalId", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
         {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
         }
 
         /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
+        /// Gets the message object.
         /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
         {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
+        }
+    }
+}
+
+namespace IS24RestApi.Offer.ShowcasePlacement
+{
+    public partial class Showcaseplacements : ITopPlacements<Showcaseplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Showcaseplacement> Placements
+        {
+            get { return Showcaseplacement; }
+        }
+    }
+    
+    public partial class Showcaseplacement : ITopPlacement
+    {
+        /// <summary>
+        /// Gets the message object.
+        /// </summary>
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
+        {
+            get
+            {
+                return new Message { MessageCode = (MessageCode)Enum.Parse(typeof(MessageCode), MessageCode), MessageProperty = Message };
+            }
+        }
+    }
+}
+
+namespace IS24RestApi.Offer.PremiumPlacement
+{
+    public partial class Premiumplacements : ITopPlacements<Premiumplacement>
+    {
+        /// <summary>
+        /// Gets the placements.
+        /// </summary>
+        /// <value>
+        /// The placements.
+        /// </value>
+        public IEnumerable<Premiumplacement> Placements
+        {
+            get { return Premiumplacement; }
         }
     }
 
-    public partial class HouseRent
+    public partial class Premiumplacement : ITopPlacement
     {
         /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
+        /// <para xml:lang="de-DE">kunden referenznummer der immobilie (nur Ausgabe)</para>
+        /// <para xml:lang="en">external id of real estate OUTPUT ONLY</para>
         /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
+        [System.Xml.Serialization.XmlElementAttribute("externalId", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
+        [System.Xml.Serialization.XmlElementAttribute("message", Form = System.Xml.Schema.XmlSchemaForm.Unqualified, DataType = "string")]
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code value.
+        /// </summary>
+        /// <value>
+        /// The message code value.
+        /// </value>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("messageCode", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public MessageCode MessageCodeValue { get; set; }
+
+        /// <summary>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the MessageCode property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool MessageCodeValueSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message code.
+        /// </summary>
+        /// <value>
+        /// The message code.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<MessageCode> MessageCode
         {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
+            get
+            {
+                if (this.MessageCodeValueSpecified)
+                {
+                    return this.MessageCodeValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.MessageCodeValue = value.GetValueOrDefault();
+                this.MessageCodeValueSpecified = value.HasValue;
+            }
         }
 
         /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
+        /// Gets the message object.
         /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
+        /// <value>
+        /// The message object.
+        /// </value>
+        [System.Xml.Serialization.XmlIgnore]
+        public Message MessageObject
         {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class AssistedLiving
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class ApartmentRent
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class ApartmentBuy
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class CompulsoryAuction
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class ShortTermAccommodation
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class Investment
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class Office
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class Store
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class Gastronomy
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class Industry
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class SpecialPurpose
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
-        }
-    }
-
-    public partial class FlatShareRoom
-    {
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr</para>
-        /// <para xml:lang="en">construction year</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
-        /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
-        /// </summary>
-        [XmlIgnore]
-        public int? ConstructionYear
-        {
-            get { return AdapterHelper.GetConstructionYear(Item); }
-            set { Item = AdapterHelper.SetConstructionYear(value); }
-        }
-
-        /// <summary>
-        /// <para xml:lang="de-DE">Baujahr ist unbekannt</para>
-        /// <para xml:lang="en">construction year unknown: true value only expected, instead of false set <see cref="ConstructionYear"/></para>
-        /// </summary>
-        [XmlIgnore]
-        public bool ConstructionYearUnknown
-        {
-            get { return AdapterHelper.GetConstructionYearUnknown(Item); }
-            set { Item = AdapterHelper.SetConstructionYearUnknown(value); }
+            get
+            {
+                return MessageCode.HasValue ? new Message { MessageCode = MessageCode.Value, MessageProperty = Message } : null;
+            }
         }
     }
 }

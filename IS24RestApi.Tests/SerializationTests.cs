@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using IS24RestApi.Offer.RealEstates;
+using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 using System;
@@ -38,6 +39,7 @@ namespace IS24RestApi.Tests
             Test<RealEstate>("specialPurpose");
             Test<RealEstate>("store");
             Test<RealEstate>("tradeSite");
+            Test<RealEstate>("flatShareRoom");
         }
 
         void Test<T>(string file)
@@ -61,7 +63,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public void BaseXmlSerializer_CanSerializeToBaseClass()
         {
-            var re = new ApartmentRent { title = "Test" };
+            var re = new ApartmentRent { Title = "Test" };
             var xml = new BaseXmlSerializer().Serialize(re, typeof(RealEstate));
             var xElement = XElement.Parse(xml);
 

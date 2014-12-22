@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IS24RestApi.Common;
+using System;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -12,9 +13,9 @@ namespace IS24RestApi
     public class IS24Exception : Exception
     {
         /// <summary>
-        /// Gets or sets the detailed error messages. See http://developerwiki.immobilienscout24.de/wiki/Status_codes for more.
+        /// Gets or sets the detailed error messages. See http://api.immobilienscout24.de/get-started/responses.html for more.
         /// </summary>
-        public messages Messages { get; set; }
+        public Messages Messages { get; set; }
         /// <summary>
         /// Gets or sets the HTTP status code of the response.
         /// </summary>
@@ -44,7 +45,7 @@ namespace IS24RestApi
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
-            Messages = (messages)info.GetValue("Messages", typeof(messages));
+            Messages = (Messages)info.GetValue("Messages", typeof(Messages));
             StatusCode = (HttpStatusCode)info.GetValue("StatusCode", typeof(HttpStatusCode));
         }
 
@@ -63,7 +64,7 @@ namespace IS24RestApi
                 throw new ArgumentNullException("info");
             }
 
-            info.AddValue("Messages", Messages, typeof(messages));
+            info.AddValue("Messages", Messages, typeof(Messages));
             info.AddValue("StatusCode", StatusCode, typeof(HttpStatusCode));
 
             // MUST call through to the base class to let it save its own state
