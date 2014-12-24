@@ -188,15 +188,14 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetRequestToken(string callbackUrl = "oob")
         {
-            var url = string.Join("/", BaseUrlPrefix, "oauth/request_token");
-            var client = new RestClient
+            var client = new RestClient(BaseUrlPrefix)
             {
                 Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl)
             };
 
             if (HttpFactory != null) client.HttpFactory = HttpFactory;
 
-            var request = new RestRequest(url, Method.GET);
+            var request = new RestRequest("oauth/request_token", Method.GET);
             var response = await client.ExecuteTaskAsync(request);
 
             if (response.ErrorException != null) throw response.ErrorException;
@@ -217,15 +216,14 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetAccessToken(string verifier)
         {
-            var url = string.Join("/", BaseUrlPrefix, "oauth/access_token");
-            var client = new RestClient
+            var client = new RestClient(BaseUrlPrefix)
             {
                 Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier)
             };
 
             if (HttpFactory != null) client.HttpFactory = HttpFactory;
 
-            var request = new RestRequest(url, Method.GET);
+            var request = new RestRequest("oauth/access_token", Method.GET);
             var response = await client.ExecuteTaskAsync(request);
 
             if (response.ErrorException != null) throw response.ErrorException;
