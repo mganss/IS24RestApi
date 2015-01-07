@@ -12,6 +12,14 @@ namespace IS24RestApi
     public interface IPublishResource : IResource
     {
         /// <summary>
+        /// Gets all <see cref="PublishObject"/>s the user has access to matching the given parameters
+        /// </summary>
+        /// <param name="channelId">The channelId of the channel to depublish from.</param>
+        /// <param name="realEstate">The RealEstate object.</param>
+        /// <exception cref="IS24Exception"></exception>
+        Task<PublishObjects> GetAsync(RealEstate realEstate, int? channelId = null);
+
+        /// <summary>
         /// Depublishes a RealEstate object from the IS24 channel.
         /// </summary>
         /// <param name="realEstate">The RealEstate object.</param>
