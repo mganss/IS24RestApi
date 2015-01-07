@@ -27,6 +27,11 @@ namespace IS24RestApi
         public IRealEstateResource RealEstates { get; private set; }
 
         /// <summary>
+        /// Gets the <see cref="RealEstateCounts"/>
+        /// </summary>
+        public IRealEstateCounts RealEstateCounts { get; private set; }
+
+        /// <summary>
         /// Gets the <see cref="IContactResource"/> managing the contacts
         /// </summary>
         public IContactResource Contacts { get; private set; }
@@ -86,6 +91,7 @@ namespace IS24RestApi
 
             Connection = connection;
             RealEstates = new RealEstateResource(Connection);
+            RealEstateCounts = new RealEstateCounts(Connection);
             Contacts = new ContactResource(Connection);
             Publish = new PublishResource(Connection);
             PublishChannels = new PublishChannelResource(Connection);
