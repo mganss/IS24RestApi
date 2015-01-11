@@ -43,7 +43,7 @@ namespace IS24RestApi.Search
         /// <returns>The result of the search</returns>
         public Task<ResultList.Resultlist> Search(Query query, int page = 1, int pageSize = 20)
         {
-            var resource = "search/" + (query is RegionQuery ? "region" : "radius");
+            var resource = "search/" + (query.GetResource());
             var req = connection.CreateRequest(resource);
 
             var parms = query.GetParameters();

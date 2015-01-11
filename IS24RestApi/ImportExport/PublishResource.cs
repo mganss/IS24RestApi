@@ -35,6 +35,21 @@ namespace IS24RestApi
         }
 
         /// <summary>
+        /// Gets all <see cref="PublishObject"/>s the user has access to matching the given parameters
+        /// </summary>
+        /// <param name="realEstate">The RealEstate object.</param>
+        /// <param name="channelId">The channelId of the channel to depublish from.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task<PublishObjects> GetAsync(RealEstate realEstate, int? channelId = null)
+        {
+            var req = Connection.CreateRequest("publish");
+            req.AddParameter("realestate", realEstate.Id);
+            if (channelId != null) req.AddParameter("publishchannel", channelId.Value);
+            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            return pos;
+        }
+
+        /// <summary>
         /// Depublishes a RealEstate object.
         /// </summary>
         /// <param name="realEstate">The RealEstate object.</param>
@@ -42,14 +57,11 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task UnpublishAsync(RealEstate realEstate, int channelId)
         {
-            var req = Connection.CreateRequest("publish");
-            req.AddParameter("realestate", realEstate.Id);
-            req.AddParameter("publishchannel", channelId);
-            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            var pos = await GetAsync(realEstate, channelId);
 
             if (pos.PublishObject != null && pos.PublishObject.Any())
             {
-                req = Connection.CreateRequest("publish/{id}", Method.DELETE);
+                var req = Connection.CreateRequest("publish/{id}", Method.DELETE);
                 req.AddParameter("id", pos.PublishObject[0].Id, ParameterType.UrlSegment);
                 var pres = await ExecuteAsync<Messages>(Connection, req);
                 if (!pres.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
@@ -67,14 +79,11 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task PublishAsync(RealEstate realEstate, int channelId)
         {
-            var req = Connection.CreateRequest("publish");
-            req.AddParameter("realestate", realEstate.Id);
-            req.AddParameter("publishchannel", channelId);
-            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            var pos = await GetAsync(realEstate, channelId);
 
             if (pos.PublishObject == null || !pos.PublishObject.Any())
             {
-                req = Connection.CreateRequest("publish", Method.POST);
+                var req = Connection.CreateRequest("publish", Method.POST);
                 var p = new PublishObject
                         {
                             PublishChannel = new PublishChannel { Id = channelId },

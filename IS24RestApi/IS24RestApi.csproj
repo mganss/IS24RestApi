@@ -111,6 +111,8 @@
     <Compile Include="ImportExport\IRealEstate.cs" />
     <Compile Include="ImportExport\IRealEstateProjectResource.cs" />
     <Compile Include="ImportExport\IRealEstateResource.cs" />
+    <Compile Include="ImportExport\IRealEstateCounts.cs" />
+    <Compile Include="ImportExport\RealEstateCounts.cs" />
     <Compile Include="ImportExport\OnTopPlacementResource.cs" />
     <Compile Include="ImportExport\RealEstateItem.cs" />
     <Compile Include="ImportExport\RealEstateProjectResource.cs" />

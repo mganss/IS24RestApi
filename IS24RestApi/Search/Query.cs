@@ -32,7 +32,7 @@ namespace IS24RestApi.Search
     /// <summary>
     /// Represents a search query.
     /// </summary>
-    public class Query
+    public abstract class Query
     {
         /// <summary>
         /// Gets or sets the type of the real estate.
@@ -142,6 +142,12 @@ namespace IS24RestApi.Search
         }
 
         /// <summary>
+        /// Gets the name of the resource.
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetResource();
+
+        /// <summary>
         /// Gets the parameters.
         /// </summary>
         /// <returns></returns>
@@ -172,7 +178,7 @@ namespace IS24RestApi.Search
                     yield return new KeyValuePair<string, string>(p.ToLowerInvariant(), GetParameterValue(dict[p]));
                 }
             }
-            else
+            else if (Parameters != null)
             {
                 var type = Parameters.GetType();
                 foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead))
@@ -235,6 +241,15 @@ namespace IS24RestApi.Search
         public int Radius { get; set; }
 
         /// <summary>
+        /// Gets the name of the resource.
+        /// </summary>
+        /// <returns></returns>
+        public override string GetResource()
+        {
+            return "radius";
+        }
+
+        /// <summary>
         /// Gets the parameters.
         /// </summary>
         /// <returns>The parameters.</returns>
@@ -258,6 +273,15 @@ namespace IS24RestApi.Search
         /// The geo code identifier.
         /// </value>
         public GeoCodeId GeoCodeId { get; set; }
+
+        /// <summary>
+        /// Gets the name of the resource.
+        /// </summary>
+        /// <returns></returns>
+        public override string GetResource()
+        {
+            return "region";
+        }
 
         /// <summary>
         /// Gets the parameters.
