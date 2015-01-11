@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using RestSharp;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
+using IS24RestApi.Offer.ListElement;
 
 namespace IS24RestApi
 {
@@ -27,12 +28,21 @@ namespace IS24RestApi
         public IIS24Connection Connection { get; private set; }
 
         /// <summary>
-        /// Get all RealEstate objects as an observable sequence.
+        /// Get all real estates as an observable sequence.
         /// </summary>
-        /// <returns>The RealEstate objects.</returns>
+        /// <returns>The real estates.</returns>
         public IObservable<IRealEstate> GetAsync()
         {
-            return Observable.Create<IRealEstate>(
+            return GetSummariesAsync().SelectMany(async r => await GetAsync(r.Id.ToString()));
+        }
+
+        /// <summary>
+        /// Get summaries for all real estates as an observable sequence.
+        /// </summary>
+        /// <returns>The summaries of all real estates.</returns>
+        public IObservable<OfferRealEstateForList> GetSummariesAsync()
+        {
+            return Observable.Create<OfferRealEstateForList>(
                 async o =>
                 {
                     var page = 1;
@@ -45,13 +55,7 @@ namespace IS24RestApi
                         var rel = await ExecuteAsync<RealEstates>(Connection, req);
 
                         foreach (var ore in rel.RealEstateList)
-                        {
-                            var oreq = Connection.CreateRequest("realestate/{id}");
-                            oreq.AddParameter("id", ore.Id, ParameterType.UrlSegment);
-                            var re = await ExecuteAsync<RealEstate>(Connection, oreq);
-                            var item = new RealEstateItem(re, Connection);
-                            o.OnNext(item);
-                        }
+                            o.OnNext(ore);
 
                         if (page >= rel.Paging.NumberOfPages) break;
                         page++;

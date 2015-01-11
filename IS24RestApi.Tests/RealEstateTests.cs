@@ -236,7 +236,8 @@ namespace IS24RestApi.Tests
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Id = 4711, Title = "Test 1" };
             }).ThenWith(m =>
             {
@@ -249,7 +250,8 @@ namespace IS24RestApi.Tests
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.ToString());
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Id = 4712, Title = "Test 2" };
             }).ThenWith(m =>
             {
@@ -262,6 +264,53 @@ namespace IS24RestApi.Tests
             Assert.Equal(2, res.Count);
             Assert.Equal(4711, res[0].RealEstate.Id);
             Assert.Equal(4712, res[1].RealEstate.Id);
+        }
+
+        [Fact]
+        public void RealEstate_GetSummaries_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
+                var url = Http.Url.GetLeftPart(UriPartial.Path);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
+                return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
+            });
+
+            var res = Client.RealEstates.GetSummariesAsync().ToEnumerable().ToList();
+        }
+
+        [Fact]
+        public void RealEstate_GetSummaries_RequestsCorrectPages()
+        {
+            Http.RespondWith(m =>
+            {
+                return new RealEstates
+                {
+                    RealEstateList = { new OfferApartmentRent { Id = 4711 } },
+                    Paging = new Paging { NumberOfPages = 2 }
+                };
+            }).ThenWith(m =>
+            {
+                Assert.Equal(2, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                return new RealEstates
+                {
+                    RealEstateList = { new OfferApartmentRent { Id = 4712 } },
+                    Paging = new Paging { NumberOfPages = 2 }
+                };
+            }).ThenWith(m =>
+            {
+                Assert.True(false, "Must not request more pages than available.");
+                return new Messages { Message = { new Message { MessageProperty = "fail", MessageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };
+            });
+
+            var res = Client.RealEstates.GetSummariesAsync().ToEnumerable().ToList();
+
+            Assert.Equal(2, res.Count);
+            Assert.Equal(4711, res[0].Id);
+            Assert.Equal(4712, res[1].Id);
         }
     }
 }
