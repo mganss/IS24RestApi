@@ -3,13 +3,15 @@ using System.Threading.Tasks;
 using RestSharp;
 using IS24RestApi.Offer;
 using IS24RestApi.Common;
+using IS24RestApi.Realestate.Counts;
 
 namespace IS24RestApi
 {
     /// <summary>
-    /// The contacts resource.
+    /// The real estate counts resource.
+    /// <a href="http://api.immobilienscout24.de/our-apis/import-export/realestate/realestates-counts.html">API Documentation</a>.
     /// </summary>
-    public class RealEstateCounts : ImportExportResourceBase, IRealEstateCounts
+    public class RealEstateCountsResource : ImportExportResourceBase, IRealEstateCounts
     {
         /// <summary>
         /// Gets the underlying <see cref="IIS24Connection"/> for executing the requests
@@ -17,21 +19,21 @@ namespace IS24RestApi
         public IIS24Connection Connection { get; private set; }
 
         /// <summary>
-        /// Creates a new <see cref="ContactResource"/> instance
+        /// Creates a new <see cref="RealEstateCountsResource"/> instance
         /// </summary>
         /// <param name="connection"></param>
-        public RealEstateCounts(IIS24Connection connection)
+        public RealEstateCountsResource(IIS24Connection connection)
         {
             Connection = connection;
         }
 
         /// <summary>
-        /// Gets the realestatecounts.
+        /// Gets the real estate counts.
         /// </summary>
-        /// <returns>The realestatecounts.</returns>
-        public async Task<Realestate.Counts.RealEstateCounts> GetAsync()
+        /// <returns>The real estate counts.</returns>
+        public async Task<RealEstateCounts> GetAsync()
         {
-            var realestatecounts = await ExecuteAsync<Realestate.Counts.RealEstateCounts>(Connection, Connection.CreateRequest("realestatecounts"));
+            var realestatecounts = await ExecuteAsync<RealEstateCounts>(Connection, Connection.CreateRequest("realestatecounts"));
             return realestatecounts;
         }
     }

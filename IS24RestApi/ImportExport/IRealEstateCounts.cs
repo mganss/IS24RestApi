@@ -2,18 +2,19 @@
 using System.Threading.Tasks;
 using IS24RestApi.Offer;
 using IS24RestApi.Common;
+using IS24RestApi.Realestate.Counts;
 
 namespace IS24RestApi
 {
     /// <summary>
-    /// Describes the resource responsible for managing contacts
+    /// Describes the RealEstateCounts resource.
     /// </summary>
     public interface IRealEstateCounts : IResource
     {
         /// <summary>
-        /// Gets the realestatecounts.
+        /// Gets the real estate counts.
         /// </summary>
-        /// <returns>The realestatecounts.</returns>
-        Task<Realestate.Counts.RealEstateCounts> GetAsync();
+        /// <returns>The real estate counts.</returns>
+        Task<RealEstateCounts> GetAsync();
     }
 }

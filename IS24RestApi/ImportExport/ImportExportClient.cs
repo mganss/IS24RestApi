@@ -91,7 +91,7 @@ namespace IS24RestApi
 
             Connection = connection;
             RealEstates = new RealEstateResource(Connection);
-            RealEstateCounts = new RealEstateCounts(Connection);
+            RealEstateCounts = new RealEstateCountsResource(Connection);
             Contacts = new ContactResource(Connection);
             Publish = new PublishResource(Connection);
             PublishChannels = new PublishChannelResource(Connection);
