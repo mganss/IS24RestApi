@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/mganss/IS24RestApi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Add RealEstateCounts resource, add GetSummaries on RealEstate.</releaseNotes>
+    <releaseNotes>Include XML documentation.</releaseNotes>
     <copyright>Copyright 2013-2015 IS24RestApi project contributors</copyright>
     <tags>Immobilienscout24 Immoscout IS24 REST API</tags>
   </metadata>
