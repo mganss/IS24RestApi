@@ -176,6 +176,20 @@ namespace IS24RestApi
         /// <summary>
         /// Publishes a list of RealEstate objects to the specified channels.
         /// </summary>
+        /// <param name="realEstateChannelIds">The pairs of RealEstate objects and channelIds to publish to.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task<PublishObjects> PublishAsync(IEnumerable<KeyValuePair<RealEstate, int>> realEstateChannelIds)
+        {
+            var req = Connection.CreateRequest("publish/list", Method.POST);
+            req.AddParameter("publishids",
+                string.Join(",", realEstateChannelIds.Select(rc => rc.Key.Id.Value.ToString() + "_" + rc.Value)));
+            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            return pos;
+        }
+
+        /// <summary>
+        /// Publishes a list of RealEstate objects to the specified channels.
+        /// </summary>
         /// <param name="realEstates">The RealEstate objects.</param>
         /// <param name="publishChannels">The channels to publish to.</param>  
         public Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<PublishChannel> publishChannels)
@@ -224,6 +238,20 @@ namespace IS24RestApi
             var req = Connection.CreateRequest("publish/list", Method.DELETE);
             req.AddParameter("publishids",
                 string.Join(",", realEstates.SelectMany(r => channelIds.Select(c => r.Id.Value.ToString() + "_" + c))));
+            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            return pos;
+        }
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstateChannelIds">The pairs of RealEstate objects and channelIds to depublish from.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task<PublishObjects> UnpublishAsync(IEnumerable<KeyValuePair<RealEstate, int>> realEstateChannelIds)
+        {
+            var req = Connection.CreateRequest("publish/list", Method.DELETE);
+            req.AddParameter("publishids",
+                string.Join(",", realEstateChannelIds.Select(rc => rc.Key.Id.Value.ToString() + "_" + rc.Value)));
             var pos = await ExecuteAsync<PublishObjects>(Connection, req);
             return pos;
         }
