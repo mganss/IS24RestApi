@@ -148,11 +148,35 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("DELETE", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("4711_10000,4712_10000,4713_10000", Http.Parameters.Single(p => p.Name == "publishids").Value);
-                return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" }, new PublishObject { Id = "4712" }, new PublishObject { Id = "4713" } } };
+                Assert.Equal("4711_10000,4711_10001,4712_10000,4712_10001,4713_10000,4713_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
+                return new PublishObjects
+                {
+                    PublishObject = { new PublishObject { Id = "4711" }, new PublishObject { Id = "4711" }, new PublishObject { Id = "4712" },
+                        new PublishObject { Id = "4712" }, new PublishObject { Id = "4713" }, new PublishObject { Id = "4714" } }
+                };
             });
 
-            await Client.Publish.UnpublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } });
+            await Client.Publish.UnpublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } },
+                new[] { 10000, 10001 });
+        }
+
+        [Fact]
+        public async Task Publish_PublishList_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("POST", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("4711_10000,4711_10001,4712_10000,4712_10001,4713_10000,4713_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
+                return new PublishObjects
+                {
+                    PublishObject = { new PublishObject { Id = "4711" }, new PublishObject { Id = "4711" }, new PublishObject { Id = "4712" },
+                        new PublishObject { Id = "4712" }, new PublishObject { Id = "4713" }, new PublishObject { Id = "4714" } }
+                };
+            });
+
+            await Client.Publish.PublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } },
+                new[] { 10000, 10001 });
         }
     }
 }

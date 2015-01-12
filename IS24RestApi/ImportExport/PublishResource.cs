@@ -138,17 +138,69 @@ namespace IS24RestApi
         }
 
         /// <summary>
+        /// Publishes a list of RealEstate objects.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="channelId">The channelId of the channel to publish to.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates, int channelId)
+        {
+            return PublishAsync(realEstates, new[] { channelId });
+        }
+
+        /// <summary>
+        /// Publishes a list of RealEstate objects.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="publishChannel">The channel to publish to.</param>  
+        public Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates, PublishChannel publishChannel)
+        {
+            return PublishAsync(realEstates, (int)publishChannel.Id.Value);
+        }
+
+        /// <summary>
+        /// Publishes a list of RealEstate objects to the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="channelIds">The channelIds of the channels to publish to.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<int> channelIds)
+        {
+            var req = Connection.CreateRequest("publish/list", Method.POST);
+            req.AddParameter("publishids",
+                string.Join(",", realEstates.SelectMany(r => channelIds.Select(c => r.Id.Value.ToString() + "_" + c))));
+            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            return pos;
+        }
+
+        /// <summary>
+        /// Publishes a list of RealEstate objects to the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="publishChannels">The channels to publish to.</param>  
+        public Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<PublishChannel> publishChannels)
+        {
+            return PublishAsync(realEstates, publishChannels.Select(c => (int)c.Id.Value));
+        }
+
+        /// <summary>
+        /// Publishes a list of RealEstate objects to the IS24 channel.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        public Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates)
+        {
+            return PublishAsync(realEstates, ImportExportClient.ImmobilienscoutPublishChannelId);
+        }
+
+        /// <summary>
         /// Depublishes a list of RealEstate objects.
         /// </summary>
         /// <param name="realEstates">The RealEstate objects.</param>
         /// <param name="channelId">The channelId of the channel to depublish from.</param>
         /// <exception cref="IS24Exception"></exception>
-        public async Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, int channelId)
+        public Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, int channelId)
         {
-            var req = Connection.CreateRequest("publish/list", Method.DELETE);
-            req.AddParameter("publishids", string.Join(",", realEstates.Select(r => r.Id.Value.ToString() + "_" + channelId)));
-            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
-            return pos;
+            return UnpublishAsync(realEstates, new[] { channelId });
         }
 
         /// <summary>
@@ -159,6 +211,31 @@ namespace IS24RestApi
         public Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, PublishChannel publishChannel)
         {
             return UnpublishAsync(realEstates, (int)publishChannel.Id.Value);
+        }
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="channelIds">The channelIds of the channels to depublish from.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<int> channelIds)
+        {
+            var req = Connection.CreateRequest("publish/list", Method.DELETE);
+            req.AddParameter("publishids",
+                string.Join(",", realEstates.SelectMany(r => channelIds.Select(c => r.Id.Value.ToString() + "_" + c))));
+            var pos = await ExecuteAsync<PublishObjects>(Connection, req);
+            return pos;
+        }
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="publishChannels">The channels to depublish from.</param>  
+        public Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<PublishChannel> publishChannels)
+        {
+            return UnpublishAsync(realEstates, publishChannels.Select(c => (int)c.Id.Value));
         }
 
         /// <summary>
