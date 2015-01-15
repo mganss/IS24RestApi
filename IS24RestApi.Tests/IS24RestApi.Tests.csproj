@@ -62,9 +62,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XmlSchemaClassGenerator, Version=0.4.5463.24795, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XmlSchemaClassGenerator, Version=0.5.5493.32546, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\XmlSchemaClassGenerator-beta.0.4.5463.24795-beta\lib\net45\XmlSchemaClassGenerator.dll</HintPath>
+      <HintPath>..\packages\XmlSchemaClassGenerator-beta.0.5.5493.32546-beta\lib\net45\XmlSchemaClassGenerator.dll</HintPath>
     </Reference>
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0-beta5-build2785\lib\net35\xunit.abstractions.dll</HintPath>

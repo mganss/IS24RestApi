@@ -29,8 +29,8 @@ namespace IS24RestApi.Tests
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", Http.Url.GetLeftPart(UriPartial.Path));
                 return new Realestate.Counts.RealEstateCounts
                 {
-                    Is24publishedRealEstatesCount = 10,
-                    Is24notPublishedRealEstatesCount = 20
+                    Is24PublishedRealEstatesCount = 10,
+                    Is24NotPublishedRealEstatesCount = 20
                 };
             });
 
@@ -42,15 +42,15 @@ namespace IS24RestApi.Tests
         {
             Http.RespondWith(m => new Realestate.Counts.RealEstateCounts
             {
-                Is24publishedRealEstatesCount = 10,
-                Is24notPublishedRealEstatesCount = 20
+                Is24PublishedRealEstatesCount = 10,
+                Is24NotPublishedRealEstatesCount = 20
             });
 
             var re = await Client.RealEstateCounts.GetAsync();
 
             Assert.IsType<Realestate.Counts.RealEstateCounts>(re);
-            Assert.Equal(10, re.Is24publishedRealEstatesCount);
-            Assert.Equal(20, re.Is24notPublishedRealEstatesCount);
+            Assert.Equal(10, re.Is24PublishedRealEstatesCount);
+            Assert.Equal(20, re.Is24NotPublishedRealEstatesCount);
         }
     }
 }
