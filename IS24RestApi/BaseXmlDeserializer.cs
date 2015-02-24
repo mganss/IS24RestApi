@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using RestSharp;
 using RestSharp.Deserializers;
+using System.Xml;
 
 namespace IS24RestApi
 {
@@ -51,10 +52,11 @@ namespace IS24RestApi
                 if (derivedType != null) type = derivedType;
             }
 
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(response.Content)))
+            using (var sr = new StringReader(response.Content))
+            using (var xr = XmlReader.Create(sr, new XmlReaderSettings { XmlResolver = null }))
             {
                 var serializer = new System.Xml.Serialization.XmlSerializer(type);
-                return (T)serializer.Deserialize(stream);
+                return (T)serializer.Deserialize(xr);
             }
         }
     }
