@@ -306,6 +306,7 @@
 		<xs:complexContent>
 			<xs:extension base="common:AbstractRealEstateForList">
 				<xs:sequence>
+					<xs:element name="companyWideCustomerId" type="xs:string" />
 					<xs:element name="state" type="common:RealEstateState">
 						<xs:annotation>
 							<xs:documentation xml:lang="en">publication state of the real estate.</xs:documentation>

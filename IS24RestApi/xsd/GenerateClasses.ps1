@@ -41,6 +41,7 @@ $namespaceMapping.Add((New-Object XmlSchemaClassGenerator.NamespaceKey("http://r
 $namespaceMapping.Add((New-Object XmlSchemaClassGenerator.NamespaceKey("http://rest.immobilienscout24.de/schema/search/shortlist/1.0")), "IS24RestApi.Search.ShortList")
 $generator.NamespaceProvider = $namespaceMapping
 $generator.GenerateNullables = $true
+$generator.DataAnnotationMode = [XmlSchemaClassGenerator.DataAnnotationMode]::Partial
 $generator.IntegerDataType = [System.Type]::GetType("System.Int32")
 
 [System.String[]]$files = ls */*.xsd | %{ $_.FullName }
