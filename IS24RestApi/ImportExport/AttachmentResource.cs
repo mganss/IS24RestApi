@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,10 @@ using RestSharp;
 using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.VideoUpload;
-using System;
+
+#if NET40
+using System.Reflection;
+#endif
 
 namespace IS24RestApi
 {
@@ -139,8 +143,31 @@ namespace IS24RestApi
                     throw new ArgumentException(string.Format("The file at path '{0}' is not available.", path));
                 }
 
-                return await CreateAsync(att, stream, fileName, MimeMapping.GetMimeMapping(fileName));
+                return await CreateAsync(att, stream, fileName, GetMimeMapping(fileName));
             }
+        }
+
+#if NET40
+        private static MethodInfo MimeMappingMethod = GetMimeMappingMethod();
+
+        private static MethodInfo GetMimeMappingMethod()
+        {
+            var assembly = Assembly.GetAssembly(typeof(HttpApplication));
+            var mimeMappingType = assembly.GetType("System.Web.MimeMapping");
+            var getMimeMappingMethod = mimeMappingType.GetMethod("GetMimeMapping",
+                BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
+                BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
+            return getMimeMappingMethod;
+        }
+#endif
+
+        private static string GetMimeMapping(string fileName)
+        {
+#if NET40
+            return (string)MimeMappingMethod.Invoke(null, new[] { fileName });
+#else
+            return MimeMapping.GetMimeMapping(fileName);
+#endif
         }
 
         /// <summary>
@@ -153,7 +180,7 @@ namespace IS24RestApi
         {
             var req = Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
             req.AddParameter("id", RealEstate.Id, ParameterType.UrlSegment);
-            req.AddBody(link, typeof(Attachment));            
+            req.AddBody(link, typeof(Attachment));
 
             var resp = await ExecuteAsync<Messages>(Connection, req);
             var id = resp.ExtractCreatedResourceId();

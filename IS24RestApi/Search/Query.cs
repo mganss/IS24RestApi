@@ -183,7 +183,7 @@ namespace IS24RestApi.Search
                 var type = Parameters.GetType();
                 foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead))
                 {
-                    var o = prop.GetValue(Parameters);
+                    var o = prop.GetValue(Parameters, null);
                     if (o != null)
                         yield return new KeyValuePair<string, string>(prop.Name.ToLowerInvariant(), GetParameterValue(o));
                 }

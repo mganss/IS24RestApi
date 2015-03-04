@@ -9,6 +9,7 @@ using RestSharp.Extensions;
 using RestSharp.Serializers;
 using IS24RestApi.Common;
 using RestSharp.Contrib;
+using System.Reflection;
 
 namespace IS24RestApi
 {
@@ -151,6 +152,7 @@ namespace IS24RestApi
             }
         }
 
+        static string AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
         /// Performs an API request as an asynchronous task.
@@ -164,6 +166,7 @@ namespace IS24RestApi
             var url = string.Join("/", BaseUrlPrefix, baseUrl);
             var client = new RestClient(url)
                          {
+                             UserAgent = "IS24RestApi/" + AssemblyVersion,
                              Authenticator =
                                  new OAuthAuthenticator(OAuth1Authenticator.ForProtectedResource(ConsumerKey,
                                      ConsumerSecret, AccessToken, AccessTokenSecret))
