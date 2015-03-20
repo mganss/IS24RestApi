@@ -35,10 +35,10 @@ namespace IS24RestApi
         }
 
         /// <summary>
-        /// Gets all <see cref="PublishObject"/>s the user has access to matching the given parameters
+        /// Gets all <see cref="PublishObject"/>s for a RealEstate object.
         /// </summary>
         /// <param name="realEstate">The RealEstate object.</param>
-        /// <param name="channelId">The channelId of the channel to depublish from.</param>
+        /// <param name="channelId">The channelId of the channel (default is all).</param>
         /// <exception cref="IS24Exception"></exception>
         public async Task<PublishObjects> GetAsync(RealEstate realEstate, int? channelId = null)
         {
