@@ -74,14 +74,14 @@ namespace SampleConsole
             };
 
             var searchResource = new SearchResource(connection);
-            var query = new RadiusQuery 
+            var query = new RadiusQuery
             {
                 Latitude = 52.49023,
                 Longitude =  13.35939,
                 Radius = 1,
                 RealEstateType = RealEstateType.APARTMENT_RENT,
-                Parameters = new 
-                { 
+                Parameters = new
+                {
                     Price = new DecimalRange { Max = 1000 },
                     LivingSpace = new DecimalRange { Min = 100 },
                     NumberOfRooms = new DecimalRange { Min = 4 },
@@ -137,7 +137,7 @@ namespace SampleConsole
             {
                 if (ex.Messages.Message.First().MessageCode != MessageCode.ERROR_RESOURCE_NOT_FOUND) throw;
             }
-            
+
             if (realEstate == null)
             {
                 var re = new ApartmentRent

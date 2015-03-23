@@ -102,9 +102,10 @@ namespace IS24RestApi
             request.AddParameter("id", RealEstate.Id, ParameterType.UrlSegment);
 
             byte[] binaryContent = null;
-            using (var reader = new BinaryReader(content))
+            using (var ms = new MemoryStream())
             {
-                binaryContent = reader.ReadBytes(Convert.ToInt32(content.Length));
+                await content.CopyToAsync(ms);
+                binaryContent = ms.ToArray();
             }
 
             request.AddFile("attachment", binaryContent, fileName, mimeType);
@@ -136,7 +137,7 @@ namespace IS24RestApi
         public async Task<Attachment> CreateAsync(Attachment att, string path)
         {
             var fileName = Path.GetFileName(path);
-            using (var stream = new FileStream(path, FileMode.Open))
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
             {
                 if (fileName == null)
                 {
@@ -232,7 +233,16 @@ namespace IS24RestApi
             req.AddParameter("auth", videoUploadTicket.Auth);
 
             var fileName = Path.GetFileName(path);
-            req.AddFile("videofile", File.ReadAllBytes(path), fileName, "application/octet-stream");
+            byte[] bytes = null;
+
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+            using (var ms = new MemoryStream())
+            {
+                await fs.CopyToAsync(ms);
+                bytes = ms.ToArray();
+            }
+
+            req.AddFile("videofile", bytes, fileName, "application/octet-stream");
 
             var resp = await uploadClient.ExecutePostTaskAsync(req);
             if (resp.ErrorException != null) throw new IS24Exception(string.Format("Error uploading video {0}.", path), resp.ErrorException);
