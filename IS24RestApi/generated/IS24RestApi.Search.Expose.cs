@@ -1225,84 +1225,20 @@ namespace IS24RestApi.Search.Expose
         /// <summary>
         /// <para xml:lang="de-DE">Beschaeftigungsverhaeltnis</para>
         /// <para xml:lang="en">employment relationship</para>
+        /// <para xml:lang="en">Maximum length: 100.</para>
         /// </summary>
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.ComponentModel.DataAnnotations.StringLengthAttribute(100)]
         [System.Xml.Serialization.XmlElementAttribute("employmentRelationship", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public EmploymentRelationshipType EmploymentRelationshipValue { get; set; }
-        
-        /// <summary>
-        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die EmploymentRelationship-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
-        /// <para xml:lang="en">Gets or sets a value indicating whether the EmploymentRelationship property is specified.</para>
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
-        public bool EmploymentRelationshipValueSpecified { get; set; }
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Beschaeftigungsverhaeltnis</para>
-        /// <para xml:lang="en">employment relationship</para>
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public System.Nullable<EmploymentRelationshipType> EmploymentRelationship
-        {
-            get
-            {
-                if (this.EmploymentRelationshipValueSpecified)
-                {
-                    return this.EmploymentRelationshipValue;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set
-            {
-                this.EmploymentRelationshipValue = value.GetValueOrDefault();
-                this.EmploymentRelationshipValueSpecified = value.HasValue;
-            }
-        }
+        public string EmploymentRelationship { get; set; }
         
         /// <summary>
         /// <para xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</para>
         /// <para xml:lang="en">Monthly Income of household</para>
+        /// <para xml:lang="en">Maximum length: 100.</para>
         /// </summary>
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.ComponentModel.DataAnnotations.StringLengthAttribute(100)]
         [System.Xml.Serialization.XmlElementAttribute("income", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public IncomeRangeType IncomeValue { get; set; }
-        
-        /// <summary>
-        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die Income-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
-        /// <para xml:lang="en">Gets or sets a value indicating whether the Income property is specified.</para>
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
-        public bool IncomeValueSpecified { get; set; }
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</para>
-        /// <para xml:lang="en">Monthly Income of household</para>
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public System.Nullable<IncomeRangeType> Income
-        {
-            get
-            {
-                if (this.IncomeValueSpecified)
-                {
-                    return this.IncomeValue;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set
-            {
-                this.IncomeValue = value.GetValueOrDefault();
-                this.IncomeValueSpecified = value.HasValue;
-            }
-        }
+        public string Income { get; set; }
         
         /// <summary>
         /// <para xml:lang="de-DE">Anrede des Kontakts</para>
@@ -1485,124 +1421,6 @@ namespace IS24RestApi.Search.Expose
                 this.ContactFormTypeValueSpecified = value.HasValue;
             }
         }
-    }
-    
-    /// <summary>
-    /// <para xml:lang="de-DE">Aufzaehlung fuer Beschaeftigungsverhaeltnisse</para>
-    /// <para xml:lang="en">Enumeration for Employment Relationships</para>
-    /// </summary>
-    [System.SerializableAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.5.5540.23230")]
-    [System.Xml.Serialization.XmlTypeAttribute("EmploymentRelationshipType", Namespace="http://rest.immobilienscout24.de/schema/search/expose/1.0")]
-    public enum EmploymentRelationshipType
-    {
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Angestellter</para>
-        /// <para xml:lang="en">employee</para>
-        /// </summary>
-        EMPLOYEE,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Selbststaendig</para>
-        /// <para xml:lang="en">freelancer</para>
-        /// </summary>
-        FREELANCER,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Beamter</para>
-        /// <para xml:lang="en">official</para>
-        /// </summary>
-        OFFICIAL,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Rentner</para>
-        /// <para xml:lang="en">pensioner</para>
-        /// </summary>
-        PENSIONER,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Arbeitssuchend</para>
-        /// <para xml:lang="en">seekingEmployment</para>
-        /// </summary>
-        SEEKING_EMPLOYMENT,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Arbeiter</para>
-        /// <para xml:lang="en">worker</para>
-        /// </summary>
-        WORKER,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Auszubildender</para>
-        /// <para xml:lang="en">apprentice</para>
-        /// </summary>
-        APPRENTICE,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Studierender</para>
-        /// <para xml:lang="en">student</para>
-        /// </summary>
-        STUDENT,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Hausfrau/mann</para>
-        /// <para xml:lang="en">housekeeper</para>
-        /// </summary>
-        HOUSEKEEPER,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">Sonstiges</para>
-        /// <para xml:lang="en">other</para>
-        /// </summary>
-        OTHER,
-    }
-    
-    /// <summary>
-    /// <para xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</para>
-    /// <para xml:lang="en">Monthly income of household</para>
-    /// </summary>
-    [System.SerializableAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.5.5540.23230")]
-    [System.Xml.Serialization.XmlTypeAttribute("IncomeRangeType", Namespace="http://rest.immobilienscout24.de/schema/search/expose/1.0")]
-    public enum IncomeRangeType
-    {
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">&lt; 1000 Euro</para>
-        /// <para xml:lang="en">&lt; 1000 Euro</para>
-        /// </summary>
-        RANGE_0_1000,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">1000 bis 2000 Euro</para>
-        /// <para xml:lang="en">1000 up to 2000 Euro</para>
-        /// </summary>
-        RANGE_1000_2000,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">2000 bis 3000 Euro</para>
-        /// <para xml:lang="en">2000 up to 3000 Euro</para>
-        /// </summary>
-        RANGE_2000_3000,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">3000 bis 4000 Euro</para>
-        /// <para xml:lang="en">3000 up to 4000 Euro</para>
-        /// </summary>
-        RANGE_3000_4000,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">4000 bis 5000 Euro</para>
-        /// <para xml:lang="en">4000 up to 5000 Euro</para>
-        /// </summary>
-        RANGE_4000_5000,
-        
-        /// <summary>
-        /// <para xml:lang="de-DE">&gt; 5000 Euro</para>
-        /// <para xml:lang="en">&gt; 5000 Euro</para>
-        /// </summary>
-        RANGE_5000_MAX,
     }
     
     /// <summary>

@@ -1116,8 +1116,20 @@
                         <xs:documentation xml:lang="de-DE">Titel vom Video</xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element type="percentType" name="processingProgress" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="de-DE">Progress in percent information for media which is either processing or re-processing.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
             </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="percentType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxExclusive value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="videoUrlList">
         <xs:annotation>

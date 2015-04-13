@@ -4512,6 +4512,49 @@ namespace IS24RestApi.Common
         /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("title", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Title { get; set; }
+        
+        /// <summary>
+        /// <para xml:lang="de-DE">Progress in percent information for media which is either processing or re-processing.</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum exclusive value: 100.</para>
+        /// </summary>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("processingProgress", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int ProcessingProgressValue { get; set; }
+        
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die ProcessingProgress-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the ProcessingProgress property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool ProcessingProgressValueSpecified { get; set; }
+        
+        /// <summary>
+        /// <para xml:lang="de-DE">Progress in percent information for media which is either processing or re-processing.</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum exclusive value: 100.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<int> ProcessingProgress
+        {
+            get
+            {
+                if (this.ProcessingProgressValueSpecified)
+                {
+                    return this.ProcessingProgressValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.ProcessingProgressValue = value.GetValueOrDefault();
+                this.ProcessingProgressValueSpecified = value.HasValue;
+            }
+        }
     }
     
     /// <summary>

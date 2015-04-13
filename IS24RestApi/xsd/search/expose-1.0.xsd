@@ -623,123 +623,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
-
-
-    <xs:simpleType name="EmploymentRelationshipType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en">Enumeration for Employment Relationships</xs:documentation>
-            <xs:documentation xml:lang="de-DE">Aufzaehlung fuer Beschaeftigungsverhaeltnisse</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="EMPLOYEE">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">employee</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Angestellter</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="FREELANCER">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">freelancer</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Selbststaendig</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="OFFICIAL">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">official</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Beamter</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="PENSIONER">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">pensioner</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Rentner</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="SEEKING_EMPLOYMENT">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">seekingEmployment</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Arbeitssuchend</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="WORKER">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">worker</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Arbeiter</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="APPRENTICE">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">apprentice</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Auszubildender</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="STUDENT">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">student</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Studierender</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="HOUSEKEEPER">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">housekeeper</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Hausfrau/mann</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="OTHER">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">other</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Sonstiges</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="IncomeRangeType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en">Monthly income of household</xs:documentation>
-            <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="RANGE_0_1000">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">&lt; 1000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">&lt; 1000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="RANGE_1000_2000">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">1000 up to 2000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">1000 bis 2000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="RANGE_2000_3000">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">2000 up to 3000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">2000 bis 3000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="RANGE_3000_4000">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">3000 up to 4000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">3000 bis 4000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="RANGE_4000_5000">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">4000 up to 5000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">4000 bis 5000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="RANGE_5000_MAX">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">&gt; 5000 Euro</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">&gt; 5000 Euro</xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
-
+    
   <xs:complexType name="ContactForm">
     <xs:annotation>
       <xs:documentation xml:lang="en">contact form request to contact an realtor</xs:documentation>
@@ -856,18 +740,28 @@
             </xs:simpleType>
         </xs:element>
 
-        <xs:element name="employmentRelationship" type="EmploymentRelationshipType" minOccurs="0">
+        <xs:element name="employmentRelationship" minOccurs="0">
             <xs:annotation>
                 <xs:documentation xml:lang="en">employment relationship</xs:documentation>
                 <xs:documentation xml:lang="de-DE">Beschaeftigungsverhaeltnis</xs:documentation>
             </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="common:TextField">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
         </xs:element>
 
-        <xs:element name="income" type="IncomeRangeType" minOccurs="0">
+        <xs:element name="income" minOccurs="0">
             <xs:annotation>
                 <xs:documentation xml:lang="en">Monthly Income of household</xs:documentation>
                 <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</xs:documentation>
             </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="common:TextField">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
         </xs:element>
 
         <xs:element name="salutation" type="common:SalutationType" minOccurs="0">
