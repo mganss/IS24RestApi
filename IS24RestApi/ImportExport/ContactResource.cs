@@ -99,5 +99,25 @@ namespace IS24RestApi
                 throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.Message.ToMessage())) { Messages = resp };
             }
         }
+
+        /// <summary>
+        /// Deletes a contact, assigning its real estates to a specified contact.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="assignToContactId">The contact id to assign real estates of contact to delete to.</param>
+        /// <param name="isExternal">true if the id is an external id.</param>
+        /// <param name="isAssignedToContactExternal">true if <paramref name="assignToContactId"/> is an external id.</param>
+        /// <exception cref="IS24Exception"></exception>
+        public async Task DeleteAsync(string id, string assignToContactId, bool isExternal = false, bool isAssignedToContactExternal = false)
+        {
+            var req = Connection.CreateRequest("contact/{id}", Method.DELETE);
+            req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
+            req.AddParameter("assigntocontactid", isAssignedToContactExternal ? "ext-" + assignToContactId : assignToContactId, ParameterType.QueryString);
+            var resp = await ExecuteAsync<Messages>(Connection, req);
+            if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
+            {
+                throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.Message.ToMessage())) { Messages = resp };
+            }
+        }
     }
 }

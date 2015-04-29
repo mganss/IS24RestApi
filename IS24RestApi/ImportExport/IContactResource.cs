@@ -43,5 +43,15 @@ namespace IS24RestApi
         /// <param name="isExternal">true if the id is an external id.</param>
         /// <exception cref="IS24Exception"></exception>
         Task DeleteAsync(string id, bool isExternal = false);
+
+        /// <summary>
+        /// Deletes a contact, assigning its real estates to a specified contact.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="assignToContactId">The contact id to assign real estates of contact to delete to.</param>
+        /// <param name="isExternal">true if the id is an external id.</param>
+        /// <param name="isAssignedToContactExternal">true if <paramref name="assignToContactId"/> is an external id.</param>
+        /// <exception cref="IS24Exception"></exception>
+        Task DeleteAsync(string id, string assignToContactId, bool isExternal = false, bool isAssignedToContactExternal = false);
     }
 }

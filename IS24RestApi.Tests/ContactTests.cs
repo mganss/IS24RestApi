@@ -224,7 +224,7 @@ namespace IS24RestApi.Tests
             {
                 return new RealtorContactDetailsList
                 {
-                    RealtorContactDetails = { 
+                    RealtorContactDetails = {
                         new RealtorContactDetails { Id = 4711 },
                         new RealtorContactDetails { Id = 4712 },
                     }
@@ -249,6 +249,19 @@ namespace IS24RestApi.Tests
             });
 
             await Client.Contacts.DeleteAsync("4711");
+        }
+
+        [Fact]
+        public async Task Contact_DeleteAssignToContact_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("DELETE", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711?assigntocontactid=4712", Http.Url.ToString());
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
+            });
+
+            await Client.Contacts.DeleteAsync("4711", "4712");
         }
     }
 }
