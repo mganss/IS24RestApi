@@ -84,7 +84,7 @@ namespace IS24RestApi
             var response = await ExecuteAsync<Messages>(Connection, request);
             if (!response.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, response.Message.ToMessage())) { Messages = response };
+                throw new IS24Exception(string.Format("Error deleting attachment {0}: {1}", id, response.ToMessage())) { Messages = response };
             }
         }
 
@@ -121,7 +121,7 @@ namespace IS24RestApi
 
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", fileName, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", fileName, resp.ToMessage())) { Messages = resp };
             }
 
             attachment.Id = id.Value;
@@ -188,7 +188,7 @@ namespace IS24RestApi
 
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating link attachment {0}: {1}", link.Url, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating link attachment {0}: {1}", link.Url, resp.ToMessage())) { Messages = resp };
             }
 
             link.Id = id.Value;
@@ -208,7 +208,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.Title, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.Title, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -259,7 +259,7 @@ namespace IS24RestApi
 
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", path, msg.Message.ToMessage())) { Messages = msg };
+                throw new IS24Exception(string.Format("Error creating attachment {0}: {1}", path, msg.ToMessage())) { Messages = msg };
             }
 
             video.Id = id.Value;

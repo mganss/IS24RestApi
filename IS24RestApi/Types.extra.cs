@@ -32,8 +32,8 @@ namespace IS24RestApi.Common
         /// <returns></returns>
         public static long? ExtractCreatedResourceId(this Messages resp)
         {
-            if (resp.Message != null 
-                && resp.Message.Any() 
+            if (resp != null && resp.Message != null
+                && resp.Message.Any()
                 && resp.Message[0].MessageCode == MessageCode.MESSAGE_RESOURCE_CREATED)
             {
                 return long.Parse(resp.Message[0].Id);
@@ -50,7 +50,7 @@ namespace IS24RestApi.Common
         /// <returns></returns>
         public static bool IsSuccessful(this Messages resp, MessageCode code = MessageCode.MESSAGE_RESOURCE_UPDATED)
         {
-            return (resp.Message != null
+            return (resp != null && resp.Message != null
                 && resp.Message.Any()
                 && resp.Message[0].MessageCode == code);
         }
@@ -63,6 +63,16 @@ namespace IS24RestApi.Common
         public static string ToMessage(this IEnumerable<Message> msgs)
         {
             return msgs == null ? "" : string.Join(Environment.NewLine, msgs.Select(m => m.ToString()).ToArray());
+        }
+
+        /// <summary>
+        /// Gets a single message string for a <see cref="Messages"/> object.
+        /// </summary>
+        /// <param name="resp">The <see cref="Messages"/> object</param>
+        /// <returns>A single string containing all messages</returns>
+        public static string ToMessage(this Messages resp)
+        {
+            return resp == null ? "No messages" : resp.Message.ToMessage();
         }
     }
 }
@@ -282,7 +292,7 @@ namespace IS24RestApi.Offer.ShowcasePlacement
             get { return Showcaseplacement; }
         }
     }
-    
+
     public partial class Showcaseplacement : ITopPlacement
     {
         /// <summary>

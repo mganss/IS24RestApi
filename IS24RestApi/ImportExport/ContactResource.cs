@@ -61,7 +61,7 @@ namespace IS24RestApi
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating contact {0}: {1}", contact.Lastname, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating contact {0}: {1}", contact.Lastname, resp.ToMessage())) { Messages = resp };
             }
             contact.Id = id.Value;
         }
@@ -79,7 +79,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating contact {0}: {1}", contact.Lastname, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error updating contact {0}: {1}", contact.Lastname, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -96,7 +96,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -116,7 +116,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting contact {0}: {1}", id, resp.ToMessage())) { Messages = resp };
             }
         }
     }

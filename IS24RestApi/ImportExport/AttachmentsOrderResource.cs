@@ -57,7 +57,7 @@ namespace IS24RestApi
             if (!resp.IsSuccessful())
             {
                 throw new IS24Exception(string.Format("Error updating attachmentsorder for real estate {0}: {1}",
-                    RealEstate.Id, resp.Message.ToMessage())) {Messages = resp};
+                    RealEstate.Id, resp.ToMessage())) {Messages = resp};
             }
         }
     }

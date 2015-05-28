@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/mganss/IS24RestApi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Support .NET 4.0.</releaseNotes>
+    <releaseNotes>Bugfix release.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>Immobilienscout24 Immoscout IS24 REST API</tags>
   </metadata>

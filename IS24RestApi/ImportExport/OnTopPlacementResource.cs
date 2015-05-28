@@ -90,7 +90,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_CREATED))
             {
-                throw new IS24Exception(string.Format("Error creating placement {0} for real estate {1}: {2}", PlacementType, id, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating placement {0} for real estate {1}: {2}", PlacementType, id, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -187,7 +187,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting placement {0} for real estate {1}: {2}", PlacementType, id, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting placement {0} for real estate {1}: {2}", PlacementType, id, resp.ToMessage())) { Messages = resp };
             }
         }
 

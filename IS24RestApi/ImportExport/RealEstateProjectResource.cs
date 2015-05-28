@@ -71,7 +71,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating real estate project {0}: {1}", realEstateProject.Id, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error updating real estate project {0}: {1}", realEstateProject.Id, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -152,7 +152,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting real estate {0} from real estate project {1}: {2}", realEstateId, realEstateProjectId, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting real estate {0} from real estate project {1}: {2}", realEstateId, realEstateProjectId, resp.ToMessage())) { Messages = resp };
             }
         }
 
@@ -171,7 +171,7 @@ namespace IS24RestApi
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
             {
-                throw new IS24Exception(string.Format("Error deleting real estate objects from real estate project {0}: {1}", realEstateProjectId, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error deleting real estate objects from real estate project {0}: {1}", realEstateProjectId, resp.ToMessage())) { Messages = resp };
             }
         }
     }

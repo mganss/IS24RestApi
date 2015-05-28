@@ -66,7 +66,7 @@ namespace IS24RestApi
                 var pres = await ExecuteAsync<Messages>(Connection, req);
                 if (!pres.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
                 {
-                    throw new IS24Exception(string.Format("Error depublishing RealEstate {0}: {1}", realEstate.ExternalId, pres.Message.ToMessage())) { Messages = pres };
+                    throw new IS24Exception(string.Format("Error depublishing RealEstate {0}: {1}", realEstate.ExternalId, pres.ToMessage())) { Messages = pres };
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace IS24RestApi
                         };
                 req.AddBody(p);
                 var pres = await ExecuteAsync<Messages>(Connection, req);
-                if (!pres.IsSuccessful(MessageCode.MESSAGE_RESOURCE_CREATED)) throw new IS24Exception(string.Format("Error publishing RealEstate {0}: {1}", realEstate.ExternalId, pres.Message.ToMessage())) { Messages = pres };
+                if (!pres.IsSuccessful(MessageCode.MESSAGE_RESOURCE_CREATED)) throw new IS24Exception(string.Format("Error publishing RealEstate {0}: {1}", realEstate.ExternalId, pres.ToMessage())) { Messages = pres };
             }
         }
 

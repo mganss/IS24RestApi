@@ -91,7 +91,7 @@ namespace IS24RestApi
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
             {
-                throw new IS24Exception(string.Format("Error creating RealEstate {0}: {1}", re.ExternalId, resp.Message.ToMessage())) { Messages = resp };
+                throw new IS24Exception(string.Format("Error creating RealEstate {0}: {1}", re.ExternalId, resp.ToMessage())) { Messages = resp };
             }
 
             re.Id = id.Value;
@@ -110,7 +110,7 @@ namespace IS24RestApi
             var messages = await ExecuteAsync<Messages>(Connection, req);
             if (!messages.IsSuccessful())
             {
-                throw new IS24Exception(string.Format("Error updating RealEstate {0}: {1}", re.ExternalId, messages.Message.ToMessage())) { Messages = messages };
+                throw new IS24Exception(string.Format("Error updating RealEstate {0}: {1}", re.ExternalId, messages.ToMessage())) { Messages = messages };
             }
         }
 
