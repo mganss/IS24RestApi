@@ -289,9 +289,9 @@ namespace IS24RestApi.Tests
         {
             return PutPostInternalAsync("MERGE", action);
         }
-        
+
         /// <summary>
-        /// Execute an async POST-style request with the specified HTTP Method.  
+        /// Execute an async POST-style request with the specified HTTP Method.
         /// </summary>
         /// <param name="httpMethod">The HTTP method to execute.</param>
         /// <returns></returns>
@@ -301,7 +301,7 @@ namespace IS24RestApi.Tests
         }
 
         /// <summary>
-        /// Execute an async GET-style request with the specified HTTP Method.  
+        /// Execute an async GET-style request with the specified HTTP Method.
         /// </summary>
         /// <param name="httpMethod">The HTTP method to execute.</param>
         /// <returns></returns>
@@ -309,7 +309,7 @@ namespace IS24RestApi.Tests
         {
             return GetStyleMethodInternalAsync(httpMethod.ToUpperInvariant(), action);
         }
-        
+
         /// <summary>
         /// Execute a POST request
         /// </summary>
@@ -375,7 +375,7 @@ namespace IS24RestApi.Tests
         }
 
         /// <summary>
-        /// Execute a GET-style request with the specified HTTP Method.  
+        /// Execute a GET-style request with the specified HTTP Method.
         /// </summary>
         /// <param name="httpMethod">The HTTP method to execute.</param>
         /// <returns></returns>
@@ -385,7 +385,7 @@ namespace IS24RestApi.Tests
         }
 
         /// <summary>
-        /// Execute a POST-style request with the specified HTTP Method.  
+        /// Execute a POST-style request with the specified HTTP Method.
         /// </summary>
         /// <param name="httpMethod">The HTTP method to execute.</param>
         /// <returns></returns>
@@ -395,5 +395,9 @@ namespace IS24RestApi.Tests
         }
 
         public bool PreAuthenticate { get; set; }
+
+        private Encoding encoding = Encoding.UTF8;
+
+        public Encoding Encoding { get { return this.encoding; } set { this.encoding = value; } }
     }
 }

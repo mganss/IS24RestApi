@@ -14,7 +14,7 @@ using System.Reflection;
 namespace IS24RestApi
 {
     /// <summary>
-    /// The connection used for preparing and executing the rest requests to IS24 
+    /// The connection used for preparing and executing the rest requests to IS24
     /// </summary>
     public class IS24Connection : IIS24Connection
     {
@@ -86,12 +86,12 @@ namespace IS24RestApi
 
             try
             {
-                response = raw.toAsyncResponse<T>();
+                response = raw.ToAsyncResponse<T>();
                 response.Request = request;
 
                 // Only attempt to deserialize if the request has not errored due
-                // to a transport or framework exception.  HTTP errors should attempt to 
-                // be deserialized 
+                // to a transport or framework exception.  HTTP errors should attempt to
+                // be deserialized
 
                 if (response.ErrorException == null)
                 {
@@ -128,30 +128,6 @@ namespace IS24RestApi
             return response;
         }
 
-        /// <summary>
-        /// This exists temporarily to work around a bug in RestSharp:
-        /// https://groups.google.com/forum/#!topic/RestSharp/t3JKP_qZHs8
-        /// </summary>
-        class OAuthAuthenticator : IAuthenticator
-        {
-            private IAuthenticator Authenticator;
-
-            public OAuthAuthenticator(IAuthenticator authenticator)
-            {
-                Authenticator = authenticator;
-            }
-
-            public void Authenticate(IRestClient client, IRestRequest request)
-            {
-                var queryParams = request.Parameters.Where(p => p.Type == ParameterType.QueryString).ToList();
-                var dummyParameters = queryParams.Select(p => new Parameter { Name = p.Name, Value = p.Value, Type = ParameterType.GetOrPost }).ToList();
-                request.Parameters.AddRange(dummyParameters);
-                Authenticator.Authenticate(client, request);
-                foreach (var dummyParameter in dummyParameters)
-                    request.Parameters.Remove(dummyParameter);
-            }
-        }
-
         static string AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
@@ -168,8 +144,7 @@ namespace IS24RestApi
                          {
                              UserAgent = "IS24RestApi/" + AssemblyVersion,
                              Authenticator =
-                                 new OAuthAuthenticator(OAuth1Authenticator.ForProtectedResource(ConsumerKey,
-                                     ConsumerSecret, AccessToken, AccessTokenSecret))
+                                 OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret)
                          };
             if (HttpFactory != null) client.HttpFactory = HttpFactory;
             client.ClearHandlers();
