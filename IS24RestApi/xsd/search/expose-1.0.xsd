@@ -57,12 +57,22 @@
      </xs:element>
     <xs:element name="adLinkForXMLData" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
     <xs:element name="adLinkForJSONP" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="exposeAdKeysAndValues" type="keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
+      
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference"/>
     <xs:attributeGroup ref="ContactFormType"/>
 
   </xs:complexType>
+  
+  <xs:complexType name="keyAndValue">
+    <xs:sequence>
+        <xs:element name="key" type="xs:string"/>
+        <xs:element name="value" type="xs:string"/>
+     </xs:sequence>
+  </xs:complexType>
+  
 
   <xs:complexType name="ContactFormConfiguration">
     <xs:annotation>
@@ -808,7 +818,12 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:element>
-
+        <xs:element name="privacyPolicyAccepted" type="xs:boolean" minOccurs="0">
+             <xs:annotation>
+                 <xs:documentation xml:lang="en">privacy policy accepted</xs:documentation>
+                 <xs:documentation xml:lang="de-DE">Ein Hinweis auf die Datenschutzrichtlinien muss vor dem Absenden des Kontaktformulars angezeigt werden</xs:documentation>
+             </xs:annotation>
+         </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="ContactFormType">
       <xs:annotation>

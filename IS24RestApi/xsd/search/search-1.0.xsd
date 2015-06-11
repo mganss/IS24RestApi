@@ -114,7 +114,52 @@
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+  
+  <xs:complexType name="Project">
+    <xs:sequence>
+      <xs:element name="projectId" type="xs:long" />
+      <xs:element name="premium" type="xs:boolean" />
+      <xs:element name="title" type="xs:string" />
+      <xs:element name="link" type="xs:string" />
+      <xs:element name="attributes" type="ProjectAttribute" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="picture" type="ProjectImage"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
+  <xs:complexType name="ProjectAttribute">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A generic container for project information</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Ein Container für Projektinformationen</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="label" type="xs:string" />
+      <xs:element name="text" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="ProjectImage">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The main image of the project.</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Das Bild für das Projekt.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="uri" type="xs:string" />
+      <xs:element name="scales" type="ProjectImageScales" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="ProjectImageScales">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Uri for a different sizing of image.</xs:documentation>
+      <xs:documentation xml:lang="de-DE">URL für eine andere Ausprägung des Bildes.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="scaleAndCrop" type="xs:string" />
+      <xs:element name="scale" type="xs:string" />
+      <xs:element name="whiteFilling" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
   <xs:complexType name="ResultlistEntry">
     <xs:annotation>
       <xs:documentation xml:lang="en">An entry of the resultlist.</xs:documentation>
@@ -126,7 +171,13 @@
 		      <xs:documentation xml:lang="en">A list of similar entries of the current result list entry.</xs:documentation>
 		      <xs:documentation xml:lang="de-DE">Liste von gruppierten Ergebnissen zum aktuellen Objekt.</xs:documentation>
 		    </xs:annotation>       
-      </xs:element>        
+      </xs:element>
+      <xs:element name="project" type="Project">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Only available when the realEstate is in a newbuilt-project</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Nur verfuegbar wenn das Objekt in einem Neubauprojekt ist</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="realEstateId" type="xs:long">
         <xs:annotation>
           <xs:documentation xml:lang="en">The id of the real estate.</xs:documentation>

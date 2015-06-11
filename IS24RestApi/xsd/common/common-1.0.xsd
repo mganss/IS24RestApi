@@ -1121,8 +1121,39 @@
                         <xs:documentation xml:lang="de-DE">Progress in percent information for media which is either processing or re-processing.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element type="videoProcessingStatusType" name="processingStatus" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="de-DE">The status of this media</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+
             </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="videoProcessingStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="INCOMING">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">media status is incomming</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PROCESSING">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">media status is processing</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SUCCESSFUL">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">media status is successful</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FAILED">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">media status is failed</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="percentType">
         <xs:restriction base="xs:int">
@@ -2809,6 +2840,12 @@
             <xs:annotation>
               <xs:documentation xml:lang="en">template for white filling image</xs:documentation>
               <xs:documentation xml:lang="de-DE">Template für White filling</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="SCALE_MAX">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">heighest pictures dimension</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Bild in höchster Auflösung</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
         </xs:restriction>
@@ -11160,4 +11197,5 @@
             <xs:element name="tolerance" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>
