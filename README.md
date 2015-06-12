@@ -1,7 +1,7 @@
 IS24RestApi
 ===========
 
-A small library that accesses the [Immobilienscout24 Import/Export REST API](http://developerwiki.immobilienscout24.de/wiki/Import-Export-API)
+A small library to access the [Immobilienscout24 Import/Export REST API](http://api.immobilienscout24.de/our-apis/import-export.html)
 using [RestSharp](https://github.com/restsharp/RestSharp).
 
 Getting Started
@@ -11,7 +11,7 @@ IS24RestApi is available as a [NuGet package](https://www.nuget.org/packages/IS2
 
 The `ImportExportClient` class has CRUD methods for all resource types and the `SampleConsole` project shows a few uses. 
 You need to acquire OAuth credentials beforehand 
-(e.g. by carrying out [these steps](http://developerwiki.immobilienscout24.de/wiki/Customer-website_Tutorial#oAuth_by_our_playground))
+(e.g. by carrying out [these steps](http://api.immobilienscout24.de/useful/tutorials-sdks-plugins/tutorial-customer-website.html))
 and put them in the config.json file that's read from the current working directory at runtime (see the included config.example.json file).
 
 The `AuthorizeAsync` method shows how to perform the OAuth authorization steps programmatically.
