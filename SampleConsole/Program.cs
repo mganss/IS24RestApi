@@ -35,7 +35,7 @@ namespace SampleConsole
             {
                 ConsumerKey = config.ConsumerKey,
                 ConsumerSecret = config.ConsumerSecret,
-                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/security"
+                BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/security"
             };
 
             // step 1
@@ -70,7 +70,7 @@ namespace SampleConsole
                 ConsumerSecret = config.ConsumerSecret,
                 AccessToken = config.AccessToken,
                 AccessTokenSecret = config.AccessSecret,
-                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api"
+                BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/api"
             };
 
             var searchResource = new SearchResource(connection);
