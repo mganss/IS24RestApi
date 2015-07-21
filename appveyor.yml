@@ -10,5 +10,5 @@ build:
   project: IS24RestApi.sln
   verbosity: minimal
 after_test:
-  - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\xunit.runner.console.2.0.0\tools\xunit.console.exe" -targetargs:"IS24RestApi.Tests\bin\debug\IS24RestApi.Tests.dll -noshadow" -output:coverage.xml -excludebyfile:"*\IS24RestApi.*.cs"
+  - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\xunit.runner.console.2.0.0\tools\xunit.console.exe" -targetargs:"IS24RestApi.Tests\bin\release\IS24RestApi.Tests.dll -noshadow" -output:coverage.xml -excludebyfile:"*\IS24RestApi.*.cs"
   - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
