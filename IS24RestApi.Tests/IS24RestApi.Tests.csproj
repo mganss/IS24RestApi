@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="AssertEx.cs" />
     <Compile Include="AttachmentTests.cs" />
+    <Compile Include="AuthTests.cs" />
     <Compile Include="ContactTests.cs" />
     <Compile Include="HttpFactory.cs" />
     <Compile Include="HttpStub.cs" />

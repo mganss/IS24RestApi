@@ -140,7 +140,7 @@ namespace IS24RestApi.Tests
             {
                 return new Attachments
                 {
-                    Attachment = { 
+                    Attachment = {
                         new Attachment { Id = 4711 },
                         new Attachment { Id = 4712 },
                     }
@@ -447,6 +447,91 @@ namespace IS24RestApi.Tests
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
                 await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+            });
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Get_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.ToString());
+                return new AttachmentsOrder.List { AttachmentId = { 1, 2, 3 } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+            var list = await re.Attachments.AttachmentsOrder.GetAsync();
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Get_CanDeserializeResponse()
+        {
+            Http.RespondWith(m =>
+            {
+                return new AttachmentsOrder.List { AttachmentId = { 1, 2, 3 } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 1 }, Client.Connection);
+            var list = await re.Attachments.AttachmentsOrder.GetAsync();
+
+            Assert.IsType<AttachmentsOrder.List>(list);
+            AssertEx.CollectionEqual<long>(new long[] { 1, 2, 3 }, list.AttachmentId);
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Update_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("PUT", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.AbsoluteUri);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+            await re.Attachments.AttachmentsOrder.UpdateAsync(new AttachmentsOrder.List { AttachmentId = { 3, 2, 1 } });
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Update_CallSucceeds_NoExceptionThrown()
+        {
+            Http.RespondWith(m =>
+            {
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+            await re.Attachments.AttachmentsOrder.UpdateAsync(new AttachmentsOrder.List { AttachmentId = { 3, 2, 1 } });
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Update_PostsAttachmentObject()
+        {
+            Http.RespondWith(m =>
+            {
+                var list = new BaseXmlDeserializer().Deserialize<AttachmentsOrder.List>(new RestResponse { Content = Http.RequestBody });
+                Assert.IsAssignableFrom<AttachmentsOrder.List>(list);
+                AssertEx.CollectionEqual<long>(new long[] { 3, 2, 1 }, list.AttachmentId);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+            await re.Attachments.AttachmentsOrder.UpdateAsync(new AttachmentsOrder.List { AttachmentId = { 3, 2, 1 } });
+        }
+
+        [Fact]
+        public async Task AttachmentsOrder_Update_ErrorOccurs_ThrowsIS24Exception()
+        {
+            Http.RespondWith(m =>
+            {
+                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+            });
+
+            await AssertEx.ThrowsAsync<IS24Exception>(async () =>
+            {
+                var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+                await re.Attachments.AttachmentsOrder.UpdateAsync(new AttachmentsOrder.List { AttachmentId = { 3, 2, 1 } });
             });
         }
     }

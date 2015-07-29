@@ -153,3 +153,5 @@ $RECYCLE.BIN/
 SampleConsole/config.json
 
 coverage.xml
+
+.vs/

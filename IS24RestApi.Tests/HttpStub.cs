@@ -20,6 +20,8 @@ namespace IS24RestApi.Tests
 
         public HttpStatusCode StatusCode { get; set; }
         public object ResponseObject { get; set; }
+        public bool Raw { get; set; }
+        public string ContentType { get; set; }
     }
 
     public class HttpStub: IHttp
@@ -102,10 +104,10 @@ namespace IS24RestApi.Tests
                 var r = GetResponses[CurrentCallNumber](method);
                 CurrentCallNumber++;
 
-                var bytes = Encoding.UTF8.GetBytes(new BaseXmlSerializer().Serialize(r.ResponseObject));
+                var bytes = r.Raw ? (byte[])r.ResponseObject : Encoding.UTF8.GetBytes(new BaseXmlSerializer().Serialize(r.ResponseObject));
                 response.ResponseStatus = ResponseStatus.Completed;
                 response.StatusCode = r.StatusCode;
-                response.ContentType = "text/xml";
+                response.ContentType = r.ContentType ?? "text/xml";
                 response.ContentLength = bytes.Length;
                 response.RawBytes = bytes;
             }

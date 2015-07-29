@@ -40,11 +40,13 @@ namespace IS24RestApi.Tests
                 Assert.Equal("rentpermonth", parms["pricetype"]);
                 Assert.Equal("true", parms["freeofcourtageonly"]);
                 Assert.Equal("-distance", parms["sort"]);
+                Assert.Equal("hp", parms["channel"]);
+                Assert.Equal("user", parms["username"]);
                 return new IS24RestApi.Search.ResultList.Resultlist
                 {
                     ResultlistEntries =
                     {
-                        new ResultlistEntries 
+                        new ResultlistEntries
                         {
                             ResultlistEntry =
                             {
@@ -70,7 +72,7 @@ namespace IS24RestApi.Tests
                 ApiSearchField2 = "2",
                 ApiSearchField3 = "3",
                 Channel = new HomepageChannel("user"),
-                Parameters = new 
+                Parameters = new
                 {
                     Price = new DecimalRange { Max = 1000 },
                     PriceType = "rentpermonth",
@@ -123,11 +125,12 @@ namespace IS24RestApi.Tests
                 Assert.Equal("4", parms["pagenumber"]);
                 Assert.Equal("10", parms["pagesize"]);
                 Assert.Equal("balcony,garden,lift", parms["equipment"]);
+                Assert.Equal("test", parms["channel"]);
                 return new IS24RestApi.Search.ResultList.Resultlist
                 {
                     ResultlistEntries =
                     {
-                        new ResultlistEntries 
+                        new ResultlistEntries
                         {
                             ResultlistEntry =
                             {
@@ -152,7 +155,8 @@ namespace IS24RestApi.Tests
                     { "Equipment", new[] { "balcony", "garden", "lift" } }
                 },
                 Sort = Sorting.Distance,
-                SortDirection = ListSortDirection.Descending
+                SortDirection = ListSortDirection.Descending,
+                Channel = new GroupChannel("test")
             };
 
             var res = await Client.Search(query, 4, 10);
@@ -160,6 +164,43 @@ namespace IS24RestApi.Tests
             Assert.Equal(2, res.ResultlistEntries[0].ResultlistEntry.Count);
             Assert.Equal(4711, res.ResultlistEntries[0].ResultlistEntry[0].RealEstate.Id);
             Assert.Equal(4712, res.ResultlistEntries[0].ResultlistEntry[1].RealEstate.Id);
+        }
+
+        [Fact]
+        public async Task Search_Get_CanPerformIS24ChannelSearch()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                var url = "http://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
+                Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
+                var parms = Http.Url.ParseQueryString();
+                Assert.Equal("is24", parms["channel"]);
+                return new IS24RestApi.Search.ResultList.Resultlist
+                {
+                    ResultlistEntries =
+                    {
+                        new ResultlistEntries
+                        {
+                            ResultlistEntry =
+                            {
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4711 } },
+                                new ResultlistEntry { RealEstate = new ApartmentRent { Id = 4712 } },
+                            }
+                        }
+                    }
+                };
+            });
+
+            var query = new RegionQuery
+            {
+                RealEstateType = Common.RealEstateType.APARTMENT_RENT,
+                GeoCodeId = new GeoCodeId { Continent = 1, Country = 2, Region = 3, City = 4, Quarter = 5 },
+                Features = { Feature.Grouping, Feature.MatchCount },
+                Channel = Channel.IS24Channel
+            };
+
+            var res = await Client.Search(query, 4, 10);
         }
     }
 }
