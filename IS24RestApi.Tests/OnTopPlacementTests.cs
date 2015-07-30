@@ -186,7 +186,20 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/showcaseplacement", Http.Url.ToString());
-                return new Showcaseplacements();
+                return new Showcaseplacements
+                {
+                    Showcaseplacement =
+                    {
+                        new Showcaseplacement
+                        {
+                            Realestateid = "1",
+                            Message = "toplisted",
+                            ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
+                            ExternalId = "ext1",
+                            MessageCode = "MESSAGE_OPERATION_SUCCESSFUL"
+                        }
+                    }
+                };
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
@@ -194,7 +207,16 @@ namespace IS24RestApi.Tests
                 return new Showcaseplacements();
             });
 
-            await Client.ShowcasePlacements.GetAsync("1");
+            var result = await Client.ShowcasePlacements.GetAsync("1");
+            var expected = new Showcaseplacement
+            {
+                Realestateid = "1",
+                Message = "toplisted",
+                ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
+                ExternalId = "ext1",
+                MessageCode = "MESSAGE_OPERATION_SUCCESSFUL"
+            };
+            AssertEx.Equal(expected, result);
             await Client.ShowcasePlacements.GetAsync("2", isExternal: true);
         }
 
@@ -205,7 +227,20 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal("GET", m);
                 Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/premiumplacement", Http.Url.ToString());
-                return new Premiumplacements();
+                return new Premiumplacements
+                {
+                    Premiumplacement =
+                    {
+                        new Premiumplacement
+                        {
+                            Realestateid = "1",
+                            Message = "toplisted",
+                            ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
+                            ExternalId = "ext1",
+                            MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL
+                        }
+                    }
+                };
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
@@ -213,7 +248,16 @@ namespace IS24RestApi.Tests
                 return new Premiumplacements();
             });
 
-            await Client.PremiumPlacements.GetAsync("1");
+            var result = await Client.PremiumPlacements.GetAsync("1");
+            var expected = new Premiumplacement
+            {
+                Realestateid = "1",
+                Message = "toplisted",
+                ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
+                ExternalId = "ext1",
+                MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL
+            };
+            AssertEx.Equal(expected, result);
             await Client.PremiumPlacements.GetAsync("2", isExternal: true);
         }
 
