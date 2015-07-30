@@ -84,6 +84,7 @@
     <Compile Include="AttachmentTests.cs" />
     <Compile Include="AuthTests.cs" />
     <Compile Include="ContactTests.cs" />
+    <Compile Include="ExceptionTests.cs" />
     <Compile Include="HttpFactory.cs" />
     <Compile Include="HttpStub.cs" />
     <Compile Include="OnTopPlacementTests.cs" />

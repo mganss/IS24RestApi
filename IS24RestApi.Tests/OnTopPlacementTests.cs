@@ -1,4 +1,6 @@
 ﻿using IS24RestApi.Common;
+using IS24RestApi.Offer.PremiumPlacement;
+using IS24RestApi.Offer.ShowcasePlacement;
 using IS24RestApi.Offer.TopPlacement;
 using RestSharp;
 using System;
@@ -109,19 +111,19 @@ namespace IS24RestApi.Tests
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
@@ -134,19 +136,19 @@ namespace IS24RestApi.Tests
             var result = await Client.TopPlacements.GetAllAsync();
             var expected = new Topplacements
             {
-                Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
@@ -178,17 +180,55 @@ namespace IS24RestApi.Tests
         }
 
         [Fact]
+        public async Task ShowcasePlacement_Get_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/showcaseplacement", Http.Url.ToString());
+                return new Showcaseplacements();
+            }).ThenWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/showcaseplacement", Http.Url.ToString());
+                return new Showcaseplacements();
+            });
+
+            await Client.ShowcasePlacements.GetAsync("1");
+            await Client.ShowcasePlacements.GetAsync("2", isExternal: true);
+        }
+
+        [Fact]
+        public async Task PremiumPlacement_Get_RequestsCorrectResource()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/premiumplacement", Http.Url.ToString());
+                return new Premiumplacements();
+            }).ThenWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/premiumplacement", Http.Url.ToString());
+                return new Premiumplacements();
+            });
+
+            await Client.PremiumPlacements.GetAsync("1");
+            await Client.PremiumPlacements.GetAsync("2", isExternal: true);
+        }
+
+        [Fact]
         public async Task OnTopPlacement_Get_CallSucceeds()
         {
             Http.RespondWith(m =>
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_OPERATION_SUCCESSFUL,
                             Message = "toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 2, 1) },
@@ -200,11 +240,11 @@ namespace IS24RestApi.Tests
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.ERROR_REQUESTED_DATA_NOT_FOUND,
                             Message = "not toplisted"
                         }
@@ -214,11 +254,11 @@ namespace IS24RestApi.Tests
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "3", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "3",
                             MessageCode = MessageCode.ERROR_RESOURCE_NOT_FOUND,
                             Message = "resource not found"
                         }
@@ -267,19 +307,19 @@ namespace IS24RestApi.Tests
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
@@ -292,19 +332,19 @@ namespace IS24RestApi.Tests
             var result = await Client.TopPlacements.RemoveAllAsync();
             var expected = new Topplacements
             {
-                Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
@@ -389,19 +429,19 @@ namespace IS24RestApi.Tests
             {
                 return new Topplacements
                 {
-                    Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                    Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
@@ -414,19 +454,19 @@ namespace IS24RestApi.Tests
             var result = await Client.TopPlacements.RemoveAsync(new[] { "1", "2" });
             var expected = new Topplacements
             {
-                Topplacement = 
-                    { 
-                        new Topplacement 
-                        { 
-                            Realestateid = "1", 
+                Topplacement =
+                    {
+                        new Topplacement
+                        {
+                            Realestateid = "1",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
                             ExternalId = "ext1"
                         },
-                        new Topplacement 
-                        { 
-                            Realestateid = "2", 
+                        new Topplacement
+                        {
+                            Realestateid = "2",
                             MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED,
                             Message = "de-toplisted",
                             ServicePeriod = new DateRange { DateFrom = new DateTime(2014, 1, 1), DateTo = new DateTime(2014, 12, 31) },
