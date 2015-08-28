@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using System.Net.Cache;
 
 namespace IS24RestApi.Tests
 {
@@ -401,5 +402,7 @@ namespace IS24RestApi.Tests
         private Encoding encoding = Encoding.UTF8;
 
         public Encoding Encoding { get { return this.encoding; } set { this.encoding = value; } }
+
+        public RequestCachePolicy CachePolicy { get; set; }
     }
 }

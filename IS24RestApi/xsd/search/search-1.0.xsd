@@ -26,6 +26,7 @@
         <xs:element name="description" type="ResultlistDescription" minOccurs="0"/>
         <xs:element name="recommendations" type="ResultlistRecommendations" minOccurs="0"/>
         <xs:element name="advertisement" type="ResultlistAdvertisement" minOccurs="0"/>
+        <xs:element name="adTargeting" type="ResultlistAdTargeting" minOccurs="0"/>            
       </xs:sequence>
     </xs:complexType>   
   </xs:element>
@@ -40,12 +41,28 @@
       <xs:enumeration value="POTENTIAL_HOMES"/>
       <xs:enumeration value="PLANNED_HOMES"/>
       <xs:enumeration value="JOINED_RECOMMENDATION"/>
+      <xs:enumeration value="CONTACT_RECOMMENDATION" />
     </xs:restriction>
   </xs:simpleType>
 
   <xs:complexType name="ResultlistAdvertisement">
     <xs:sequence>
-      <xs:element name="keyValues" type="xs:string"/>
+      <xs:element name="keyValues" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+    
+  <xs:complexType name="ResultlistAdTargeting">
+    <xs:sequence>
+      <xs:element name="targetingCriteria" type="keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="pageAttributes" type="keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="keyAndValue">
+    <xs:sequence>
+      <xs:element name="key" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 

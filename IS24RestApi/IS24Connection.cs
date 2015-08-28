@@ -8,8 +8,8 @@ using RestSharp.Deserializers;
 using RestSharp.Extensions;
 using RestSharp.Serializers;
 using IS24RestApi.Common;
-using RestSharp.Contrib;
 using System.Reflection;
+using System.Web;
 
 namespace IS24RestApi
 {
