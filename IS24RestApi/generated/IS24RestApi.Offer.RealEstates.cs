@@ -474,9 +474,9 @@ namespace IS24RestApi.Offer.RealEstates
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -492,9 +492,9 @@ namespace IS24RestApi.Offer.RealEstates
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -1779,9 +1779,9 @@ namespace IS24RestApi.Offer.RealEstates
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -1797,9 +1797,9 @@ namespace IS24RestApi.Offer.RealEstates
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -7091,9 +7091,9 @@ namespace IS24RestApi.Offer.RealEstates
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -7109,9 +7109,9 @@ namespace IS24RestApi.Offer.RealEstates
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -8716,9 +8716,9 @@ namespace IS24RestApi.Offer.RealEstates
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -8734,9 +8734,9 @@ namespace IS24RestApi.Offer.RealEstates
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]

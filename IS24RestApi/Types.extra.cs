@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace IS24RestApi.Common
@@ -73,6 +76,40 @@ namespace IS24RestApi.Common
         public static string ToMessage(this Messages resp)
         {
             return resp == null ? "No messages" : resp.Message.ToMessage();
+        }
+    }
+
+    public partial class Attachment
+    {
+        /// <summary>
+        /// Calculates MD5 hash from specified file and sets <see cref="ExternalCheckSum"/>.
+        /// </summary>
+        /// <param name="path">Path of the file</param>
+        /// <returns>The task object representing the asynchronous operation</returns>
+        public async Task CalculateCheckSumAsync(string path)
+        {
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+                await CalculateCheckSumAsync(fs);
+        }
+
+        /// <summary>
+        /// Calculates MD5 hash from specified stream and sets <see cref="ExternalCheckSum"/>.
+        /// </summary>
+        /// <param name="stream">Stream to calculate hash for</param>
+        /// <returns>The task object representing the asynchronous operation</returns>
+        public async Task CalculateCheckSumAsync(Stream stream)
+        {
+            byte[] bytes = null;
+            using (var ms = new MemoryStream())
+            {
+                await stream.CopyToAsync(ms);
+                bytes = ms.ToArray();
+            }
+            using (var md5 = MD5.Create())
+            {
+                var hash = md5.ComputeHash(bytes);
+                ExternalCheckSum = string.Concat(Array.ConvertAll(hash, b => b.ToString("x2")));
+            }
         }
     }
 }

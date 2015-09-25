@@ -1421,7 +1421,13 @@
 	                     <xs:maxLength value="50"/>
 	                 </xs:restriction>
 	            </xs:simpleType>            
-	        </xs:element>                           
+	        </xs:element>
+            <xs:element name="externalCheckSum" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A customer specific checksum of this attachment</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Eine kundenspezifische Vergleichssumme dieses Anhangs</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
         <xs:attributeGroup ref="Reference"/>
     </xs:complexType>
@@ -6523,12 +6529,12 @@
             </xs:element>
             <xs:element name="lastRefurbishment" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">last refurbishment</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Letzte Modernisierung</xs:documentation>
+                    <xs:documentation xml:lang="en">Year of last refurbishment</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Jahr der letzte Modernisierung</xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:int">
-                        <xs:minInclusive value="0"/>
+                        <xs:minInclusive value="1000"/>
                         <xs:maxInclusive value="9999"/>
                     </xs:restriction>
                 </xs:simpleType>

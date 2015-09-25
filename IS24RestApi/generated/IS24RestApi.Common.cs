@@ -365,6 +365,13 @@ namespace IS24RestApi.Common
         public string ExternalId { get; set; }
         
         /// <summary>
+        /// <para xml:lang="de-DE">Eine kundenspezifische Vergleichssumme dieses Anhangs</para>
+        /// <para xml:lang="en">A customer specific checksum of this attachment</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("externalCheckSum", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string ExternalCheckSum { get; set; }
+        
+        /// <summary>
         /// <para xml:lang="de-DE">Link zum Element.</para>
         /// <para xml:lang="en">Link to the entity entry.</para>
         /// </summary>
@@ -5307,9 +5314,9 @@ namespace IS24RestApi.Common
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         System.Nullable<int> LastRefurbishment

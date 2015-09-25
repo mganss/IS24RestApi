@@ -37,5 +37,101 @@ namespace IS24RestApi.Realestate.Counts
         /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("is24notPublishedRealEstatesCount", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="long")]
         public long Is24NotPublishedRealEstatesCount { get; set; }
+        
+        /// <summary>
+        /// </summary>
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("homepagePublishedRealEstatesCount", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="long")]
+        public long HomepagePublishedRealEstatesCountValue { get; set; }
+        
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die HomepagePublishedRealEstatesCount-Eigenschaft spezifiziert ist, oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets a value indicating whether the HomepagePublishedRealEstatesCount property is specified.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        public bool HomepagePublishedRealEstatesCountValueSpecified { get; set; }
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public System.Nullable<long> HomepagePublishedRealEstatesCount
+        {
+            get
+            {
+                if (this.HomepagePublishedRealEstatesCountValueSpecified)
+                {
+                    return this.HomepagePublishedRealEstatesCountValue;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.HomepagePublishedRealEstatesCountValue = value.GetValueOrDefault();
+                this.HomepagePublishedRealEstatesCountValueSpecified = value.HasValue;
+            }
+        }
+        
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        private System.Collections.ObjectModel.Collection<RealEstateCountsMarketPlacePublishedRealEstatesCount> _marketPlacePublishedRealEstatesCount;
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("marketPlacePublishedRealEstatesCount", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public System.Collections.ObjectModel.Collection<RealEstateCountsMarketPlacePublishedRealEstatesCount> MarketPlacePublishedRealEstatesCount
+        {
+            get
+            {
+                return this._marketPlacePublishedRealEstatesCount;
+            }
+        }
+        
+        /// <summary>
+        /// <para xml:lang="de">Ruft einen Wert ab, der angibt, ob die MarketPlacePublishedRealEstatesCount-Collection leer ist.</para>
+        /// <para xml:lang="en">Gets a value indicating whether the MarketPlacePublishedRealEstatesCount collection is empty.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool MarketPlacePublishedRealEstatesCountSpecified
+        {
+            get
+            {
+                return (this.MarketPlacePublishedRealEstatesCount.Count != 0);
+            }
+        }
+        
+        /// <summary>
+        /// <para xml:lang="de">Initialisiert eine neue Instanz der <see cref="RealEstateCounts" /> Klasse.</para>
+        /// <para xml:lang="en">Initializes a new instance of the <see cref="RealEstateCounts" /> class.</para>
+        /// </summary>
+        public RealEstateCounts()
+        {
+            this._marketPlacePublishedRealEstatesCount = new System.Collections.ObjectModel.Collection<RealEstateCountsMarketPlacePublishedRealEstatesCount>();
+        }
+    }
+    
+    /// <summary>
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.8.5718.30343")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("RealEstateCountsMarketPlacePublishedRealEstatesCount", Namespace="http://rest.immobilienscout24.de/schema/realestate/counts/1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RealEstateCountsMarketPlacePublishedRealEstatesCount
+    {
+        
+        /// <summary>
+        /// <para xml:lang="de">Ruft den Text ab oder legt diesen fest.</para>
+        /// <para xml:lang="en">Gets or sets the text value.</para>
+        /// </summary>
+        [System.Xml.Serialization.XmlTextAttribute(DataType="long")]
+        public long Value { get; set; }
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlAttributeAttribute("name", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string Name { get; set; }
     }
 }

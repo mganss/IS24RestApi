@@ -1109,12 +1109,12 @@ namespace IS24RestApi.Search.ResultList
     {
         
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        private System.Collections.ObjectModel.Collection<KeyAndValue> _targetingCriteria;
+        private System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> _targetingCriteria;
         
         /// <summary>
         /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("targetingCriteria", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public System.Collections.ObjectModel.Collection<KeyAndValue> TargetingCriteria
+        public System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> TargetingCriteria
         {
             get
             {
@@ -1141,17 +1141,17 @@ namespace IS24RestApi.Search.ResultList
         /// </summary>
         public ResultlistAdTargeting()
         {
-            this._targetingCriteria = new System.Collections.ObjectModel.Collection<KeyAndValue>();
-            this._pageAttributes = new System.Collections.ObjectModel.Collection<KeyAndValue>();
+            this._targetingCriteria = new System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue>();
+            this._pageAttributes = new System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue>();
         }
         
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        private System.Collections.ObjectModel.Collection<KeyAndValue> _pageAttributes;
+        private System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> _pageAttributes;
         
         /// <summary>
         /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("pageAttributes", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public System.Collections.ObjectModel.Collection<KeyAndValue> PageAttributes
+        public System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> PageAttributes
         {
             get
             {
@@ -1171,26 +1171,5 @@ namespace IS24RestApi.Search.ResultList
                 return (this.PageAttributes.Count != 0);
             }
         }
-    }
-    
-    /// <summary>
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.8.5718.30343")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute("keyAndValue", Namespace="http://rest.immobilienscout24.de/schema/search/resultlist/1.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class KeyAndValue
-    {
-        
-        /// <summary>
-        /// </summary>
-        [System.Xml.Serialization.XmlElementAttribute("key", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
-        public string Key { get; set; }
-        
-        /// <summary>
-        /// </summary>
-        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
-        public string Value { get; set; }
     }
 }

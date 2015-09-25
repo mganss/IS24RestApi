@@ -534,5 +534,13 @@ namespace IS24RestApi.Tests
                 await re.Attachments.AttachmentsOrder.UpdateAsync(new AttachmentsOrder.List { AttachmentId = { 3, 2, 1 } });
             });
         }
+
+        [Fact]
+        public async Task CalculatesCorrectHash()
+        {
+            var a = new Attachment();
+            await a.CalculateCheckSumAsync(@"..\..\..\SampleConsole\test.jpg");
+            Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a.ExternalCheckSum);
+        }
     }
 }

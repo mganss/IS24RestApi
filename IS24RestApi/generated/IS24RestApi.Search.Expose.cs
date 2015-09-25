@@ -137,12 +137,12 @@ namespace IS24RestApi.Search.Expose
         public SimpleLink AdLinkForJSONP { get; set; }
         
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        private System.Collections.ObjectModel.Collection<KeyAndValue> _exposeAdKeysAndValues;
+        private System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> _exposeAdKeysAndValues;
         
         /// <summary>
         /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("exposeAdKeysAndValues", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public System.Collections.ObjectModel.Collection<KeyAndValue> ExposeAdKeysAndValues
+        public System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue> ExposeAdKeysAndValues
         {
             get
             {
@@ -169,7 +169,7 @@ namespace IS24RestApi.Search.Expose
         /// </summary>
         public Expose()
         {
-            this._exposeAdKeysAndValues = new System.Collections.ObjectModel.Collection<KeyAndValue>();
+            this._exposeAdKeysAndValues = new System.Collections.ObjectModel.Collection<IS24RestApi.Search.Common.KeyAndValue>();
         }
         
         /// <summary>
@@ -1106,27 +1106,6 @@ namespace IS24RestApi.Search.Expose
     /// <summary>
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.8.5718.30343")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute("keyAndValue", Namespace="http://rest.immobilienscout24.de/schema/search/expose/1.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class KeyAndValue
-    {
-        
-        /// <summary>
-        /// </summary>
-        [System.Xml.Serialization.XmlElementAttribute("key", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
-        public string Key { get; set; }
-        
-        /// <summary>
-        /// </summary>
-        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
-        public string Value { get; set; }
-    }
-    
-    /// <summary>
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.8.5718.30343")]
     public partial interface IContactFormType
     {
         
@@ -2019,9 +1998,9 @@ namespace IS24RestApi.Search.Expose
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -2037,9 +2016,9 @@ namespace IS24RestApi.Search.Expose
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -3321,9 +3300,9 @@ namespace IS24RestApi.Search.Expose
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -3339,9 +3318,9 @@ namespace IS24RestApi.Search.Expose
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -4714,9 +4693,9 @@ namespace IS24RestApi.Search.Expose
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -4732,9 +4711,9 @@ namespace IS24RestApi.Search.Expose
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -6338,9 +6317,9 @@ namespace IS24RestApi.Search.Expose
         }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
@@ -6356,9 +6335,9 @@ namespace IS24RestApi.Search.Expose
         public bool LastRefurbishmentValueSpecified { get; set; }
         
         /// <summary>
-        /// <para xml:lang="de-DE">Letzte Modernisierung</para>
-        /// <para xml:lang="en">last refurbishment</para>
-        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="de-DE">Jahr der letzte Modernisierung</para>
+        /// <para xml:lang="en">Year of last refurbishment</para>
+        /// <para xml:lang="en">Minimum inclusive value: 1000.</para>
         /// <para xml:lang="en">Maximum inclusive value: 9999.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]

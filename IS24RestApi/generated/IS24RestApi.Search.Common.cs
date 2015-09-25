@@ -18,6 +18,32 @@ namespace IS24RestApi.Search.Common
     
     
     /// <summary>
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("XmlSchemaClassGenerator", "0.8.5718.30343")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute("keyAndValue", Namespace="http://rest.immobilienscout24.de/schema/search/common/1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class KeyAndValue
+    {
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("key", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string Key { get; set; }
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("value", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string Value { get; set; }
+        
+        /// <summary>
+        /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("stringValue", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string StringValue { get; set; }
+    }
+    
+    /// <summary>
     /// <para xml:lang="de-DE">Allgemeine Elemente für alle Immobilienarten.</para>
     /// <para xml:lang="en">General elements for all real estates within the search context.
     ///      </para>
