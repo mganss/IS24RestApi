@@ -28,10 +28,21 @@ namespace IS24RestApi
         /// </summary>
         private static readonly ISerializer xmlSerializer = new BaseXmlSerializer();
 
+        private string _baseUrlPrefix;
+
         /// <summary>
-        /// The common URL prefix of all resources (e.g. "http://rest.sandbox-immobilienscout24.de/restapi/api").
+        /// The common URL prefix of all resources (e.g. "https://rest.sandbox-immobilienscout24.de/restapi/api").
         /// </summary>
-        public string BaseUrlPrefix { get; set; }
+        public string BaseUrlPrefix
+        {
+            get { return _baseUrlPrefix; }
+            set
+            {
+                if (!value.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                    throw new ArgumentException("Non-HTTPS URL prefix not allowed");
+                _baseUrlPrefix = value;
+            }
+        }
 
         /// <summary>
         /// The OAuth Consumer Secret

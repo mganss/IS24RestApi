@@ -14,7 +14,7 @@ namespace IS24RestApi.Tests
     public class RealEstateProjectTests: ImportExportTestBase
     {
         public RealEstateProjectTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
 
         [Fact]
@@ -23,7 +23,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject", Http.Url.ToString());
                 return new RealEstateProjects { RealEstateProject = { new RealEstateProject { Id = 4711 } } };
             });
 
@@ -36,7 +36,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711", Http.Url.ToString());
                 return new RealEstateProject { Id = 4711 };
             });
 
@@ -77,7 +77,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("PUT", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711", Http.Url.ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
@@ -122,7 +122,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("POST", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
                 return new RealEstateProjectEntries();
             });
 
@@ -175,7 +175,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
                 return new RealEstateProjectEntries();
             });
 
@@ -218,12 +218,12 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry/1", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry/1", Http.Url.ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             }).ThenWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry/ext-test", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry/ext-test", Http.Url.ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             }).ThenWith(m =>
             {
@@ -244,7 +244,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestateproject/4711/realestateprojectentry", Http.Url.ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             }).ThenWith(m =>
             {

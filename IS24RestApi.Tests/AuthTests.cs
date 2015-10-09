@@ -22,7 +22,7 @@ namespace IS24RestApi.Tests
             Connection = new IS24Connection
             {
                 HttpFactory = new HttpFactory(Http),
-                BaseUrlPrefix = @"http://rest.sandbox-immobilienscout24.de/restapi/api",
+                BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/api",
                 ConsumerKey = "ConsumerKey",
                 ConsumerSecret = "ConsumerSecret"
             };
@@ -34,7 +34,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/oauth/request_token", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/request_token", Http.Url.ToString());
                 return new HttpStubResponse
                 {
                     StatusCode = HttpStatusCode.OK,
@@ -67,7 +67,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/oauth/access_token", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/access_token", Http.Url.ToString());
                 return new HttpStubResponse
                 {
                     StatusCode = HttpStatusCode.OK,

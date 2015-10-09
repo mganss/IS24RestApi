@@ -14,7 +14,7 @@ namespace IS24RestApi.Tests
     public class PublishTests : ImportExportTestBase
     {
         public PublishTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
     
         [Fact]
@@ -26,7 +26,7 @@ namespace IS24RestApi.Tests
                 Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "realestate").Value));
                 Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
             }).ThenWith(m =>
             {
@@ -89,7 +89,7 @@ namespace IS24RestApi.Tests
                 Assert.Equal(4711, int.Parse(Http.Parameters.Single(p => p.Name == "realestate").Value));
                 Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, int.Parse(Http.Parameters.Single(p => p.Name == "publishchannel").Value));
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { } };
             }).ThenWith(m =>
             {
@@ -116,7 +116,7 @@ namespace IS24RestApi.Tests
             }).ThenWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/4711", Http.Url.AbsoluteUri);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/4711", Http.Url.AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
@@ -147,7 +147,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("4711_10000,4711_10001,4712_10000,4712_10001,4713_10000,4713_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
                 return new PublishObjects
                 {
@@ -166,7 +166,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("4711_10000,4712_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
                 return new PublishObjects
                 {
@@ -184,7 +184,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("POST", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("4711_10000,4711_10001,4712_10000,4712_10001,4713_10000,4713_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
                 return new PublishObjects
                 {
@@ -203,7 +203,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("POST", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("4711_10000,4712_10001", Http.Parameters.Single(p => p.Name == "publishids").Value);
                 return new PublishObjects
                 {

@@ -16,7 +16,7 @@ namespace IS24RestApi.Tests
     public class RealEstateCountsTests: ImportExportTestBase
     {
         public RealEstateCountsTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         {
         }
 
@@ -26,7 +26,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", Http.Url.GetLeftPart(UriPartial.Path));
                 return new Realestate.Counts.RealEstateCounts
                 {
                     Is24PublishedRealEstatesCount = 10,

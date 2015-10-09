@@ -16,7 +16,7 @@ namespace IS24RestApi.Tests
     public class RealEstateTests: ImportExportTestBase
     {
         public RealEstateTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         {
         }
 
@@ -26,7 +26,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Title = "Test" };
             });
@@ -80,7 +80,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("POST", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query); 
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
@@ -141,7 +141,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("PUT", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
@@ -200,7 +200,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("DELETE", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
@@ -216,7 +216,7 @@ namespace IS24RestApi.Tests
                 Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
                 Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
             });
 
@@ -236,7 +236,7 @@ namespace IS24RestApi.Tests
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Id = 4711, Title = "Test 1" };
             }).ThenWith(m =>
@@ -250,7 +250,7 @@ namespace IS24RestApi.Tests
             }).ThenWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
                 return new ApartmentRent { Id = 4712, Title = "Test 2" };
             }).ThenWith(m =>
@@ -275,7 +275,7 @@ namespace IS24RestApi.Tests
                 Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
                 Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
                 var url = Http.Url.GetLeftPart(UriPartial.Path);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
             });
 

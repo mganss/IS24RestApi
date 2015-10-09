@@ -11,7 +11,7 @@ namespace IS24RestApi.Tests
     public class PublishChannelTests : ImportExportTestBase
     {
         public PublishChannelTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api")
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
 
         [Fact]
@@ -20,7 +20,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                Assert.Equal("http://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", Http.Url.AbsoluteUri);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", Http.Url.AbsoluteUri);
                 return new PublishChannels { PublishChannel = { } };
             });
 

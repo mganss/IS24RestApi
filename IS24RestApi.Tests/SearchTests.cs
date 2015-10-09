@@ -15,7 +15,7 @@ namespace IS24RestApi.Tests
     public class SearchTests : TestBase<SearchResource>
     {
         public SearchTests()
-            : base(@"http://rest.sandbox-immobilienscout24.de/restapi/api", c => new SearchResource(c))
+            : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api", c => new SearchResource(c))
         { }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                var url = "http://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/radius";
+                var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/radius";
                 Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
                 var parms = Http.Url.ParseQueryString();
                 Assert.Equal("apartmentrent", parms["realestatetype"]);
@@ -112,7 +112,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                var url = "http://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
+                var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
                 Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
                 var parms = Http.Url.ParseQueryString();
                 Assert.Equal("grouping,matchcount", parms["features"]);
@@ -172,7 +172,7 @@ namespace IS24RestApi.Tests
             Http.RespondWith(m =>
             {
                 Assert.Equal("GET", m);
-                var url = "http://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
+                var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
                 Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
                 var parms = Http.Url.ParseQueryString();
                 Assert.Equal("is24", parms["channel"]);
