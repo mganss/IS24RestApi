@@ -539,8 +539,114 @@ namespace IS24RestApi.Tests
         public async Task CalculatesCorrectHash()
         {
             var a = new Attachment();
-            await a.CalculateCheckSumAsync(@"..\..\..\SampleConsole\test.jpg");
+            await a.CalculateCheckSumAsync(@"..\..\test.jpg");
             Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a.ExternalCheckSum);
+        }
+
+        [Fact]
+        public async Task SyncWorks()
+        {
+            Http.RespondWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                return new Attachments
+                {
+                    Attachment = {
+                        new Picture { Id = 1, ExternalId = "Z0", Title = "Zimmer 0", ExternalCheckSum = "9c2210b068d609fb655f1c3423698dd1" },
+                        new Picture { Id = 2, ExternalId = "Z2", Title = "Zimmer 2", ExternalCheckSum = "4711" },
+                        new Picture { Id = 30, ExternalId = "Z3", Title = "Zimmer 3", ExternalCheckSum = "9c2210b068d609fb655f1c3423698dd1" },
+                        new StreamingVideo { Id = 3, ExternalId = "572d7a1c40b15b36d1b4443a05fe2c4e", Title = "Video", ExternalCheckSum = "bb84e757201eba7d1840153179297e8a" },
+                        new PDFDocument { Id = 4, ExternalId = "P1", Title = "Test", ExternalCheckSum = "24c43a4388ae2ea98322fa7016dd3274" },
+                        new Link { Id = 5, ExternalId = "L1", Title = "Test", Url = "http://www.example.com/" }
+                    }
+                };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("DELETE", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.ToString());
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("DELETE", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/2", Http.Url.ToString());
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("POST", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                var meta = Http.Files.Single(f => f.Name == "metadata");
+                Assert.Equal("application/xml", meta.ContentType);
+                Assert.Equal("body.xml", meta.FileName);
+                var ms = new MemoryStream();
+                meta.Writer(ms);
+                var bytes = ms.ToArray();
+                Assert.Equal(bytes.Length, meta.ContentLength);
+                var content = Encoding.UTF8.GetString(bytes);
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = content });
+                Assert.IsAssignableFrom<Attachment>(a);
+                Assert.Equal("Zimmer 1", a.Title);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [6] has been created.", Id = "6" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("POST", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                var meta = Http.Files.Single(f => f.Name == "metadata");
+                Assert.Equal("application/xml", meta.ContentType);
+                Assert.Equal("body.xml", meta.FileName);
+                var ms = new MemoryStream();
+                meta.Writer(ms);
+                var bytes = ms.ToArray();
+                Assert.Equal(bytes.Length, meta.ContentLength);
+                var content = Encoding.UTF8.GetString(bytes);
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = content });
+                Assert.IsAssignableFrom<Attachment>(a);
+                Assert.Equal("Zimmer 2", a.Title);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [7] has been created.", Id = "7" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("PUT", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/4", Http.Url.AbsoluteUri);
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = Http.RequestBody });
+                Assert.IsAssignableFrom<Attachment>(a);
+                Assert.Equal("Test Update", a.Title);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("GET", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.ToString());
+                return new AttachmentsOrder.List { AttachmentId = { 30, 4, 6, 7 } };
+            }).ThenWith(m =>
+            {
+                Assert.Equal("PUT", m);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.AbsoluteUri);
+                var list = new BaseXmlDeserializer().Deserialize<AttachmentsOrder.List>(new RestResponse { Content = Http.RequestBody });
+                Assert.IsAssignableFrom<AttachmentsOrder.List>(list);
+                AssertEx.CollectionEqual<long>(new long[] { 6, 7, 4, 30 }, list.AttachmentId);
+                return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
+            });
+
+            var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
+            var a1 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z1", Title = "Zimmer 1" }, @"..\..\test.jpg");
+            var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, @"..\..\test.jpg");
+            var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, @"..\..\test.jpg");
+            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, @"..\..\test.pdf");
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
+            var link = new KeyValuePair<Attachment, string>(new Link { ExternalId = "L1", Title = "Test", Url = "http://www.example.com/" }, null);
+            var atts = new[] { a1, link, video, a2, pdf, a3 };
+
+            await re.Attachments.UpdateAsync(atts);
+
+            Assert.Equal("572d7a1c40b15b36d1b4443a05fe2c4e", video.Key.ExternalId);
+            Assert.Equal(4, pdf.Key.Id);
+            Assert.Equal(6, a1.Key.Id);
+            Assert.Equal(7, a2.Key.Id);
+            Assert.Equal(3, video.Key.Id);
+            Assert.Equal(5, link.Key.Id);
+            Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a1.Key.ExternalCheckSum);
+            Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a2.Key.ExternalCheckSum);
+            Assert.Equal("bb84e757201eba7d1840153179297e8a", video.Key.ExternalCheckSum);
+            Assert.Equal("24c43a4388ae2ea98322fa7016dd3274", pdf.Key.ExternalCheckSum);
         }
     }
 }

@@ -180,28 +180,16 @@ namespace SampleConsole
 
             var placement = await realEstate.PremiumPlacements.GetAsync();
 
-            var atts = await realEstate.Attachments.GetAsync();
-            if (atts == null || !atts.Any())
-            {
-                var att = new Picture
-                {
-                    Floorplan = false,
-                    TitlePicture = true,
-                    Title = "Zimmer",
-                };
+            var a1 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 1", Floorplan = false, TitlePicture = true }, @"..\..\test.jpg");
+            var a2 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 2" }, @"..\..\test.jpg");
+            var a3 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 3" }, @"..\..\test.jpg");
+            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { Title = "Test" }, @"..\..\test.pdf");
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
+            var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
 
-                await realEstate.Attachments.CreateAsync(att, @"..\..\test.jpg");
+            var atts = new[] { video, a1, pdf, a2, link, a3 };
 
-                att.Title = "Zimmer 1";
-                await realEstate.Attachments.UpdateAsync(att);
-
-                var link = new Link { Title = "Test", Url = "http://www.example.com/" };
-
-                await realEstate.Attachments.CreateAsync(link);
-
-                var video = new StreamingVideo { Title = "Video" };
-                await realEstate.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
-            }
+            await realEstate.Attachments.UpdateAsync(atts);
 
             var res = new List<RealEstate>();
             await api.RealEstates.GetAsync().ForEachAsync(x => res.Add(x.RealEstate));

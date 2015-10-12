@@ -4,10 +4,12 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Linq;
 using RestSharp;
 using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.VideoUpload;
+using System.Security.Cryptography;
 
 #if NET40
 using System.Reflection;
@@ -263,6 +265,128 @@ namespace IS24RestApi
             }
 
             video.Id = id.Value;
+        }
+
+        /// <summary>
+        /// Synchronizes attachments. After synchronization, the corresponding real estate object
+        /// has only the attachments specified in the parameter <paramref name="attachments"/> and in the given order.
+        /// If a given attachment's <code>ExternalCheckSum</code> property is null or empty, this method calculates it using <see cref="Attachment.CalculateCheckSumAsync(string)"/>.
+        /// Attachments are matched on either <see cref="Attachment.Id"/> or <see cref="Attachment.ExternalId"/>.
+        /// If an attachment's <see cref="Attachment.ExternalId"/> is null or empty, one will be calculated by this method
+        /// as the MD5 hash of its <see cref="Attachment.Title"/> and its path (non-<see cref="Link"/> objects).
+        /// </summary>
+        /// <param name="attachments">The attachments as an ordered list of key value pairs. The key is the <see cref="Attachment"/> object,
+        /// the value is the path to the attachment's file (or null for <see cref="Link"/> objects).</param>
+        public async Task UpdateAsync(IList<KeyValuePair<Attachment, string>> attachments)
+        {
+            await CalculateCheckSum(attachments);
+            CalculateExternalId(attachments);
+            var currentAttachments = (await GetAsync()).ToList();
+            await DeleteUnused(attachments, currentAttachments);
+            await UpdateOrCreate(attachments, currentAttachments);
+            await UpdateOrder(attachments, currentAttachments);
+        }
+
+        private async Task UpdateOrder(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)
+        {
+            // update order if it has changed
+            if (currentAttachments.OfType<Picture>().Count() > 1)
+            {
+                var targetOrder = attachments.Select(a => a.Key).OfType<Picture>().Select(a => a.Id.Value).ToList();
+                var currentOrder = (await AttachmentsOrder.GetAsync()).AttachmentId.Where(i => targetOrder.Contains(i));
+                if (!currentOrder.SequenceEqual(targetOrder))
+                {
+                    var order = new IS24RestApi.AttachmentsOrder.List();
+                    foreach (var id in attachments.Where(a => IsFileAttachment(a.Key)).Select(a => a.Key.Id.Value)) order.AttachmentId.Add(id);
+                    await AttachmentsOrder.UpdateAsync(order);
+                }
+            }
+        }
+
+        private async Task UpdateOrCreate(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)
+        {
+            foreach (var attachment in attachments)
+            {
+                var correspondingAttachment = currentAttachments.FirstOrDefault(c => EqualsLogical(c, attachment.Key));
+                if (correspondingAttachment != null)
+                {
+                    attachment.Key.Id = correspondingAttachment.Id; // maybe attachment has only ExternalId
+                    // update attachment whose metadata has changed (currently only Title)
+                    if (correspondingAttachment.Title != attachment.Key.Title)
+                        await UpdateAsync(attachment.Key);
+                }
+                else
+                {
+                    // create attachment whose hash has changed or which wasn't previously there
+                    if (attachment.Key is Link)
+                        await CreateAsync((Link)attachment.Key);
+                    else if (attachment.Key is StreamingVideo)
+                        await CreateStreamingVideoAsync((StreamingVideo)attachment.Key, attachment.Value);
+                    else
+                        await CreateAsync(attachment.Key, attachment.Value);
+                    currentAttachments.Add(attachment.Key);
+                }
+            }
+        }
+
+        private bool EqualsLogical(Attachment a1, Attachment a2)
+        {
+            if (a1.Id == a2.Id || (a1.ExternalId != null && a1.ExternalId == a2.ExternalId))
+                return true;
+            if (a1 is Link && a2 is Link) return a1.Title == a2.Title && ((Link)a1).Url == ((Link)a2).Url;
+            return false;
+        }
+
+        private bool Equals(Attachment a1, Attachment a2)
+        {
+            return EqualsLogical(a1, a2) && EqualsContent(a1, a2);
+        }
+
+        private static bool EqualsContent(Attachment a1, Attachment a2)
+        {
+            if (a1 is Link && a2 is Link) return ((Link)a1).Url == ((Link)a2).Url;
+            else return (a1.ExternalCheckSum != null && a1.ExternalCheckSum == a2.ExternalCheckSum);
+        }
+
+        private async Task DeleteUnused(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)
+        {
+            // determine attachments that are no longer used or whose hash has changed
+            var attachmentsToDelete = currentAttachments.Except(attachments.Select(a =>
+                currentAttachments.FirstOrDefault(c => Equals(c, a.Key)))
+                .Where(c => c != null))
+                .ToList();
+
+            foreach (var attachment in attachmentsToDelete)
+            {
+                await DeleteAsync(attachment.Id.ToString());
+                currentAttachments.Remove(attachment);
+            }
+        }
+
+        private static void CalculateExternalId(IList<KeyValuePair<Attachment, string>> attachments)
+        {
+            // set ExternalId for attachments that do not have it
+            foreach (var kvp in attachments.Where(a => !string.IsNullOrEmpty(a.Value) && string.IsNullOrEmpty(a.Key.ExternalId)))
+            {
+                var id = string.Format("{0}:{1}", (kvp.Key.Title ?? ""), kvp.Value);
+                using (var md5 = MD5.Create())
+                {
+                    var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(id));
+                    kvp.Key.ExternalId = string.Concat(Array.ConvertAll(hash, b => b.ToString("x2")));
+                }
+            }
+        }
+
+        private static async Task CalculateCheckSum(IList<KeyValuePair<Attachment, string>> attachments)
+        {
+            // calculate hash for those attachments that do not have it yet
+            foreach (var kvp in attachments.Where(a => string.IsNullOrEmpty(a.Key.ExternalCheckSum) && !string.IsNullOrEmpty(a.Value)))
+                await kvp.Key.CalculateCheckSumAsync(kvp.Value);
+        }
+
+        private bool IsFileAttachment(Attachment attachment)
+        {
+            return attachment is Picture || attachment is PDFDocument;
         }
     }
 }

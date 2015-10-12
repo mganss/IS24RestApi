@@ -75,5 +75,17 @@ namespace IS24RestApi
         /// <param name="mimeType">the mime-type of the file transfered</param>
         /// <returns>The updated <see cref="Attachment"/> data. It now contains the ScoutId if uploaded successfully</returns>
         Task<Attachment> CreateAsync(Attachment attachment, Stream content, string fileName, string mimeType);
+
+        /// <summary>
+        /// Synchronizes attachments. After synchronization, the corresponding real estate object
+        /// has only the attachments specified in the parameter <paramref name="attachments"/> and in the given order.
+        /// If a given attachment's <code>ExternalCheckSum</code> property is null or empty, this method calculates it using <see cref="Attachment.CalculateCheckSumAsync(string)"/>.
+        /// Attachments are matched on either <see cref="Attachment.Id"/> or <see cref="Attachment.ExternalId"/>.
+        /// If an attachment's <see cref="Attachment.ExternalId"/> is null or empty, one will be calculated by this method
+        /// as the MD5 hash of its <see cref="Attachment.Title"/> and its path (non-<see cref="Link"/> objects).
+        /// </summary>
+        /// <param name="attachments">The attachments as an ordered list of key value pairs. The key is the <see cref="Attachment"/> object,
+        /// the value is the path to the attachment's file (or null for <see cref="Link"/> objects).</param>
+        Task UpdateAsync(IList<KeyValuePair<Attachment, string>> attachments);
     }
 }
