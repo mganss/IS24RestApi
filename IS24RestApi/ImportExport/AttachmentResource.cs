@@ -290,8 +290,10 @@ namespace IS24RestApi
         private async Task UpdateOrder(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)
         {
             // update order if it has changed
+            // no need for an order if there's only one picture
             if (currentAttachments.OfType<Picture>().Count() > 1)
             {
+                // take into account only pictures, position of other attachments is irrelevant
                 var targetOrder = attachments.Select(a => a.Key).OfType<Picture>().Select(a => a.Id.Value).ToList();
                 var currentOrder = (await AttachmentsOrder.GetAsync()).AttachmentId.Where(i => targetOrder.Contains(i));
                 if (!currentOrder.SequenceEqual(targetOrder))
@@ -307,7 +309,7 @@ namespace IS24RestApi
         {
             foreach (var attachment in attachments)
             {
-                var correspondingAttachment = currentAttachments.FirstOrDefault(c => EqualsLogical(c, attachment.Key));
+                var correspondingAttachment = currentAttachments.FirstOrDefault(c => EqualsIdentity(c, attachment.Key));
                 if (correspondingAttachment != null)
                 {
                     attachment.Key.Id = correspondingAttachment.Id; // maybe attachment has only ExternalId
@@ -329,7 +331,7 @@ namespace IS24RestApi
             }
         }
 
-        private bool EqualsLogical(Attachment a1, Attachment a2)
+        private bool EqualsIdentity(Attachment a1, Attachment a2)
         {
             if (a1.Id == a2.Id || (a1.ExternalId != null && a1.ExternalId == a2.ExternalId))
                 return true;
@@ -339,7 +341,7 @@ namespace IS24RestApi
 
         private bool Equals(Attachment a1, Attachment a2)
         {
-            return EqualsLogical(a1, a2) && EqualsContent(a1, a2);
+            return EqualsIdentity(a1, a2) && EqualsContent(a1, a2);
         }
 
         private static bool EqualsContent(Attachment a1, Attachment a2)

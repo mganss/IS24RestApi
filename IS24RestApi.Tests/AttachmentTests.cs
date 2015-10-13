@@ -632,7 +632,7 @@ namespace IS24RestApi.Tests
             var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, @"..\..\test.jpg");
             var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, @"..\..\test.pdf");
             var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
-            var link = new KeyValuePair<Attachment, string>(new Link { ExternalId = "L1", Title = "Test", Url = "http://www.example.com/" }, null);
+            var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
             var atts = new[] { a1, link, video, a2, pdf, a3 };
 
             await re.Attachments.UpdateAsync(atts);
