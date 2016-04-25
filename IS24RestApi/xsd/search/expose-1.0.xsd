@@ -158,10 +158,73 @@
         </xs:annotation>
       </xs:element>
 
+      <xs:element name="buyReasonField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">buy reason</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Verwendungszweck</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="ownCapitalField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">own capital</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eigenkapital</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="hasPreapprovalField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">has preapproval</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Finanzrahmen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="lotAvailableField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">lot available</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Grundstück vorhanden</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="numberOfRequiredWorkingPlacesField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">number of required working places</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Anzahl erforderliche Arbeitsplätze</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="plannedInvestmentField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">planned investment</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Geplantes Investitionsvolumen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="commercialUsageField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">commercial usage</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Nutzungsart/-Branche</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="applicationPackageCompletedField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">application package completed</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Bewerbungsunterlagen vollständig</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
       <xs:element name="salutationField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">salutation</xs:documentation>
           <xs:documentation xml:lang="de-DE">Anrede</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="companyField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">company</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Firma</xs:documentation>
         </xs:annotation>
       </xs:element>
 
@@ -806,24 +869,105 @@
             <xs:documentation xml:lang="de-DE">Gibt an, ob Profil sollte zusammen mit dem Kontakt gesendet.</xs:documentation>
           </xs:annotation>
         </xs:element>
-      
-        <xs:element name="profileImageUrl" minOccurs="0">
-            <xs:annotation>
-                <xs:documentation xml:lang="en">Profile image url</xs:documentation>
-                <xs:documentation xml:lang="de-DE">Profil-Bild url</xs:documentation>
-            </xs:annotation>
-            <xs:simpleType>
-                <xs:restriction base="common:TextField">
-                    <xs:maxLength value="2000"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:element>
-        <xs:element name="privacyPolicyAccepted" type="xs:boolean" minOccurs="0">
-             <xs:annotation>
-                 <xs:documentation xml:lang="en">privacy policy accepted</xs:documentation>
-                 <xs:documentation xml:lang="de-DE">Ein Hinweis auf die Datenschutzrichtlinien muss vor dem Absenden des Kontaktformulars angezeigt werden</xs:documentation>
-             </xs:annotation>
-         </xs:element>
+
+      <xs:element name="profileImageUrl" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Profile image url</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Profil-Bild url</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="privacyPolicyAccepted" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">privacy policy accepted</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Ein Hinweis auf die Datenschutzrichtlinien muss vor dem Absenden des
+            Kontaktformulars angezeigt werden
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="company" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">company</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Firma</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="buyReason" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">buy reason</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Verwendungszweck</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ownCapital" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">own capital</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eigenkapital</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="hasPreapproval" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">has pre-approval</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Finanzrahmen wurde geprüft</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lotAvailable" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">a lot is available</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Grundstück vorhanden</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="numberOfRequiredWorkingPlaces" type="xs:long" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">number of required working places</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Anzahl erforderliche Arbeitsplätze</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="plannedInvestment" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">planned investment</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Geplantes Investitionsvolumen</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="commercialUsage" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">commercial usage</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Nutzungsart/-Branche</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="applicationPackageCompleted" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">application package completed</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Bewerbungsunterlagen vollständig</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="ContactFormType">
       <xs:annotation>

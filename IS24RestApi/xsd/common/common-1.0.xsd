@@ -52,7 +52,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="realtorLogo" type="RealtorLogo">
+  <xs:element name="realtorLogo" type="RealtorLogo">
         <xs:annotation>
             <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
             <xs:documentation xml:lang="de-DE">Das Logo eines Anbieters</xs:documentation>
@@ -223,7 +223,7 @@
                         </xs:annotation>
                         <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="2000"/>
+                                <xs:maxLength value="3999"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
@@ -234,7 +234,7 @@
                         </xs:annotation>
                         <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="2000"/>
+                                <xs:maxLength value="3999"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
@@ -245,7 +245,7 @@
                         </xs:annotation>
                         <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="2000"/>
+                                <xs:maxLength value="3999"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
@@ -256,7 +256,7 @@
                         </xs:annotation>
                         <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="2000"/>
+                                <xs:maxLength value="3999"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
@@ -465,14 +465,42 @@
 			</xs:element>	
 		</xs:sequence>
 	</xs:complexType>
-    <xs:complexType name="RealtorLogo">
+    
+  <xs:complexType name="RealtorLogo">
         <xs:sequence>
-            <xs:element name="realtorLogoUrl" type="xs:anyURI" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">URL to realtor's logo</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">URL zum Relatorlogo</xs:documentation>
-                </xs:annotation>
-            </xs:element>
+          <xs:element name="urls" minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="url" minOccurs="1" maxOccurs="unbounded">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">URL for the picture.</xs:documentation>
+                      <xs:documentation xml:lang="de-DE">URL des Bildes.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:attribute name="scale" type="PictureScaleType">
+                        <xs:annotation>
+                          <xs:documentation xml:lang="en">picture scale</xs:documentation>
+                          <xs:documentation xml:lang="de-DE">Bildergröße</xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                      <xs:attribute name="href" type="xs:anyURI">
+                        <xs:annotation>
+                          <xs:documentation xml:lang="en">URL to scaled picture</xs:documentation>
+                          <xs:documentation xml:lang="de-DE">URL zum skaliertem Bild
+                          </xs:documentation>
+                        </xs:annotation>
+                      </xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+          </xs:element>
+          <xs:element name="realtorLogoUrl" type="xs:anyURI" minOccurs="0">
+              <xs:annotation>
+                  <xs:documentation xml:lang="en">URL to realtor's logo</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">URL zum Relatorlogo</xs:documentation>
+              </xs:annotation>
+          </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -1031,7 +1059,7 @@
                                                 <xs:documentation xml:lang="de-DE">Bildergröße</xs:documentation>
                                             </xs:annotation>
                                         </xs:attribute>
-                                        <xs:attribute name="href" type="xs:anyURI">
+                                        <xs:attribute name="href" type="xs:string">
                                             <xs:annotation>
                                                 <xs:documentation xml:lang="en">URL to scaled picture</xs:documentation>
                                                 <xs:documentation xml:lang="de-DE">URL zum skaliertem Bild
@@ -1693,6 +1721,12 @@
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Number of the hits.</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Anzahl der Suchergebnisse.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="numberOfListings" type="xs:int" default="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Number of the listingss.</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Anzahl der Sucheinträge.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -5758,6 +5792,12 @@
                     <xs:documentation xml:lang="de-DE">Zimbabwe</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
+            <xs:enumeration value="XKO">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Kosovo</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Kosovo</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 
@@ -6934,10 +6974,10 @@
             <xs:element name="lowestBid" type="Price" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">The lowest bid for the real estate, the attributes named the type,
-                        the currency and the interval.
+                        the currency and the interval, that is calculated by 5/10 of the market value.
                     </xs:documentation>
                     <xs:documentation xml:lang="de-DE">Mindestangebot zur Immobilie, die Attribute geben die Art, die
-                        Währung und den Intervall an
+                        Währung und den Intervall an. Das Feld wird berechnet mit 5/10 des Markpreises.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -7289,6 +7329,24 @@
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="BaseHouse"/>
+            <xs:element name="guestToilet" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">has a guest toilet</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Gäste WC</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="cellar" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">has a cellar</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Keller</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="isBarrierFree" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">is barrier free</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Barrierefrei</xs:documentation>
+              </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:group>
 
@@ -7346,6 +7404,30 @@
         </xs:annotation>
         <xs:sequence>
             <xs:group ref="BaseApartment"/>
+            <xs:element name="lift" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">has a lift</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Aufzug</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="guestToilet" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">has a guest toilet</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Gäste WC</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cellar" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">has a cellar</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Keller</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="isBarrierFree" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">is barrier free</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Barrierefrei</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:group>
 
