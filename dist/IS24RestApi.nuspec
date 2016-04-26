@@ -8,6 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://github.com/mganss/IS24RestApi/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mganss/IS24RestApi</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/mganss/IS24RestApi/master/dist/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Update schema</releaseNotes>
