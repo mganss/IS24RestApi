@@ -67,6 +67,7 @@
             <xs:documentation xml:lang="de-DE">Eine Fussnote, die mit dem Kontaktformular dargestellt werden sollte und rechtliche Hinweise zu z.B. Partnern (Quoka) enthalten kann.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="telekomWidgetLink" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference"/>

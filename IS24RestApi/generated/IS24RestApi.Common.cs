@@ -9041,6 +9041,8 @@ namespace IS24RestApi.Common
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         System.Nullable<double> ThermalCharacteristic
         {
@@ -9751,6 +9753,8 @@ namespace IS24RestApi.Common
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         System.Nullable<double> ThermalCharacteristic
         {

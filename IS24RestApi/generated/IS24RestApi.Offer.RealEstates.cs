@@ -11500,6 +11500,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -11516,6 +11518,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -12951,6 +12955,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -12967,6 +12973,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -14207,6 +14215,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -14223,6 +14233,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -15941,6 +15953,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -15957,6 +15971,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -17183,6 +17199,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -17199,6 +17217,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -18712,6 +18732,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -18728,6 +18750,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic
@@ -19954,6 +19978,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
         [System.Xml.Serialization.XmlElementAttribute("thermalCharacteristic", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="double")]
@@ -19970,6 +19996,8 @@ namespace IS24RestApi.Offer.RealEstates
         /// <summary>
         /// <para xml:lang="de-DE">Energieverbrauchskennwert</para>
         /// <para xml:lang="en">thermal characteristic</para>
+        /// <para xml:lang="en">Minimum inclusive value: 0.</para>
+        /// <para xml:lang="en">Maximum inclusive value: 1999.99.</para>
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public System.Nullable<double> ThermalCharacteristic

@@ -45,6 +45,11 @@ namespace IS24RestApi.Offer.RealtorBadges
         
         /// <summary>
         /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("imageUrl", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string ImageUrl { get; set; }
+        
+        /// <summary>
+        /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("active", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="boolean")]
         public bool Active { get; set; }
     }

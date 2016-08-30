@@ -88,6 +88,11 @@ namespace IS24RestApi.Offer.RealEstateProject
         
         /// <summary>
         /// </summary>
+        [System.Xml.Serialization.XmlElementAttribute("name", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
+        public string Name { get; set; }
+        
+        /// <summary>
+        /// </summary>
         [System.Xml.Serialization.XmlElementAttribute("title", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="string")]
         public string Title { get; set; }
         

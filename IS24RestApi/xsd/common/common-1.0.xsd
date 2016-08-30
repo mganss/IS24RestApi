@@ -223,8 +223,8 @@
                         </xs:annotation>
                         <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="3999"/>
-                            </xs:restriction>
+                            <xs:maxLength value="3999"/>
+                          </xs:restriction>
                         </xs:simpleType>
                     </xs:element>
                     <xs:element name="furnishingNote" minOccurs="0">
@@ -232,11 +232,11 @@
                             <xs:documentation xml:lang="en">Furnishing of the real estate</xs:documentation>
                             <xs:documentation xml:lang="de-DE">Ausstattung</xs:documentation>
                         </xs:annotation>
-                        <xs:simpleType>
+                      <xs:simpleType>
                             <xs:restriction base="TextField">
-                                <xs:maxLength value="3999"/>
-                            </xs:restriction>
-                        </xs:simpleType>
+                          <xs:maxLength value="3999"/>
+                        </xs:restriction>
+                      </xs:simpleType>
                     </xs:element>
                     <xs:element name="locationNote" minOccurs="0">
                         <xs:annotation>
@@ -8293,11 +8293,17 @@
                     </xs:annotation>
                 </xs:element>
             
-            <xs:element name="thermalCharacteristic" type="xs:double" minOccurs="0" maxOccurs="1">
+            <xs:element name="thermalCharacteristic"  minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">thermal characteristic</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Energieverbrauchskennwert</xs:documentation>
                 </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:double">
+                    <xs:minInclusive value="0"/>
+                    <xs:maxInclusive value="1999.99"/>
+                  </xs:restriction>
+                </xs:simpleType>
             </xs:element>
             <xs:element name="energyConsumptionContainsWarmWater" type="YesNotApplicableType" minOccurs="0"
                         maxOccurs="1">
@@ -10161,11 +10167,17 @@
                     <xs:documentation xml:lang="de-DE">Nebenkosten</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="thermalCharacteristic" type="xs:double" minOccurs="0" maxOccurs="1">
+            <xs:element name="thermalCharacteristic" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">thermal characteristic</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Energieverbrauchskennwert</xs:documentation>
                 </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:double">
+                    <xs:minInclusive value="0"/>
+                    <xs:maxInclusive value="1999.99"/>
+                  </xs:restriction>
+                </xs:simpleType>
             </xs:element>            
             <xs:element name="totalRent" type="xs:double" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
@@ -11026,11 +11038,6 @@
         <xs:annotation>
             <xs:documentation xml:lang="en">in Bezug auf XML ungültige Zeichen werden bei der Ausgabe ausgefiltert</xs:documentation>
             <xs:documentation xml:lang="de-DE">invalid characters w.r.t. XML will be filtered out on outgoing responses</xs:documentation>
-            <xs:appinfo>
-                <jaxb:javaType name="java.lang.String"
-                               parseMethod="de.is24.common.xml.XmlSafeCharacterAdapter.unmarshal"
-                               printMethod="de.is24.common.xml.XmlSafeCharacterAdapter.marshal"/>
-            </xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>

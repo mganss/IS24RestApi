@@ -44,6 +44,8 @@
             <xs:documentation xml:lang="de-DE">realestateproject</xs:documentation>
         </xs:annotation>
          <xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="1">
+			</xs:element>
 			<xs:element name="title" type="xs:string" minOccurs="1">
 			</xs:element>
 			<xs:element name="price" type="common:PriceRangeMandatory" minOccurs="1">
