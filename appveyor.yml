@@ -17,8 +17,8 @@ after_test:
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov
   - codecov -f "coverage.xml"
-  - pushd dist
+  - cd dist
   - package.cmd
-  - popd
+  - cd ..
 artifacts:
   - path: dist\*.nupkg
