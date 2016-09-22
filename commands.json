@@ -1,0 +1,19 @@
+{
+  "commands": {
+    "DownloadSchemaFiles": {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File IS24RestApi\\xsd\\DownloadSchemaFiles.ps1"
+    },
+    "GenerateClasses": {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File IS24RestApi\\xsd\\GenerateClasses.ps1"
+    },
+    "Package": {
+      "fileName": "cmd.exe",
+      "workingDirectory": "dist",
+      "arguments": "/c package.cmd"
+    }
+  }
+}
