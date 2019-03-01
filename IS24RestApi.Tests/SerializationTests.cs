@@ -1,5 +1,5 @@
 ﻿using IS24RestApi.Offer.RealEstates;
-using RestSharp;
+using IS24RestApi.Rest;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 using System;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using RestSharp;
+using IS24RestApi.Rest;
 
 namespace IS24RestApi
 {

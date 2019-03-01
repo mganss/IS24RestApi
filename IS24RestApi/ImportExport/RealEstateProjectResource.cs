@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IS24RestApi.Offer.RealEstateProject;
-using RestSharp;
+using IS24RestApi.Rest;
 using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstates;
 
@@ -100,7 +100,7 @@ namespace IS24RestApi
         /// The task object representing the asynchronous operation.
         /// </returns>
         public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, IEnumerable<RealEstate> realEstates)
-        { 
+        {
             var entries = new RealEstateProjectEntries();
             foreach (var entry in realEstates.Select(r => new RealEstateProjectEntry { RealEstateId = r.Id.Value }))
                 entries.RealEstateProjectEntry.Add(entry);

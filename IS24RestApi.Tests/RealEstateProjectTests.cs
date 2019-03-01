@@ -1,6 +1,6 @@
 ﻿using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstateProject;
-using RestSharp;
+using IS24RestApi.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;

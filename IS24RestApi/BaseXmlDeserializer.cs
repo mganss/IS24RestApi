@@ -4,9 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
-using RestSharp;
-using RestSharp.Deserializers;
 using System.Xml;
+using IS24RestApi.Rest;
 
 namespace IS24RestApi
 {

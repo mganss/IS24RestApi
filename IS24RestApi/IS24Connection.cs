@@ -2,11 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using RestSharp;
-using RestSharp.Authenticators;
-using RestSharp.Deserializers;
-using RestSharp.Extensions;
-using RestSharp.Serializers;
+using IS24RestApi.Rest;
 using IS24RestApi.Common;
 using System.Reflection;
 using System.Web;

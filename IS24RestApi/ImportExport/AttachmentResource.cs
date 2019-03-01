@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Linq;
-using RestSharp;
+using IS24RestApi.Rest;
 using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.VideoUpload;

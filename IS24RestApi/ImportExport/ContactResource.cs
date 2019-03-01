@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using RestSharp;
+using IS24RestApi.Rest;
 using IS24RestApi.Offer;
 using IS24RestApi.Common;
 

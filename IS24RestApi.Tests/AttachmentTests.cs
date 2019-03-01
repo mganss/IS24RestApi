@@ -1,7 +1,7 @@
 ﻿using IS24RestApi.Common;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.VideoUpload;
-using RestSharp;
+using IS24RestApi.Rest;
 using System;
 using System.Collections.Generic;
 using System.IO;
