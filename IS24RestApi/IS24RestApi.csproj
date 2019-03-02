@@ -8,7 +8,7 @@
     <AssemblyVersion>3.0.0</AssemblyVersion>
     <AssemblyFileVersion>3.0.0</AssemblyFileVersion>
     <Authors>Michael Ganss</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <AssemblyName>IS24RestApi</AssemblyName>
     <PackageId>IS24RestApi</PackageId>
     <PackageTags>immobilienscout24;immoscout;is24</PackageTags>
@@ -24,6 +24,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.6.9" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 using IS24RestApi.Offer.PremiumPlacement;
 using IS24RestApi.Offer.ShowcasePlacement;
 using IS24RestApi.Offer.TopPlacement;
-using IS24RestApi.Rest;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

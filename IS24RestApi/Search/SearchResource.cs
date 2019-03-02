@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IS24RestApi.Rest;
+using RestSharp;
 using System.ComponentModel;
 using IS24RestApi.Search;
 using System.Globalization;

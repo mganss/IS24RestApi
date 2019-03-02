@@ -27,7 +27,7 @@ namespace IS24RestApi
 
             return writer.ToString();
         }
-
+    
         private class EncodingStringWriter : StringWriter
         {
             private readonly Encoding encoding;

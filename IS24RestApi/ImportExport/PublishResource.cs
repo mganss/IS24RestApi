@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using IS24RestApi.Rest;
+using RestSharp;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
 using System.Collections.Generic;

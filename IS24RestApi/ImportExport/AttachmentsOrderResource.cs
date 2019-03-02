@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using IS24RestApi.Rest;
+using RestSharp;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.AttachmentsOrder;
 using IS24RestApi.Common;

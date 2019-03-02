@@ -3,7 +3,7 @@
     <Description>Sample console application for IS24RestApi.</Description>
     <Copyright>Copyright 2013-2018 Michael Ganss</Copyright>
     <AssemblyTitle>SampleConsole</AssemblyTitle>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;net46</TargetFrameworks>
     <AssemblyName>SampleConsole</AssemblyName>
     <RootNamespace>SampleConsole</RootNamespace>
     <OutputType>Exe</OutputType>

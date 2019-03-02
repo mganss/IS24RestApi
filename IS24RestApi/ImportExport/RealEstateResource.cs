@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using IS24RestApi.Rest;
+using RestSharp;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
 using IS24RestApi.Offer.ListElement;
