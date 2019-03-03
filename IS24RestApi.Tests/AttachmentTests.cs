@@ -22,10 +22,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", RestClient.BuildUri(r).ToString());
                 return new Picture { Id = 1 };
             });
 
@@ -36,9 +36,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Get_ResourceDoesNotExist_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -51,7 +51,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Picture { Id = 1 };
             });
@@ -66,10 +66,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Update_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", RestClient.BuildUri(r).AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
@@ -80,7 +80,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Update_CallSucceeds_NoExceptionThrown()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
@@ -92,9 +92,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Update_PostsAttachmentObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = Http.RequestBody });
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() });
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal(1, a.Id);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -107,9 +107,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Update_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -122,10 +122,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_GetAll_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
                 return new Attachments { Attachment = { } };
             });
 
@@ -136,7 +136,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_GetAll_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Attachments
                 {
@@ -158,10 +158,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Delete_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
@@ -172,24 +172,24 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Create_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
         }
 
         [Fact]
         public async Task Attachment_CreateLink_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
 
@@ -200,7 +200,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_CreateLink_CallSucceeds_NoExceptionThrown()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
@@ -212,9 +212,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_CreateLink_PostsAttachmentObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var l = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = Http.RequestBody });
+                var l = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
                 Assert.IsAssignableFrom<Link>(l);
                 Assert.Equal("http://www.example.com", ((Link)l).Url);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
@@ -227,9 +227,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_CreateLink_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -242,11 +242,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Create_HasFile()
         {
-            var bytes = File.ReadAllBytes(@"..\..\test.jpg");
+            var bytes = File.ReadAllBytes(@"..\..\..\test.jpg");
 
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var file = Http.Files.Single(f => f.Name == "attachment");
+                var file = r.Files.Single(f => f.Name == "attachment");
                 Assert.Equal("image/jpeg", file.ContentType);
                 Assert.Equal("test.jpg", file.FileName);
                 Assert.Equal(bytes.Length, file.ContentLength);
@@ -257,15 +257,15 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
         }
 
         [Fact]
         public async Task Attachment_Create_HasMetadata()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var meta = Http.Files.Single(f => f.Name == "metadata");
+                var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
                 var ms = new MemoryStream();
@@ -281,13 +281,13 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
         }
 
         [Fact]
         public async Task Attachment_Create_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 var msgs = new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
                 return msgs;
@@ -296,7 +296,7 @@ namespace IS24RestApi.Tests
             var att = new Picture { Title = "Test" };
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(att, @"..\..\test.jpg");
+            await re.Attachments.CreateAsync(att, @"..\..\..\test.jpg");
 
             Assert.Equal(4711, att.Id);
         }
@@ -304,58 +304,58 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Create_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateAsync(new Picture { Id = 1 }, @"..\..\test.jpg");
+                await re.Attachments.CreateAsync(new Picture { Id = 1 }, @"..\..\..\test.jpg");
             });
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/videouploadticket", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/videouploadticket", RestClient.BuildUri(r).AbsoluteUri);
                 return new VideoUploadTicket { Auth = "secret", UploadUrl = "http://www.example.com/test", VideoId = "xyz" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("secret", Http.Parameters.Single(p => p.Name == "auth").Value);
-                Assert.Equal("http://www.example.com/test", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("secret", (string)r.Parameters.Single(p => p.Name == "auth").Value);
+                Assert.Equal("http://www.example.com/test", RestClient.BuildUri(r).AbsoluteUri);
                 return "ok";
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("POST", m);
-                var v = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = Http.RequestBody });
+                Assert.Equal(Method.POST, r.Method);
+                var v = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
                 Assert.Equal("xyz", ((StreamingVideo)v).VideoId);
                 Assert.Equal("Video", ((StreamingVideo)v).Title);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
 
             var video = new StreamingVideo { Title = "Video" };
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_HasFile()
         {
-            var bytes = File.ReadAllBytes(@"..\..\test.avi");
+            var bytes = File.ReadAllBytes(@"..\..\..\test.avi");
 
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new VideoUploadTicket { Auth = "secret", UploadUrl = "http://www.example.com/test", VideoId = "xyz" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                var file = Http.Files.Single(f => f.Name == "videofile");
+                var file = r.Files.Single(f => f.Name == "videofile");
                 Assert.Equal("application/octet-stream", file.ContentType);
                 Assert.Equal("test.avi", file.FileName);
                 Assert.Equal(bytes.Length, file.ContentLength);
@@ -363,32 +363,32 @@ namespace IS24RestApi.Tests
                 file.Writer(ms);
                 AssertEx.CollectionEqual(bytes, ms.ToArray());
                 return "ok";
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(new StreamingVideo { Title = "Video" }, @"..\..\..\test.avi");
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new VideoUploadTicket { Auth = "secret", UploadUrl = "http://www.example.com/test", VideoId = "xyz" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return "ok";
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
 
             var video = new StreamingVideo { Title = "Video" };
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
             Assert.Equal(4711, video.Id);
             Assert.Equal("xyz", video.VideoId);
         }
@@ -396,67 +396,67 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_CreateVideo_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
             });
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_ErrorOccursAtPostVideo_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new VideoUploadTicket { Auth = "secret", UploadUrl = "http://www.example.com/test", VideoId = "xyz" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                return new HttpStubResponse { ResponseObject = "fail", StatusCode = HttpStatusCode.BadRequest };
+                return new RestResponseStub { ResponseObject = "fail", StatusCode = HttpStatusCode.BadRequest };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
             });
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_ErrorOccursAtPostAttachment_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new VideoUploadTicket { Auth = "secret", UploadUrl = "http://www.example.com/test", VideoId = "xyz" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return "ok";
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
             });
         }
 
         [Fact]
         public async Task AttachmentsOrder_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", RestClient.BuildUri(r).ToString());
                 return new AttachmentsOrder.List { AttachmentId = { 1, 2, 3 } };
             });
 
@@ -467,7 +467,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task AttachmentsOrder_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new AttachmentsOrder.List { AttachmentId = { 1, 2, 3 } };
             });
@@ -482,10 +482,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task AttachmentsOrder_Update_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", RestClient.BuildUri(r).AbsoluteUri);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
@@ -496,7 +496,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task AttachmentsOrder_Update_CallSucceeds_NoExceptionThrown()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
@@ -508,9 +508,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task AttachmentsOrder_Update_PostsAttachmentObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var list = new BaseXmlDeserializer().Deserialize<AttachmentsOrder.List>(new RestResponse { Content = Http.RequestBody });
+                var list = r.Body() as AttachmentsOrder.List;
                 Assert.IsAssignableFrom<AttachmentsOrder.List>(list);
                 AssertEx.CollectionEqual<long>(new long[] { 3, 2, 1 }, list.AttachmentId);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -523,9 +523,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task AttachmentsOrder_Update_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -539,43 +539,43 @@ namespace IS24RestApi.Tests
         public async Task CalculatesCorrectHash()
         {
             var a = new Attachment();
-            await a.CalculateCheckSumAsync(@"..\..\test.jpg");
+            await a.CalculateCheckSumAsync(@"..\..\..\test.jpg");
             Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a.ExternalCheckSum);
         }
 
         [Fact]
         public async Task SyncWorks()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
                 return new Attachments
                 {
                     Attachment = {
                         new Picture { Id = 1, ExternalId = "Z0", Title = "Zimmer 0", ExternalCheckSum = "9c2210b068d609fb655f1c3423698dd1" },
                         new Picture { Id = 2, ExternalId = "Z2", Title = "Zimmer 2", ExternalCheckSum = "4711" },
                         new Picture { Id = 30, ExternalId = "Z3", Title = "Zimmer 3", ExternalCheckSum = "9c2210b068d609fb655f1c3423698dd1" },
-                        new StreamingVideo { Id = 3, ExternalId = "572d7a1c40b15b36d1b4443a05fe2c4e", Title = "Video", ExternalCheckSum = "bb84e757201eba7d1840153179297e8a" },
+                        new StreamingVideo { Id = 3, ExternalId = "817725e73569630898538fda4b22d0b9", Title = "Video", ExternalCheckSum = "bb84e757201eba7d1840153179297e8a" },
                         new PDFDocument { Id = 4, ExternalId = "P1", Title = "Test", ExternalCheckSum = "24c43a4388ae2ea98322fa7016dd3274" },
                         new Link { Id = 5, ExternalId = "L1", Title = "Test", Url = "http://www.example.com/" }
                     }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/1", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/2", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/2", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
-                var meta = Http.Files.Single(f => f.Name == "metadata");
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
+                var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
                 var ms = new MemoryStream();
@@ -587,11 +587,11 @@ namespace IS24RestApi.Tests
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal("Zimmer 1", a.Title);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [6] has been created.", Id = "6" } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", Http.Url.AbsoluteUri);
-                var meta = Http.Files.Single(f => f.Name == "metadata");
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
+                var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
                 var ms = new MemoryStream();
@@ -603,41 +603,41 @@ namespace IS24RestApi.Tests
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal("Zimmer 2", a.Title);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [7] has been created.", Id = "7" } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/4", Http.Url.AbsoluteUri);
-                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = Http.RequestBody });
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/4", RestClient.BuildUri(r).AbsoluteUri);
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal("Test Update", a.Title);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", RestClient.BuildUri(r).ToString());
                 return new AttachmentsOrder.List { AttachmentId = { 30, 4, 6, 7 } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", Http.Url.AbsoluteUri);
-                var list = new BaseXmlDeserializer().Deserialize<AttachmentsOrder.List>(new RestResponse { Content = Http.RequestBody });
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/attachmentsorder", RestClient.BuildUri(r).AbsoluteUri);
+                var list = r.Body() as AttachmentsOrder.List;
                 Assert.IsAssignableFrom<AttachmentsOrder.List>(list);
                 AssertEx.CollectionEqual<long>(new long[] { 6, 7, 4, 30 }, list.AttachmentId);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            var a1 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z1", Title = "Zimmer 1" }, @"..\..\test.jpg");
-            var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, @"..\..\test.jpg");
-            var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, @"..\..\test.jpg");
-            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, @"..\..\test.pdf");
-            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
+            var a1 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z1", Title = "Zimmer 1" }, @"..\..\..\test.jpg");
+            var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, @"..\..\..\test.jpg");
+            var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, @"..\..\..\test.jpg");
+            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, @"..\..\..\test.pdf");
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\..\test.avi");
             var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
             var atts = new[] { a1, link, video, a2, pdf, a3 };
 
             await re.Attachments.UpdateAsync(atts);
 
-            Assert.Equal("572d7a1c40b15b36d1b4443a05fe2c4e", video.Key.ExternalId);
+            Assert.Equal("817725e73569630898538fda4b22d0b9", video.Key.ExternalId);
             Assert.Equal(4, pdf.Key.Id);
             Assert.Equal(6, a1.Key.Id);
             Assert.Equal(7, a2.Key.Id);

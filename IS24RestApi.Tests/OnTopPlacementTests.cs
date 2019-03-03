@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Xunit;
 
 namespace IS24RestApi.Tests
@@ -22,10 +23,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Create_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list", Http.Url.ToString());
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list", RestClient.BuildUri(r).ToString());
                 return new Topplacements();
             });
 
@@ -35,11 +36,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Create_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var e = new BaseXmlDeserializer().Deserialize<Topplacements>(new RestResponse { Content = Http.RequestBody });
+                var e = r.Body() as Topplacements;
                 Assert.IsType<Topplacements>(e);
-                Assert.Equal(1, e.Topplacement.Count);
+                Assert.Single(e.Topplacement);
                 Assert.Equal("1", e.Topplacement.Single().Realestateid);
 
                 return new Topplacements
@@ -59,15 +60,15 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_CreateWithId_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource topplacement with id 4711 has been created." } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource topplacement with id 4712 has been created." } } };
             });
 
@@ -78,10 +79,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_CreateWithId_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.ERROR_RESOURCE_VALIDATION, MessageProperty = "Error while validating input for the resource. [MESSAGE: topplacement for this real estate is not possible:Not allowed to perform ontop for unpublished realestate (#1).]" } } };
             });
 
@@ -94,10 +95,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_GetAll_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/all", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/all", RestClient.BuildUri(r).ToString());
                 return new Topplacements();
             });
 
@@ -107,7 +108,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_GetAll_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Topplacements
                 {
@@ -163,15 +164,15 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", RestClient.BuildUri(r).ToString());
                 return new Topplacements();
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", RestClient.BuildUri(r).ToString());
                 return new Topplacements();
             });
 
@@ -182,10 +183,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task ShowcasePlacement_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/showcaseplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/showcaseplacement", RestClient.BuildUri(r).ToString());
                 return new Showcaseplacements
                 {
                     Showcaseplacement =
@@ -200,10 +201,10 @@ namespace IS24RestApi.Tests
                         }
                     }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/showcaseplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/showcaseplacement", RestClient.BuildUri(r).ToString());
                 return new Showcaseplacements();
             });
 
@@ -223,10 +224,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task PremiumPlacement_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/premiumplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/premiumplacement", RestClient.BuildUri(r).ToString());
                 return new Premiumplacements
                 {
                     Premiumplacement =
@@ -241,10 +242,10 @@ namespace IS24RestApi.Tests
                         }
                     }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/premiumplacement", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/premiumplacement", RestClient.BuildUri(r).ToString());
                 return new Premiumplacements();
             });
 
@@ -264,7 +265,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Get_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Topplacements
                 {
@@ -280,7 +281,7 @@ namespace IS24RestApi.Tests
                         }
                     }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return new Topplacements
                 {
@@ -294,7 +295,7 @@ namespace IS24RestApi.Tests
                         }
                     }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 return new Topplacements
                 {
@@ -334,10 +335,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_RemoveAll_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/all", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/all", RestClient.BuildUri(r).ToString());
                 return new Topplacements();
             });
 
@@ -347,7 +348,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_RemoveAll_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Topplacements
                 {
@@ -403,15 +404,15 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Remove_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "Resource topplacement with id 4711 has been deleted." } } };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/ext-2/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "Resource topplacement with id 4712 has been deleted." } } };
             });
 
@@ -422,7 +423,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Remove_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "Resource topplacement with id 4711 has been deleted." } } };
             });
@@ -433,10 +434,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_Remove_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/1/topplacement", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.ERROR_RESOURCE_VALIDATION, MessageProperty = "Error while validating input for the resource. [MESSAGE: topplacement for realestate with id='1' can not be deleted before 2014-01-29T13:17:10.000+01:00]" } } };
             });
 
@@ -450,15 +451,15 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_RemoveList_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list?realestateids=" + WebUtility.UrlEncode("1,2"), Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list?realestateids=" + HttpUtility.UrlEncode("1,2"), RestClient.BuildUri(r).ToString());
                 return new Topplacements();
-            }).RespondWith(m =>
+            }).RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list?realestateids=" + WebUtility.UrlEncode("ext-3,ext-4"), Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/topplacement/list?realestateids=" + HttpUtility.UrlEncode("ext-3,ext-4"), RestClient.BuildUri(r).ToString());
                 return new Topplacements();
             });
 
@@ -469,7 +470,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task OnTopPlacement_RemoveList_CallSucceeds()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Topplacements
                 {

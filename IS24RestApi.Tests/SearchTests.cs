@@ -9,6 +9,7 @@ using System.Net.Http;
 using Xunit;
 using IS24RestApi.Search.Common;
 using IS24RestApi.Search.ResultList;
+using RestSharp;
 
 namespace IS24RestApi.Tests
 {
@@ -21,12 +22,12 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Search_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
+                Assert.Equal(Method.GET, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/radius";
-                Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
-                var parms = Http.Url.ParseQueryString();
+                Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                var parms = RestClient.BuildUri(r).ParseQueryString();
                 Assert.Equal("apartmentrent", parms["realestatetype"]);
                 Assert.Equal("1.00;2.00;10", parms["geocoordinates"]);
                 Assert.Equal("full text", parms["fulltext"]);
@@ -109,12 +110,12 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Search_Get_CanPerformRegionSearch()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
+                Assert.Equal(Method.GET, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
-                Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
-                var parms = Http.Url.ParseQueryString();
+                Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                var parms = RestClient.BuildUri(r).ParseQueryString();
                 Assert.Equal("grouping,matchcount", parms["features"]);
                 Assert.Equal("apartmentrent", parms["realestatetype"]);
                 Assert.Equal("1002003004005", parms["geocodes"]);
@@ -169,12 +170,12 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Search_Get_CanPerformIS24ChannelSearch()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
+                Assert.Equal(Method.GET, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
-                Assert.Equal(url, Http.Url.GetLeftPart(UriPartial.Path));
-                var parms = Http.Url.ParseQueryString();
+                Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                var parms = RestClient.BuildUri(r).ParseQueryString();
                 Assert.Equal("is24", parms["channel"]);
                 return new IS24RestApi.Search.ResultList.Resultlist
                 {

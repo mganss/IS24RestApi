@@ -46,11 +46,10 @@ namespace IS24RestApi.Tests
         {
             var xmlSerializer = new BaseXmlSerializer();
             var xmlDeserializer = new BaseXmlDeserializer();
-            var folder = Directory.GetCurrentDirectory();
 
             foreach (var suffix in new[] { "min", "max" })
             {
-                var xml = File.ReadAllText(string.Format(@"{0}\xml\{1}_{2}.xml", folder, file, suffix));
+                var xml = File.ReadAllText($@"..\..\..\xml\{file}_{suffix}.xml");
 
                 var deserializedObject = xmlDeserializer.Deserialize<T>(new RestResponse { Content = xml });
 

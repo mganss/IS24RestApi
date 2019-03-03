@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IS24RestApi", "IS24RestApi\IS24RestApi.csproj", "{C7A378E1-D9EE-45B9-B147-0F366B0CE314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS24RestApi", "IS24RestApi\IS24RestApi.csproj", "{C7A378E1-D9EE-45B9-B147-0F366B0CE314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleConsole", "SampleConsole\SampleConsole.csproj", "{F73B3606-BD7F-4C2B-BC9E-843DD577C2D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleConsole", "SampleConsole\SampleConsole.csproj", "{F73B3606-BD7F-4C2B-BC9E-843DD577C2D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IS24RestApi.Tests", "IS24RestApi.Tests\IS24RestApi.Tests.csproj", "{C290D9C5-B131-44C0-A263-4CBCAB80C4D6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9D6991F-E711-4AEA-AABD-F11CA13625BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IS24RestApi.Tests", "IS24RestApi.Tests\IS24RestApi.Tests.csproj", "{C290D9C5-B131-44C0-A263-4CBCAB80C4D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

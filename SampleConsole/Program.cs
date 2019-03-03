@@ -180,11 +180,11 @@ namespace SampleConsole
 
             var placement = await realEstate.PremiumPlacements.GetAsync();
 
-            var a1 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 1", Floorplan = false, TitlePicture = true }, @"..\..\test.jpg");
-            var a2 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 2" }, @"..\..\test.jpg");
-            var a3 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 3" }, @"..\..\test.jpg");
-            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { Title = "Test" }, @"..\..\test.pdf");
-            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\test.avi");
+            var a1 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 1", Floorplan = false, TitlePicture = true }, @"..\..\..\test.jpg");
+            var a2 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 2" }, @"..\..\..\test.jpg");
+            var a3 = new KeyValuePair<Attachment, string>(new Picture { Title = "Zimmer 3" }, @"..\..\..\test.jpg");
+            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { Title = "Test" }, @"..\..\..\test.pdf");
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\..\test.avi");
             var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
 
             var atts = new[] { video, a1, pdf, a2, link, a3 };

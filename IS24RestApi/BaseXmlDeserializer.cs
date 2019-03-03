@@ -1,19 +1,19 @@
-﻿using System;
+﻿using RestSharp;
+using RestSharp.Deserializers;
+using RestSharp.Serialization.Xml;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Xml.Linq;
-using RestSharp;
-using RestSharp.Deserializers;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace IS24RestApi
 {
     /// <summary>
     /// A deserializer which can deserialize derived classes.
     /// </summary>
-    public class BaseXmlDeserializer : IDeserializer
+    public class BaseXmlDeserializer : IDeserializer, IXmlDeserializer
     {
         /// <summary>
         /// Ignored

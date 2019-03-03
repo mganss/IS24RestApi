@@ -1,4 +1,5 @@
 ﻿using IS24RestApi.Common;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,20 @@ namespace IS24RestApi.Tests
 {
     public class AuthTests
     {
-        public HttpStub Http { get; set; }
+        public RestClientStub RestClient { get; set; }
 
         public IS24Connection Connection { get; set; }
 
         public AuthTests()
         {
-            Http = new HttpStub();
+            RestClient = new RestClientStub();
 
             Connection = new IS24Connection
             {
-                HttpFactory = new HttpFactory(Http),
+                RestClientFactory = baseUrl => {
+                    RestClient.BaseUrl = new Uri(baseUrl);
+                    return RestClient;
+                },
                 BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/api",
                 ConsumerKey = "ConsumerKey",
                 ConsumerSecret = "ConsumerSecret"
@@ -31,11 +35,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Auth_GetRequestToken_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/request_token", Http.Url.ToString());
-                return new HttpStubResponse
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/request_token", RestClient.BuildUri(r).ToString());
+                return new RestResponseStub
                 {
                     StatusCode = HttpStatusCode.OK,
                     Raw = true,
@@ -53,9 +57,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Auth_GetRequestToken_ErrorThrowsException()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () => await Connection.GetRequestToken());
@@ -64,11 +68,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Auth_GetAccessToken_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/access_token", Http.Url.ToString());
-                return new HttpStubResponse
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/access_token", RestClient.BuildUri(r).ToString());
+                return new RestResponseStub
                 {
                     StatusCode = HttpStatusCode.OK,
                     Raw = true,
@@ -89,9 +93,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Auth_GetAccessToken_ErrorThrowsException()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
             });
 
             Connection.RequestToken = "request_token";

@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using IS24RestApi.Common;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Extensions;
-using RestSharp.Serializers;
-using IS24RestApi.Common;
+using RestSharp.Serialization.Xml;
+using System;
+using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace IS24RestApi
@@ -21,12 +20,12 @@ namespace IS24RestApi
         /// <summary>
         /// The XML deserializer
         /// </summary>
-        private  static readonly IDeserializer xmlDeserializer = new BaseXmlDeserializer();
+        private static readonly IXmlDeserializer xmlDeserializer = new BaseXmlDeserializer();
 
         /// <summary>
         /// The XML serializer
         /// </summary>
-        private static readonly ISerializer xmlSerializer = new BaseXmlSerializer();
+        private static readonly IXmlSerializer xmlSerializer = new BaseXmlSerializer();
 
         private string _baseUrlPrefix;
 
@@ -75,10 +74,10 @@ namespace IS24RestApi
         public string AccessTokenSecret { get; set; }
 
         /// <summary>
-        /// The factory of IHttp objects that the RestClient uses to communicate with the service.
+        /// The factory of IRestClient objects that is used to communicate with the service.
         /// Used mainly for testing purposes.
         /// </summary>
-        public IHttpFactory HttpFactory { get; set; }
+        public Func<string, IRestClient> RestClientFactory { get; set; } = baseUrl => new RestClient(baseUrl);
 
         /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
@@ -139,7 +138,7 @@ namespace IS24RestApi
             return response;
         }
 
-        static string AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        static readonly string AssemblyVersion = typeof(IS24Connection).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
         /// <summary>
         /// Performs an API request as an asynchronous task.
@@ -151,15 +150,13 @@ namespace IS24RestApi
         public async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new()
         {
             var url = string.Join("/", BaseUrlPrefix, baseUrl);
-            var client = new RestClient(url)
-                         {
-                             UserAgent = "IS24RestApi/" + AssemblyVersion,
-                             Authenticator =
-                                 OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret)
-                         };
-            if (HttpFactory != null) client.HttpFactory = HttpFactory;
+            var client = RestClientFactory(url);
+
+            client.UserAgent = "IS24RestApi/" + AssemblyVersion;
+            client.Authenticator =
+                OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
             client.ClearHandlers();
-            client.AddHandler("application/xml", xmlDeserializer);
+            client.AddHandler("application/xml", () => xmlDeserializer);
             request.XmlSerializer = xmlSerializer;
 
             var response = Deserialize<T>(request, await client.ExecuteTaskAsync(request));
@@ -177,13 +174,8 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetRequestToken(string callbackUrl = "oob")
         {
-            var client = new RestClient(BaseUrlPrefix)
-            {
-                Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl)
-            };
-
-            if (HttpFactory != null) client.HttpFactory = HttpFactory;
-
+            var client = RestClientFactory(BaseUrlPrefix);
+            client.Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl);
             var request = new RestRequest("oauth/request_token", Method.GET);
             var response = await client.ExecuteTaskAsync(request);
 
@@ -205,13 +197,8 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetAccessToken(string verifier)
         {
-            var client = new RestClient(BaseUrlPrefix)
-            {
-                Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier)
-            };
-
-            if (HttpFactory != null) client.HttpFactory = HttpFactory;
-
+            var client = RestClientFactory(BaseUrlPrefix);
+            client.Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier);
             var request = new RestRequest("oauth/access_token", Method.GET);
             var response = await client.ExecuteTaskAsync(request);
 

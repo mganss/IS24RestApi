@@ -23,11 +23,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Title = "Test" };
             });
 
@@ -37,9 +37,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Get_RequestsCorrectExternalIdPrefix()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.True(Http.Url.AbsolutePath.EndsWith("/ext-test"));
+                Assert.EndsWith("/ext-test", RestClient.BuildUri(r).AbsolutePath);
                 return new ApartmentRent { Title = "test" };
             });
 
@@ -49,9 +49,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Get_ResourceDoesNotExist_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -63,7 +63,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new ApartmentRent { Title = "test" };
             });
@@ -77,11 +77,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Create_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query); 
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query); 
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
@@ -93,7 +93,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Create_CallSucceeds_RealEstateObjectHasNewId()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
@@ -108,25 +108,25 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Create_PostsRealEstateObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var re = new BaseXmlDeserializer().Deserialize<RealEstate>(new RestResponse { Content = Http.RequestBody });
+                var re = r.Parameters.Single(p => p.Type == ParameterType.RequestBody).Value as RealEstate;
                 Assert.IsType<ApartmentRent>(re);
                 Assert.Equal("Test", re.Title);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
-            var r = new ApartmentRent { Title = "Test" };
+            var a = new ApartmentRent { Title = "Test" };
 
-            await Client.RealEstates.CreateAsync(r);
+            await Client.RealEstates.CreateAsync(a);
         }
 
         [Fact]
         public async Task RealEstate_Create_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -138,11 +138,11 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Update_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
@@ -154,7 +154,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Create_CallSucceeds_NoExceptionThrown()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
@@ -167,25 +167,25 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Update_PostsRealEstateObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var re = new BaseXmlDeserializer().Deserialize<RealEstate>(new RestResponse { Content = Http.RequestBody });
+                var re = r.Body() as RealEstate;
                 Assert.IsType<ApartmentRent>(re);
                 Assert.Equal(4711, re.Id);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
-            var r = new ApartmentRent { Id = 4711, Title = "Test" };
+            var a = new ApartmentRent { Id = 4711, Title = "Test" };
 
-            await Client.RealEstates.UpdateAsync(r);
+            await Client.RealEstates.UpdateAsync(a);
         }
 
         [Fact]
         public async Task RealEstate_Update_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -197,10 +197,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstate_Delete_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
@@ -210,12 +210,12 @@ namespace IS24RestApi.Tests
         [Fact]
         public void RealEstate_GetAll_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
-                Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
-                var url = Http.Url.GetLeftPart(UriPartial.Path);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
+                Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
+                var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
             });
@@ -226,34 +226,34 @@ namespace IS24RestApi.Tests
         [Fact]
         public void RealEstate_GetAll_RequestsCorrectPages()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4711 } },
                     Paging = new Paging { NumberOfPages = 2 }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Id = 4711, Title = "Test 1" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal(2, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                Assert.Equal(2, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4712 } },
                     Paging = new Paging { NumberOfPages = 2 }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", Http.Url.GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", Http.Url.Query);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Id = 4712, Title = "Test 2" };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 Assert.True(false, "Must not request more pages than available.");
                 return new Messages { Message = { new Message { MessageProperty = "fail", MessageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };
@@ -269,12 +269,12 @@ namespace IS24RestApi.Tests
         [Fact]
         public void RealEstate_GetSummaries_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal(1, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
-                Assert.InRange(int.Parse(Http.Parameters.Single(p => p.Name == "pagesize").Value), 1, 100);
-                var url = Http.Url.GetLeftPart(UriPartial.Path);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
+                Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
+                var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
             });
@@ -285,22 +285,22 @@ namespace IS24RestApi.Tests
         [Fact]
         public void RealEstate_GetSummaries_RequestsCorrectPages()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4711 } },
                     Paging = new Paging { NumberOfPages = 2 }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
-                Assert.Equal(2, int.Parse(Http.Parameters.Single(p => p.Name == "pagenumber").Value));
+                Assert.Equal(2, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4712 } },
                     Paging = new Paging { NumberOfPages = 2 }
                 };
-            }).ThenWith(m =>
+            }).ThenWith(r =>
             {
                 Assert.True(false, "Must not request more pages than available.");
                 return new Messages { Message = { new Message { MessageProperty = "fail", MessageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };

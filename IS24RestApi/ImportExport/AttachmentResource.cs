@@ -11,10 +11,6 @@ using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.VideoUpload;
 using System.Security.Cryptography;
 
-#if NET40
-using System.Reflection;
-#endif
-
 namespace IS24RestApi
 {
     /// <summary>
@@ -146,31 +142,8 @@ namespace IS24RestApi
                     throw new ArgumentException(string.Format("The file at path '{0}' is not available.", path));
                 }
 
-                return await CreateAsync(att, stream, fileName, GetMimeMapping(fileName));
+                return await CreateAsync(att, stream, fileName, MimeMapping.MimeUtility.GetMimeMapping(fileName));
             }
-        }
-
-#if NET40
-        private static MethodInfo MimeMappingMethod = GetMimeMappingMethod();
-
-        private static MethodInfo GetMimeMappingMethod()
-        {
-            var assembly = Assembly.GetAssembly(typeof(HttpApplication));
-            var mimeMappingType = assembly.GetType("System.Web.MimeMapping");
-            var getMimeMappingMethod = mimeMappingType.GetMethod("GetMimeMapping",
-                BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public |
-                BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
-            return getMimeMappingMethod;
-        }
-#endif
-
-        private static string GetMimeMapping(string fileName)
-        {
-#if NET40
-            return (string)MimeMappingMethod.Invoke(null, new[] { fileName });
-#else
-            return MimeMapping.GetMimeMapping(fileName);
-#endif
         }
 
         /// <summary>
@@ -228,9 +201,8 @@ namespace IS24RestApi
             var videoUploadTicket = await ExecuteAsync<VideoUploadTicket>(Connection, req);
 
             // 2. Upload your video to screen9
-            var uploadClient = new RestClient(videoUploadTicket.UploadUrl);
-            if (Connection.HttpFactory != null) uploadClient.HttpFactory = Connection.HttpFactory;
-            req = new RestRequest();
+            var uploadClient = Connection.RestClientFactory(videoUploadTicket.UploadUrl);
+            req = new RestRequest(Method.POST);
 
             req.AddParameter("auth", videoUploadTicket.Auth);
 
@@ -246,7 +218,7 @@ namespace IS24RestApi
 
             req.AddFile("videofile", bytes, fileName, "application/octet-stream");
 
-            var resp = await uploadClient.ExecutePostTaskAsync(req);
+            var resp = await uploadClient.ExecuteTaskAsync(req);
             if (resp.ErrorException != null) throw new IS24Exception(string.Format("Error uploading video {0}.", path), resp.ErrorException);
             if ((int)resp.StatusCode >= 400) throw new IS24Exception(string.Format("Error uploading video {0}: {1}", path, resp.StatusDescription));
 

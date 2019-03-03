@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using RestSharp;
 
 namespace IS24RestApi
@@ -34,10 +35,10 @@ namespace IS24RestApi
         string AccessTokenSecret { get; set; }
 
         /// <summary>
-        /// The factory of IHttp objects that the RestClient uses to communicate with the service.
+        /// The factory of IRestClient objects that is used to communicate with the service.
         /// Used mainly for testing purposes.
         /// </summary>
-        IHttpFactory HttpFactory { get; set; }
+        Func<string, IRestClient> RestClientFactory { get; set; }
 
         /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource

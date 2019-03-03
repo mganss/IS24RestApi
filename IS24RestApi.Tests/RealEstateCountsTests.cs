@@ -23,10 +23,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstateCounts_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", Http.Url.GetLeftPart(UriPartial.Path));
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 return new Realestate.Counts.RealEstateCounts
                 {
                     Is24PublishedRealEstatesCount = 10,
@@ -40,7 +40,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task RealEstateCounts_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m => new Realestate.Counts.RealEstateCounts
+            RestClient.RespondWith(r => new Realestate.Counts.RealEstateCounts
             {
                 Is24PublishedRealEstatesCount = 10,
                 Is24NotPublishedRealEstatesCount = 20

@@ -1,4 +1,5 @@
 ﻿using IS24RestApi.Common;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task PublishChannel_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", Http.Url.AbsoluteUri);
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", RestClient.BuildUri(r).AbsoluteUri);
                 return new PublishChannels { PublishChannel = { } };
             });
 
@@ -30,7 +31,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task PublishChannel_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new PublishChannels
                 {

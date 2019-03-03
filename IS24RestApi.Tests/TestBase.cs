@@ -9,15 +9,18 @@ namespace IS24RestApi.Tests
     public class TestBase<T>
     {
         public T Client { get; set; }
-        public HttpStub Http { get; set; }
+        public RestClientStub RestClient { get; set; }
 
         public TestBase(string baseUrlPrefix, Func<IIS24Connection, T> createClient)
         {
-            Http = new HttpStub();
+            RestClient = new RestClientStub();
 
             var connection = new IS24Connection
             {
-                HttpFactory = new HttpFactory(Http),
+                RestClientFactory = baseUrl => {
+                    RestClient.BaseUrl = new Uri(baseUrl);
+                    return RestClient;
+                },
                 BaseUrlPrefix = baseUrlPrefix,
                 AccessToken = "AccessToken",
                 AccessTokenSecret = "AccessTokenSecret",

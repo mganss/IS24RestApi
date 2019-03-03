@@ -19,10 +19,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Get_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", RestClient.BuildUri(r).ToString());
                 return new RealtorContactDetails { Id = 4711 };
             });
 
@@ -32,9 +32,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Get_RequestsCorrectExternalIdPrefix()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.True(Http.Url.AbsoluteUri.EndsWith("/ext-Hans%20Meiser"));
+                Assert.EndsWith("/ext-Hans%20Meiser", RestClient.BuildUri(r).AbsoluteUri);
                 return new RealtorContactDetails { ExternalId = "Hans Meiser", Id = 4711 };
             });
 
@@ -44,9 +44,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Get_ResourceDoesNotExist_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.NotFound, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -58,7 +58,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Get_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new RealtorContactDetails { Id = 4711 };
             });
@@ -72,10 +72,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Create_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("POST", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact", Http.Url.ToString());
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
             });
 
@@ -87,7 +87,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Create_CallSucceeds_RealEstateObjectHasNewId()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
             });
@@ -102,9 +102,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Create_PostsRealtorObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var c = new BaseXmlDeserializer().Deserialize<RealtorContactDetails>(new RestResponse { Content = Http.RequestBody });
+                var c = r.Body() as RealtorContactDetails;
                 Assert.IsType<RealtorContactDetails>(c);
                 Assert.Equal("Meiser", c.Lastname);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Contact with id [4711] has been created.", Id = "4711" } } };
@@ -118,9 +118,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Create_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -132,10 +132,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Update_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("PUT", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", Http.Url.ToString());
+                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
 
@@ -147,7 +147,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Create_CallSucceeds_NoExceptionThrown()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
             });
@@ -160,9 +160,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Update_PostsRealEstateObject()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                var c = new BaseXmlDeserializer().Deserialize<RealtorContactDetails>(new RestResponse { Content = Http.RequestBody });
+                var c = r.Body() as RealtorContactDetails;
                 Assert.IsType<RealtorContactDetails>(c);
                 Assert.Equal(4711, c.Id);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -176,10 +176,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Update_ExternalIdIsUsedIfIdIsNull()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/ext-test", Http.Url.ToString());
-                var c = new BaseXmlDeserializer().Deserialize<RealtorContactDetails>(new RestResponse { Content = Http.RequestBody });
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/ext-test", RestClient.BuildUri(r).ToString());
+                var c = r.Body() as RealtorContactDetails;
                 Assert.IsType<RealtorContactDetails>(c);
                 Assert.Null(c.Id);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -193,9 +193,9 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Update_ErrorOccurs_ThrowsIS24Exception()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                return new HttpStubResponse { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
+                return new RestResponseStub { StatusCode = HttpStatusCode.PreconditionFailed, ResponseObject = new Messages() };
             });
 
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
@@ -207,10 +207,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_GetAll_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("GET", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact", Http.Url.ToString());
+                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact", RestClient.BuildUri(r).ToString());
                 return new RealtorContactDetailsList { RealtorContactDetails = { } };
             });
 
@@ -220,7 +220,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_GetAll_CanDeserializeResponse()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
                 return new RealtorContactDetailsList
                 {
@@ -241,10 +241,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_Delete_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
@@ -254,10 +254,10 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Contact_DeleteAssignToContact_RequestsCorrectResource()
         {
-            Http.RespondWith(m =>
+            RestClient.RespondWith(r =>
             {
-                Assert.Equal("DELETE", m);
-                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711?assigntocontactid=4712", Http.Url.ToString());
+                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/contact/4711?assigntocontactid=4712", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
 
