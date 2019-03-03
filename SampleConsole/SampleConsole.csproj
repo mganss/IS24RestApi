@@ -1,13 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Sample console application for IS24RestApi.</Description>
-    <Copyright>Copyright 2013-2018 Michael Ganss</Copyright>
+    <Copyright>Copyright 2013-2019 Michael Ganss</Copyright>
     <AssemblyTitle>SampleConsole</AssemblyTitle>
     <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
     <AssemblyName>SampleConsole</AssemblyName>
     <RootNamespace>SampleConsole</RootNamespace>
     <OutputType>Exe</OutputType>
     <Authors>Michael Ganss</Authors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\IS24RestApi\IS24RestApi.csproj" />
