@@ -11,10 +11,13 @@ namespace IS24RestApi.Search
     /// </summary>
     abstract public class Channel
     {
+        private static Channel is24Channel = new IS24Channel();
+
         /// <summary>
         /// The IS24 channel.
         /// </summary>
-        public static Channel IS24Channel = new IS24Channel();
+        public static Channel IS24Channel => is24Channel;
+
         /// <summary>
         /// Gets the search parameters representing this channel.
         /// </summary>
