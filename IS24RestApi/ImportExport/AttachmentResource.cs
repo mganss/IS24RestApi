@@ -127,6 +127,20 @@ namespace IS24RestApi
             return attachment;
         }
 
+        private static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>
+        {
+            { ".jpg", "image/jpeg" },
+            { ".jpeg", "image/jpeg" },
+            { ".jpe", "image/jpeg" },
+            { ".jif", "image/jpeg" },
+            { ".jfif", "image/jpeg" },
+            { ".jfi", "image/jpeg" },
+            { ".gif", "image/gif" },
+            { ".png", "image/png" },
+            { ".bmp", "image/bmp" },
+            { ".pdf", "application/pdf" },
+        };
+
         /// <summary>
         /// Creates an attachment.
         /// </summary>
@@ -135,6 +149,10 @@ namespace IS24RestApi
         public async Task<Attachment> CreateAsync(Attachment att, string path)
         {
             var fileName = Path.GetFileName(path);
+
+            if (!MimeMapping.TryGetValue(Path.GetExtension(fileName) ?? "", out var mimeType))
+                mimeType = "application/octet-stream";
+
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
             {
                 if (fileName == null)
@@ -142,7 +160,7 @@ namespace IS24RestApi
                     throw new ArgumentException(string.Format("The file at path '{0}' is not available.", path));
                 }
 
-                return await CreateAsync(att, stream, fileName, MimeMapping.MimeUtility.GetMimeMapping(fileName));
+                return await CreateAsync(att, stream, fileName, mimeType);
             }
         }
 
