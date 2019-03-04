@@ -4,12 +4,12 @@
     <Description>Client for the Immobilienscout24 REST API</Description>
     <Copyright>Copyright 2013-2019 Michael Ganss</Copyright>
     <AssemblyTitle>IS24RestApi</AssemblyTitle>
-    <VersionPrefix>1.0.0-VERSION</VersionPrefix>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0-VERSION.0</FileVersion>
     <Authors>Michael Ganss</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>IS24RestApi</AssemblyName>
+    <PackageVersion>1.0.0-VERSION</PackageVersion>
     <PackageId>IS24RestApi</PackageId>
     <PackageTags>immobilienscout24;immoscout;is24</PackageTags>
     <PackageProjectUrl>https://github.com/mganss/IS24RestApi</PackageProjectUrl>
@@ -17,7 +17,6 @@
     <PackageIconUrl>https://raw.githubusercontent.com/mganss/IS24RestApi/master/logo.png</PackageIconUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/mganss/IS24RestApi</RepositoryUrl>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <RootNamespace>IS24RestApi</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\IS24RestApi.xml</DocumentationFile>
