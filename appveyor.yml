@@ -28,7 +28,7 @@ test_script:
   - pip install codecov
   - codecov -f "coverage.xml"
 artifacts:
-  - path: '**\*.nupkg'
+  - path: '**\*.s?nupkg'
 on_success:
   - ps: |
       if (-not $env:APPVEYOR_PULL_REQUEST_NUMBER) {
