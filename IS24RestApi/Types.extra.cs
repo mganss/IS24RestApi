@@ -207,7 +207,7 @@ namespace IS24RestApi.Offer
     /// <summary>
     /// Common interface for collection of OnTopPlacement classes.
     /// </summary>
-    public interface ITopPlacements<T> where T : ITopPlacement
+    public interface ITopPlacements<out T> where T : ITopPlacement
     {
         /// <summary>
         /// Gets the placements.

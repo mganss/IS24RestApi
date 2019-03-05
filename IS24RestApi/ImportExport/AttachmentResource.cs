@@ -150,18 +150,19 @@ namespace IS24RestApi
         {
             var fileName = Path.GetFileName(path);
 
+            if (fileName == null)
+                throw new ArgumentException(string.Format("The file at path '{0}' is not available.", path));
+
             if (!MimeMapping.TryGetValue(Path.GetExtension(fileName) ?? "", out var mimeType))
                 mimeType = "application/octet-stream";
 
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-            {
-                if (fileName == null)
-                {
-                    throw new ArgumentException(string.Format("The file at path '{0}' is not available.", path));
-                }
+            return await CreateInternalAsync(att, path, fileName, mimeType);
+        }
 
+        private async Task<Attachment> CreateInternalAsync(Attachment att, string path, string fileName, string mimeType)
+        {
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                 return await CreateAsync(att, stream, fileName, mimeType);
-            }
         }
 
         /// <summary>
@@ -310,10 +311,10 @@ namespace IS24RestApi
                 else
                 {
                     // create attachment whose hash has changed or which wasn't previously there
-                    if (attachment.Key is Link)
-                        await CreateAsync((Link)attachment.Key);
-                    else if (attachment.Key is StreamingVideo)
-                        await CreateStreamingVideoAsync((StreamingVideo)attachment.Key, attachment.Value);
+                    if (attachment.Key is Link link)
+                        await CreateAsync(link);
+                    else if (attachment.Key is StreamingVideo video)
+                        await CreateStreamingVideoAsync(video, attachment.Value);
                     else
                         await CreateAsync(attachment.Key, attachment.Value);
                     currentAttachments.Add(attachment.Key);

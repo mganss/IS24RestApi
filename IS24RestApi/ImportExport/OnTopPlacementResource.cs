@@ -19,7 +19,7 @@ namespace IS24RestApi
     /// </summary>
     /// <typeparam name="T">The type of placements</typeparam>
     /// <typeparam name="V">The type of placement</typeparam>
-    public abstract class OnTopPlacementResource<T, V> : ImportExportResourceBase, IOnTopPlacementResource<T, V> 
+    public abstract class OnTopPlacementResource<T, V> : ImportExportResourceBase, IOnTopPlacementResource<T, V>
         where T : ITopPlacements<V>, new()
         where V : class, ITopPlacement, new()
     {
@@ -27,7 +27,7 @@ namespace IS24RestApi
         /// Creates a new <see cref="OnTopPlacementResource{T,V}"/> instance
         /// </summary>
         /// <param name="connection"></param>
-        public OnTopPlacementResource(IIS24Connection connection)
+        protected OnTopPlacementResource(IIS24Connection connection)
         {
             Connection = connection;
         }
@@ -42,7 +42,7 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="connection">The connection.</param>
         /// <param name="realEstate">The real estate.</param>
-        public OnTopPlacementResource(IIS24Connection connection, RealEstate realEstate)
+        protected OnTopPlacementResource(IIS24Connection connection, RealEstate realEstate)
         {
             Connection = connection;
             RealEstate = realEstate;

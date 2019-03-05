@@ -13,7 +13,7 @@ namespace IS24RestApi
     /// <summary>
     /// A deserializer which can deserialize derived classes.
     /// </summary>
-    public class BaseXmlDeserializer : IDeserializer, IXmlDeserializer
+    public class BaseXmlDeserializer : IXmlDeserializer
     {
         /// <summary>
         /// Ignored

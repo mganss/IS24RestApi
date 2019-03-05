@@ -20,10 +20,10 @@ namespace IS24RestApi.Search
         /// <summary>
         /// Enables the search for grouped/similar objects this feature applies for commercial objects.
         /// </summary>
-        Grouping, 
+        Grouping,
         /// <summary>
-        /// When this feature is enabled the count for each search criteria is returned. 
-        /// Please note that the returned match counts have the same capitalization as the search parameter. 
+        /// When this feature is enabled the count for each search criteria is returned.
+        /// Please note that the returned match counts have the same capitalization as the search parameter.
         /// Also not all parameters that we have in the search are returned as match counts.
         /// </summary>
         MatchCount
@@ -136,7 +136,7 @@ namespace IS24RestApi.Search
         /// <summary>
         /// Initializes a new instance of the <see cref="Query"/> class.
         /// </summary>
-        public Query()
+        protected Query()
         {
             Features = new List<Feature>();
         }
@@ -170,8 +170,7 @@ namespace IS24RestApi.Search
             }
             if (Features.Any()) yield return new KeyValuePair<string, string>("features", GetParameterValue(Features));
 
-            var dict = Parameters as IDictionary;
-            if (dict != null)
+            if (Parameters is IDictionary dict)
             {
                 foreach (var p in dict.Keys.Cast<object>().Select(o => o.ToString()))
                 {
@@ -204,10 +203,10 @@ namespace IS24RestApi.Search
         /// <returns></returns>
         protected string GetParameterValue(object p)
         {
-            if (p is string) return (string)p;
+            if (p is string s) return s;
             if (p is bool) return (bool)p ? "true" : "false";
             if (p.GetType().IsEnum) return p.ToString().ToLowerInvariant();
-            if (p is IEnumerable) return string.Join(",", ((IEnumerable)p).Cast<object>().Select(o => GetParameterValue(o)).ToArray());
+            if (p is IEnumerable e) return string.Join(",", e.Cast<object>().Select(o => GetParameterValue(o)).ToArray());
 
             return p.ToString();
         }
