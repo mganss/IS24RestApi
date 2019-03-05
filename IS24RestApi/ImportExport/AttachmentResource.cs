@@ -146,7 +146,7 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="att">The attachment.</param>
         /// <param name="path">The path to the attachment file.</param>
-        public async Task<Attachment> CreateAsync(Attachment att, string path)
+        public Task<Attachment> CreateAsync(Attachment att, string path)
         {
             var fileName = Path.GetFileName(path);
 
@@ -156,7 +156,7 @@ namespace IS24RestApi
             if (!MimeMapping.TryGetValue(Path.GetExtension(fileName) ?? "", out var mimeType))
                 mimeType = "application/octet-stream";
 
-            return await CreateInternalAsync(att, path, fileName, mimeType);
+            return CreateInternalAsync(att, path, fileName, mimeType);
         }
 
         private async Task<Attachment> CreateInternalAsync(Attachment att, string path, string fileName, string mimeType)
