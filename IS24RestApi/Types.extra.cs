@@ -116,6 +116,9 @@ namespace IS24RestApi.Common
 
 namespace IS24RestApi
 {
+    /// <summary>
+    /// Provides extra message related properties.
+    /// </summary>
     public class MessageExtra
     {
         /// <summary>

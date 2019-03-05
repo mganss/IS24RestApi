@@ -16,7 +16,7 @@ namespace IS24RestApi.Tests
         public PublishTests()
             : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
         { }
-    
+
         [Fact]
         public async Task Publish_Publish_RequestsCorrectResource()
         {
@@ -181,6 +181,17 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Publish_PublishList_RequestsCorrectResource()
         {
+            var resp = new Func<IRestRequest, object>(r =>
+            {
+                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
+                Assert.Equal("4711_10000,4712_10000,4713_10000", r.Parameters.Single(p => p.Name == "publishids").Value);
+                return new PublishObjects
+                {
+                    PublishObject = { new PublishObject { Id = "4711" }, new PublishObject { Id = "4712" } }
+                };
+            });
+
             RestClient.RespondWith(r =>
             {
                 Assert.Equal(Method.POST, r.Method);
@@ -191,10 +202,18 @@ namespace IS24RestApi.Tests
                     PublishObject = { new PublishObject { Id = "4711" }, new PublishObject { Id = "4711" }, new PublishObject { Id = "4712" },
                         new PublishObject { Id = "4712" }, new PublishObject { Id = "4713" }, new PublishObject { Id = "4714" } }
                 };
-            });
+            })
+            .ThenWith(resp)
+            .ThenWith(resp)
+            .ThenWith(resp);
 
             await Client.Publish.PublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } },
                 new[] { 10000, 10001 });
+            await Client.Publish.PublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } },
+                new PublishChannel { Id = 10000 });
+            await Client.Publish.PublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } },
+                new[] { new PublishChannel { Id = 10000 } });
+            await Client.Publish.PublishAsync(new[] { new ApartmentRent { Id = 4711 }, new ApartmentRent { Id = 4712 }, new ApartmentRent { Id = 4713 } });
         }
 
         [Fact]
