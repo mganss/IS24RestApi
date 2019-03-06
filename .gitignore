@@ -155,3 +155,4 @@ SampleConsole/config.json
 coverage.xml
 
 .vs/
+.vscode

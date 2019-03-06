@@ -319,90 +319,125 @@
 							<xs:documentation xml:lang="de-DE">Der erste Bildanhang dieser Immobilie</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-                      <xs:element name="floorplan" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">has as attachment a floorplan</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Grundriss als Objektbild vorhanden</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="streamingVideo" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">has a streaming video attached.</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Ein Streaming Video ist vorhanden.</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="listingType" type="ListingTypes" minOccurs="1" default="S">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">The VIA-Power listing type. (S, M, L or XL)</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Der VIA-Power Listing Typ. (S, M, L oder XL)</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="showcasePlacementColor" type="xs:string" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">Color of title bar for showcase. Default: #343434</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Farbe der Titleleiste bei Schaufenster. Default: #343434</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="privateOffer" type="xs:boolean" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">is a property listing by a private person.</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Ist ein Inserat von einer Privatperson.</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="projectId" type="xs:long" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">gibt die ID des Projektes an, wenn vorhanden</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">the project ID if it belongs to a project</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <xs:element name="realtorLogo" type="xs:anyURI" minOccurs="0">
-                        <xs:annotation>
-                          <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
-                          <xs:documentation xml:lang="de-DE">Das Logo des Anbieters.</xs:documentation>
-                        </xs:annotation>
-                      </xs:element>
-                      <!--<xs:element name="realtorLogoForResultList">
-                          <xs:complexType>
-                              <xs:sequence>
-                                  <xs:element name="url" minOccurs="1" maxOccurs="unbounded">
-                                      <xs:annotation>
-                                          <xs:documentation xml:lang="en">URL for the picture.</xs:documentation>
-                                          <xs:documentation xml:lang="de-DE">URL des Bildes.</xs:documentation>
-                                      </xs:annotation>
-                                      <xs:complexType>
-                                          <xs:attribute name="scale" type="common:PictureScaleType">
-                                              <xs:annotation>
-                                                  <xs:documentation xml:lang="en">picture scale</xs:documentation>
-                                                  <xs:documentation xml:lang="de-DE">Bildergröße</xs:documentation>
-                                              </xs:annotation>
-                                          </xs:attribute>
-                                          <xs:attribute name="href" type="xs:anyURI">
-                                              <xs:annotation>
-                                                  <xs:documentation xml:lang="en">URL to scaled picture</xs:documentation>
-                                                  <xs:documentation xml:lang="de-DE">URL zum skaliertem Bild</xs:documentation>
-                                              </xs:annotation>
-                                          </xs:attribute>
-                                      </xs:complexType>
-                                  </xs:element>
-                              </xs:sequence>
-                          </xs:complexType>
-                      </xs:element>-->
-                    <xs:element name="realtorLogoForResultList" minOccurs="0" type="common:Attachment">
-                        <xs:annotation>
-                            <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
-                            <xs:documentation xml:lang="de-DE">Das Logo des Anbieters.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-                    <xs:element name="additionalPictures" minOccurs="0" type="common:Attachments">
-                        <xs:annotation>
-                            <xs:documentation xml:lang="en">Additional pictures for the object. The values floorplan and titlePicture are always false to ensure downward compatibility.</xs:documentation>
-                            <xs:documentation xml:lang="de-DE">Weitere Bilder für das Objekt. Die Werte floorplan und titlePicture sind immer false, um die Abwärtskompatibilität zu gewährleisten.</xs:documentation>
-                        </xs:annotation>
-                    </xs:element>
-				</xs:sequence>
+          <xs:element name="floorplan" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">has as attachment a floorplan</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Grundriss als Objektbild vorhanden</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="streamingVideo" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">has a streaming video attached.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Ein Streaming Video ist vorhanden.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="listingType" type="ListingTypes" minOccurs="1" default="S">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">The VIA-Power listing type. (S, M, L or XL)</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Der VIA-Power Listing Typ. (S, M, L oder XL)</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="showcasePlacementColor" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Color of title bar for showcase. Default: #343434</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Farbe der Titleleiste bei Schaufenster. Default: #343434</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="privateOffer" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">is a property listing by a private person.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Ist ein Inserat von einer Privatperson.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="projectId" type="xs:long" minOccurs="0">
+            <xs:annotation>
+							<xs:documentation xml:lang="en">the project ID if it belongs to a project.</xs:documentation>
+							<xs:documentation xml:lang="de-DE">gibt die ID des Projektes an, wenn vorhanden.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+					<xs:element name="contactPageUrl" type="xs:anyURI" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">The link to the contact page of the realtor.</xs:documentation>
+							<xs:documentation xml:lang="de-DE">Der Link zur Kontaktseite des Anbieters.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+          <xs:element name="contactDetails" minOccurs="0" type="ContactDetailsForResultList">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Contact details of the realtor.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Die Kontaktinformationen des Anbieters.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="realtorLogo" type="xs:anyURI" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Das Logo des Anbieters.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="realtorCompanyName" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">The company name of a realtor.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Der Firmenname des Anbieters.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="realtorLogoForResultList" minOccurs="0" type="common:Attachment">
+              <xs:annotation>
+                  <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Das Logo des Anbieters.</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+          <xs:element name="additionalPictures" minOccurs="0" type="common:Attachments">
+              <xs:annotation>
+                  <xs:documentation xml:lang="en">Additional pictures for the object. The values floorplan and titlePicture are always false to ensure downward compatibility.</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Weitere Bilder für das Objekt. Die Werte floorplan und titlePicture sind immer false, um die Abwärtskompatibilität zu gewährleisten.</xs:documentation>
+              </xs:annotation>
+          </xs:element>
+          <xs:element name="virtualTour" type="common:VirtualTour" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">The virtual tour attachment of this real estate</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Die erste Virtuelle-Tour der Immobilie</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="galleryAttachments" minOccurs="0" type="common:Attachments">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">All pictures, videos, virtual tours and other attachments in the order they should be shown in the gallery.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Alle Bilder, Videos und Virtuelle-Touren und weitere Anhänge in der Reihenfolge, wie sie in der Gallery angezeigt werden sollen.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="spotlightListing" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">this listing has a spotlight booking</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Dieses Listing hat eine "Spotlight" Buchung und wird unter anderem aus der Gruppierung herausgehoben</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="virtualTourAvailable" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">this listing has a virtualTour</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Dieses Listing hat eine Virtuelle-Tour</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+
+  <xs:complexType name="ContactDetailsForResultList">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The contact details for a resultlist entry with additional portrait urls.</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Kontaktinformationen für einen Ergebnislisteneintrag mit zusätzlichen urls für das Portrait.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="common:ContactDetails">
+        <xs:sequence>
+          <xs:element name="portraitUrlForResultList" minOccurs="0" type="common:Attachment">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">The portrait urls for this entry.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Die Portrait urls für den Eintrag.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 
     <xs:complexType name="SearchPicture">
         <xs:annotation>

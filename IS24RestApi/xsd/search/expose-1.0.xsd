@@ -15,6 +15,72 @@
     </xs:annotation>
   </xs:element>
 
+  <xs:complexType name="PublicationState">
+    <xs:annotation>
+      <xs:documentation xml:lang="de-DE">Publication state of the expose.</xs:documentation>
+      <xs:documentation xml:lang="en">Publication state of the expose.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="publishedOnIS24" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Auf IS24 veröffentlicht</xs:documentation>
+          <xs:documentation xml:lang="de-DE">published on IS24</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="referenceObject" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">ein Referenzobjekt</xs:documentation>
+          <xs:documentation xml:lang="de-DE">is a reference object</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="publishedOnArchive" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">im Archiv veröffentlicht</xs:documentation>
+          <xs:documentation xml:lang="de-DE">published on archive</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="deactivated" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">deactivated</xs:documentation>
+          <xs:documentation xml:lang="de-DE">deactivated</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="deleted" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">deleted</xs:documentation>
+          <xs:documentation xml:lang="de-DE">deleted</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lastDeactivationDate" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Datum der letzten Deaktivierung</xs:documentation>
+          <xs:documentation xml:lang="de-DE">date of last deactivation</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FreemiumSettings">
+    <xs:annotation>
+      <xs:documentation xml:lang="de-DE">Freemium configuration.</xs:documentation>
+      <xs:documentation xml:lang="en">Freemium configuration.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="duration" type="xs:int">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Duration of the freemium, in hours</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Duration of the freemium, in hours</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="dateStarted" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Start date of the freemium.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Start date of the freemium.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="Expose">
     <xs:annotation>
       <xs:documentation xml:lang="en">Expose</xs:documentation>
@@ -56,6 +122,12 @@
              <xs:documentation xml:lang="de-DE">Bautraeger</xs:documentation>
          </xs:annotation>
       </xs:element>
+      <xs:element name="newHomeBuilder" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Indicates if the realtor is a New Home Builder</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Zeigt an, ob der Makler ein Hausbauer ist</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="adLinkForXMLData" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="adLinkForJSONP" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="exposeAdKeysAndValues" type="search:keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
@@ -68,13 +140,65 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="telekomWidgetLink" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="listingType" type="ListingTypesForExpose" minOccurs="1" default="S">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The VIA-Power listing type. (S, M, L or XL)</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Der VIA-Power Listing Typ. (S, M, L oder XL)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="showcasePlacementColor" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Color of title bar for showcase. Default: #343434</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Farbe der Titleleiste bei Schaufenster. Default: #343434</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="viaInformation" type="ViaInformation" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">via settings</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Via Ausprägungen.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="publicationState" type="PublicationState" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference"/>
     <xs:attributeGroup ref="ContactFormType"/>
 
   </xs:complexType>
-  
+
+  <xs:simpleType name="ListingTypesForExpose">
+    <xs:annotation>
+      <xs:documentation xml:lang="de-DE">Enum für die verschiedenen Listing-Typen in der Ergebnisliste.</xs:documentation>
+      <xs:documentation xml:lang="en">Enum for the different listing types on the resultlist.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="S">
+        <xs:annotation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: S. Das kleinste Listing..</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: S: The smallest listing.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="M">
+        <xs:annotation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: M. Das zweit kleinste Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: M. The second smallest listing.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="L">
+        <xs:annotation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: L. Das zweit größte Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: L. The second largest listing.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="XL">
+        <xs:annotation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: XL. Das größte Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: XL. The largest listing.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:complexType name="ContactFormConfiguration">
     <xs:annotation>
       <xs:documentation xml:lang="en">Determines which fields are shown in the contact form.</xs:documentation>
@@ -86,6 +210,13 @@
         <xs:annotation>
           <xs:documentation xml:lang="en">moveInDate</xs:documentation>
           <xs:documentation xml:lang="de-DE">gewuenschtes Einzugsdatum</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="moveOutDateField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+      <xs:annotation>
+          <xs:documentation xml:lang="en">moveOutDate</xs:documentation>
+          <xs:documentation xml:lang="de-DE">gewuenschtes Auszugsdatum</xs:documentation>
         </xs:annotation>
       </xs:element>
 
@@ -235,6 +366,15 @@
           <xs:documentation xml:lang="de-DE">Freitext Feld</xs:documentation>
         </xs:annotation>
       </xs:element>
+
+      <xs:element name="premiumProfileRequired" type="xs:boolean" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Defines whether Premium Profile is required to contact expose.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Legt fest, ob das Premium-Profil für die Kontaktaufnahme erforderlich ist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="freemiumSettings" type="FreemiumSettings"></xs:element>
     </xs:all>
   </xs:complexType>
 
@@ -312,6 +452,38 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+
+  <xs:element name="TravelTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="jsonResponse" minOccurs="0" maxOccurs="1">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">response from google maps distanceMatrix api</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string" />
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="ViaInformation">
+    <xs:sequence>
+      <xs:element name="qualifiedForRealtorBox" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">boolean inidicating that the expose is qualified for the realtorboxes to show</xs:documentation>
+          <xs:documentation xml:lang="de-DE">boolean value der angibt, ob das Expose qualifiziert ist, die Anbieterboxen anzuzeigen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="brandBarHexColor" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">color as string value of the brandbanner, should be empty</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Farbe der Brandbanner als String</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:attributeGroup name="ContactFormType">
     <xs:attribute name="contactFormType" type="common:ContactFormType" use="optional">
@@ -697,7 +869,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-    
+
   <xs:complexType name="ContactForm">
     <xs:annotation>
       <xs:documentation xml:lang="en">contact form request to contact an realtor</xs:documentation>
@@ -782,6 +954,18 @@
             <xs:annotation>
                 <xs:documentation xml:lang="en">moveInDate</xs:documentation>
                 <xs:documentation xml:lang="de-DE">gewuenschtes Einzugsdatum</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="common:TextField">
+                    <xs:maxLength value="100"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="moveOutDate" minOccurs="0">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">moveOutDate</xs:documentation>
+                <xs:documentation xml:lang="de-DE">gewuenschtes Auszugsdatum</xs:documentation>
             </xs:annotation>
             <xs:simpleType>
                 <xs:restriction base="common:TextField">
@@ -879,6 +1063,28 @@
         <xs:simpleType>
           <xs:restriction base="common:TextField">
             <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="profileType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">profile type BASIC or PREMIUM</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Typ des Nachfragerprofiles BASIC oder PREMIUM</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="BASIC">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">BASIC profile</xs:documentation>
+                <xs:documentation xml:lang="de-DE">BASIC profile</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PREMIUM">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">PREMIUM profile</xs:documentation>
+                <xs:documentation xml:lang="de-DE">PREMIUM profile</xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
           </xs:restriction>
         </xs:simpleType>
       </xs:element>

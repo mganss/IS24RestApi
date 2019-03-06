@@ -26,9 +26,10 @@
         <xs:element name="description" type="ResultlistDescription" minOccurs="0"/>
         <xs:element name="recommendations" type="ResultlistRecommendations" minOccurs="0"/>
         <xs:element name="advertisement" type="ResultlistAdvertisement" minOccurs="0"/>
-        <xs:element name="adTargeting" type="ResultlistAdTargeting" minOccurs="0"/>            
+        <xs:element name="adTargeting" type="ResultlistAdTargeting" minOccurs="0"/>
+        <xs:element name="surroundingSuburbs" type="ResultlistSurroundingSuburbs" minOccurs="0"/>
       </xs:sequence>
-    </xs:complexType>   
+    </xs:complexType>
   </xs:element>
 
   <xs:simpleType name="ResultlistRecommendationType">
@@ -51,14 +52,13 @@
     </xs:sequence>
   </xs:complexType>
 
-    
   <xs:complexType name="ResultlistAdTargeting">
     <xs:sequence>
       <xs:element name="targetingCriteria" type="search:keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="pageAttributes" type="search:keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="ResultlistRecommendation">
     <xs:sequence>
       <xs:element name="title" type="xs:string"/>
@@ -68,15 +68,81 @@
     <xs:attribute name="numberOfHits" type="xs:int"/>
   </xs:complexType>
 
+  <xs:complexType name="ShapeSimplifyRequest">
+    <xs:sequence>
+      <xs:element name="shape" type="xs:string"/>
+      <xs:element name="removeHoles" type="xs:boolean"  minOccurs="0" />
+      <xs:element name="encode" type="xs:boolean" minOccurs="0" />
+      <xs:element name="removePolygonsSmallerThan" type="xs:double" minOccurs="0" />
+      <xs:element name="maxPoints" type="xs:int" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShapeSimplifyResult">
+    <xs:sequence>
+      <xs:element name="shape" type="xs:string" minOccurs="0"/>
+      <xs:element name="geoJson" type="xs:string" minOccurs="0"/>
+      <xs:element name="error" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="shapeSimplifyRequest" type="ShapeSimplifyRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Shape simplify request</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Shape simplify request</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="shapeSimplifyResult" type="ShapeSimplifyResult">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Shape simplify response</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Shape simplify response</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <xs:complexType name="ResultlistRecommendations">
     <xs:sequence>
       <xs:element name="recommendation" type="ResultlistRecommendation" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="ResultlistSurroundingSuburbs">
+    <xs:sequence>
+      <xs:element name="suburbs" type="SurroundingSuburbEntry" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="all" type="SurroundingSuburbsAll" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SurroundingSuburbEntry">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">SurroundingSuburbEntry</xs:documentation>
+      <xs:documentation xml:lang="de-DE">SurroundingSuburbEntry</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="url" type="xs:string"  minOccurs="1"  maxOccurs="1"/>
+      <xs:element name="name" type="xs:string"  minOccurs="1"  maxOccurs="1"/>
+      <xs:element name="total" type="xs:int" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SurroundingSuburbsAll">
+    <xs:sequence>
+      <xs:element name="url" type="xs:string"  minOccurs="1"  maxOccurs="1"/>
+      <xs:element name="total" type="xs:int" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="radius" type="xs:double" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="results" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="ResultlistDescription">
     <xs:sequence>
       <xs:element name="text" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SearchShape">
+    <xs:sequence>
+      <xs:element name="geoJson" type="xs:string" minOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -88,20 +154,21 @@
         genutzte Informationen).</xs:documentation>
     </xs:annotation>
       <xs:sequence>
-        <xs:element name="resultlistEntry" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>        
+        <xs:element name="resultlistEntry" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="shapes" type="SearchShape" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="numberOfHits" type="xs:int" default="0">
       	<xs:annotation>
           <xs:documentation xml:lang="en">Number of the hits.</xs:documentation>
           <xs:documentation xml:lang="de-DE">Anzahl der Suchergebnisse.</xs:documentation>
-		</xs:annotation>          
+		</xs:annotation>
       </xs:attribute>
       <xs:attribute name="realEstateType" type="xs:int" use="required">
         <xs:annotation>
           <xs:documentation xml:lang="en">RealEstateType of the result entries.</xs:documentation>
           <xs:documentation xml:lang="de-DE">Immobilientyp der Einträge der Ergebnisliste.</xs:documentation>
         </xs:annotation>
-      </xs:attribute>           
+      </xs:attribute>
   </xs:complexType>
 
   <xs:element name="resultlistEntry" type="ResultlistEntry">
@@ -114,7 +181,7 @@
 	<xs:complexType name="SimilarObjects">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">
-				List of all similar entries of the result entry. 
+				List of all similar entries of the result entry.
       </xs:documentation>
 			<xs:documentation xml:lang="de-DE">Liste aller gruppierten
 				Einträge zum Treffer.</xs:documentation>
@@ -124,15 +191,23 @@
 				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
-  
+
   <xs:complexType name="Project">
     <xs:sequence>
       <xs:element name="projectId" type="xs:long" />
       <xs:element name="premium" type="xs:boolean" />
+      <xs:element name="published" type="xs:boolean" />
       <xs:element name="title" type="xs:string" />
+      <xs:element name="name" type="xs:string" minOccurs="0" />
       <xs:element name="link" type="xs:string" />
       <xs:element name="attributes" type="ProjectAttribute" minOccurs="0" maxOccurs="unbounded" />
-      <xs:element name="picture" type="ProjectImage"></xs:element>
+      <xs:element name="picture" type="ProjectImage"/>
+      <xs:element name="galleryAttachments" minOccurs="0" type="common:Attachments">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">All pictures, videos, virtual tours and other attachments in the order they should be shown in the gallery.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Alle Bilder, Videos und Virtuelle-Touren und weitere Anhänge in der Reihenfolge, wie sie in der Gallery angezeigt werden sollen.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -146,7 +221,7 @@
       <xs:element name="text" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="ProjectImage">
     <xs:annotation>
       <xs:documentation xml:lang="en">The main image of the project.</xs:documentation>
@@ -157,7 +232,7 @@
       <xs:element name="scales" type="ProjectImageScales" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="ProjectImageScales">
     <xs:annotation>
       <xs:documentation xml:lang="en">Uri for a different sizing of image.</xs:documentation>
@@ -169,7 +244,7 @@
       <xs:element name="whiteFilling" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="ResultlistEntry">
     <xs:annotation>
       <xs:documentation xml:lang="en">An entry of the resultlist.</xs:documentation>
@@ -180,7 +255,7 @@
 		    <xs:annotation>
 		      <xs:documentation xml:lang="en">A list of similar entries of the current result list entry.</xs:documentation>
 		      <xs:documentation xml:lang="de-DE">Liste von gruppierten Ergebnissen zum aktuellen Objekt.</xs:documentation>
-		    </xs:annotation>       
+		    </xs:annotation>
       </xs:element>
       <xs:element name="project" type="Project">
         <xs:annotation>
@@ -194,7 +269,7 @@
           <xs:documentation xml:lang="de-DE">Die Id der Immobilie.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      
+
       <xs:element name="distance" type="xs:double">
         <xs:annotation>
           <xs:documentation xml:lang="en">The distance from center of proximity search.</xs:documentation>
@@ -209,6 +284,20 @@
         </xs:annotation>
       </xs:element>
 
+      <xs:element name="newHomeBuilder" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry is of type New Home Builder.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob der Typ des Entrys ein New Home Builder ist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="disabledGrouping" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry was excluded from grouping.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob der Entry von der Groupierung ausgeschlossen wurde.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
       <xs:element name="realEstate" type="search:RealEstateForList" form="qualified" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="en">The real estate of the result list entry.</xs:documentation>
@@ -218,7 +307,13 @@
       <xs:element name="publishedAfterRequestedDate" type="xs:boolean" minOccurs="0"/>
       <xs:element name="attributes" type="ResultListEntryAttributes" minOccurs="0"/>
       <xs:element name="realEstateTags" type="RealEstateTags" minOccurs="0" />
-
+      <xs:element name="hasNewFlag" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="deactivationDate" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The date of the last deactivation off the offering, when it is an historical listing</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Das letzte Deaktivierungsdatum bei historischen Listings</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference" />
@@ -238,7 +333,7 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="RealEstateTags">
     <xs:sequence>
       <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
