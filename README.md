@@ -8,10 +8,6 @@ IS24RestApi
 
 [![netstandard2.0](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)
 
-[![NuGet version](https://badge.fury.io/nu/IS24RestApi.svg)](http://badge.fury.io/nu/IS24RestApi)
-[![Build status](https://ci.appveyor.com/api/projects/status/xdpv5jbm3vtr993s/branch/master?svg=true)](https://ci.appveyor.com/project/mganss/is24restapi/branch/master)
-[![codecov.io](https://codecov.io/github/mganss/IS24RestApi/coverage.svg?branch=master)](https://codecov.io/github/mganss/IS24RestApi?branch=master)
-
 A small library to access the [Immobilienscout24 Import/Export REST API](http://api.immobilienscout24.de/our-apis/import-export.html)
 using [RestSharp](https://github.com/restsharp/RestSharp).
 
