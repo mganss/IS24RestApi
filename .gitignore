@@ -156,3 +156,4 @@ coverage.xml
 
 .vs/
 .vscode
+/SampleConsole/Properties/launchSettings.json

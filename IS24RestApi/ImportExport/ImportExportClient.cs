@@ -84,12 +84,7 @@ namespace IS24RestApi
         /// <param name="connection"></param>
         public ImportExportClient(IIS24Connection connection)
         {
-            if (connection == null)
-            {
-                throw new ArgumentNullException("connection");
-            }
-
-            Connection = connection;
+            Connection = connection ?? throw new ArgumentNullException("connection");
             RealEstates = new RealEstateResource(Connection);
             RealEstateCounts = new RealEstateCountsResource(Connection);
             Contacts = new ContactResource(Connection);

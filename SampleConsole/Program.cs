@@ -46,7 +46,7 @@ namespace SampleConsole
             {
                 var url = string.Format("{0}/oauth/confirm_access?oauth_token={1}", connection.BaseUrlPrefix,
                     HttpUtility.UrlEncode(connection.RequestToken));
-                Process.Start(url);
+                Console.Out.WriteLine($"Please open {url} to obtain verifier.");
             }
             catch
             {
