@@ -4,6 +4,9 @@ IS24RestApi
 [![NuGet version](https://badge.fury.io/nu/IS24RestApi.svg)](http://badge.fury.io/nu/IS24RestApi)
 [![Build status](https://ci.appveyor.com/api/projects/status/xdpv5jbm3vtr993s/branch/master?svg=true)](https://ci.appveyor.com/project/mganss/is24restapi/branch/master)
 [![codecov.io](https://codecov.io/github/mganss/IS24RestApi/coverage.svg?branch=master)](https://codecov.io/github/mganss/IS24RestApi?branch=master)
+[![Sonarcloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=mganss_IS24RestApi2&metric=alert_status)](https://sonarcloud.io/dashboard?id=mganss_IS24RestApi2)
+
+[![netstandard2.0](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)
 
 A small library to access the [Immobilienscout24 Import/Export REST API](http://api.immobilienscout24.de/our-apis/import-export.html)
 using [RestSharp](https://github.com/restsharp/RestSharp).
@@ -28,14 +31,11 @@ Regenerating API Types
 
 The classes in the Types.generated.cs file were generated from the XSD files provided by IS24
 using [XmlSchemaClassGenerator](https://github.com/mganss/XmlSchemaClassGenerator). 
-There are two PowerShell scripts in the xsd folder to automate this process. 
-Open a Visual Studio command prompt and execute them with `powershell ...`. 
-If you get a permissions error, open a PowerShell and type `Set-ExecutionPolicy Unrestricted` 
-(more about this [here](http://technet.microsoft.com/en-us/library/ee176949.aspx)).
+There are two [dotnet-script](https://github.com/filipw/dotnet-script) scripts in the xsd folder to automate this process. 
 
-1. `DownloadSchemaFiles.ps1` downloads all .xsd files from [here](http://rest.immobilienscout24.de/restapi/api/offer/v1.0/?_wadl&_schema) 
+1. `DownloadSchemaFiles.csx` downloads all .xsd files from [here](http://rest.immobilienscout24.de/restapi/api/offer/v1.0/?_wadl&_schema) 
 and moves `messages*.xsd` to the includes folder.
-2. `GenerateClasses.ps1` generates .cs files into the `generated` folder.
+2. `GenerateClasses.csx` generates .cs files into the `generated` folder.
 
 Contributing
 ------------
