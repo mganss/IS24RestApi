@@ -1,4 +1,4 @@
-version: 3.0.{build}-beta
+version: 3.0.{build}
 skip_tags: true
 image: Visual Studio 2017
 environment:
@@ -9,7 +9,6 @@ environment:
 nuget:
   disable_publish_on_pr: true
 build_script:
-  - ps: (Get-Content IS24RestApi\IS24RestApi.csproj).Replace("1.0.0-VERSION", $env:APPVEYOR_BUILD_VERSION) | Set-Content IS24RestApi\IS24RestApi.csproj
   - dotnet restore
   - dotnet pack --include-symbols --include-source -c Release IS24RestApi
 test_script:
