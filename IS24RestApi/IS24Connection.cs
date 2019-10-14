@@ -92,7 +92,7 @@ namespace IS24RestApi
 
         private IRestResponse<T> Deserialize<T>(IRestRequest request, IRestResponse raw)
         {
-            IRestResponse<T> response = new RestResponse<T>();
+            IRestResponse<T> response = null;
 
             try
             {
@@ -130,6 +130,7 @@ namespace IS24RestApi
             }
             catch (Exception ex)
             {
+                if (response == null) response = new RestResponse<T>();
                 response.ResponseStatus = ResponseStatus.Error;
                 response.ErrorMessage = ex.Message;
                 response.ErrorException = ex;

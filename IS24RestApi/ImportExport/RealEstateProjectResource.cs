@@ -41,6 +41,20 @@ namespace IS24RestApi
         }
 
         /// <summary>
+        /// Gets all real real estate objects belonging to the real estate project identified by the specified id.
+        /// </summary>
+        /// <param name="realEstateProjectId">The id.</param>
+        /// <returns>
+        /// The task object representing the asynchronous operation.
+        /// </returns>
+        public Task<RealEstateProjectEntries> GetAllAsync(long realEstateProjectId)
+        {
+            var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry");
+            req.AddParameter("id", realEstateProjectId, ParameterType.UrlSegment);
+            return ExecuteAsync<RealEstateProjectEntries>(Connection, req);
+        }
+
+        /// <summary>
         /// Gets a real estate project identified by the specified id.
         /// </summary>
         /// <param name="id">The id.</param>
@@ -118,20 +132,6 @@ namespace IS24RestApi
         public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, RealEstate realEstate)
         {
             return AddAsync(realEstateProjectId, new[] { realEstate });
-        }
-
-        /// <summary>
-        /// Gets all real real estate objects belonging to the real estate project identified by the specified id.
-        /// </summary>
-        /// <param name="realEstateProjectId">The id.</param>
-        /// <returns>
-        /// The task object representing the asynchronous operation.
-        /// </returns>
-        public Task<RealEstateProjectEntries> GetAllAsync(long realEstateProjectId)
-        {
-            var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry");
-            req.AddParameter("id", realEstateProjectId, ParameterType.UrlSegment);
-            return ExecuteAsync<RealEstateProjectEntries>(Connection, req);
         }
 
         /// <summary>

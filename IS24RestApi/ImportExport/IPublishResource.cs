@@ -26,12 +26,6 @@ namespace IS24RestApi
         Task UnpublishAsync(RealEstate realEstate);
 
         /// <summary>
-        /// Publishes a RealEstate object to the IS24 channel.
-        /// </summary>
-        /// <param name="realEstate">The RealEstate object.</param>
-        Task PublishAsync(RealEstate realEstate);
-
-        /// <summary>
         /// Depublishes a RealEstate object.
         /// </summary>
         /// <param name="realEstate">The RealEstate object.</param>
@@ -39,18 +33,64 @@ namespace IS24RestApi
         Task UnpublishAsync(RealEstate realEstate, int channelId);
 
         /// <summary>
-        /// Publishes a RealEstate object.
-        /// </summary>
-        /// <param name="realEstate">The RealEstate object.</param>
-        /// <param name="channelId">The channelId of the channel to publish to.</param>
-        Task PublishAsync(RealEstate realEstate, int channelId);
-
-        /// <summary>
         /// Depublishes a RealEstate object.
         /// </summary>
         /// <param name="realEstate">The RealEstate object.</param>
         /// <param name="publishChannel">The channel to depublish from.</param>
         Task UnpublishAsync(RealEstate realEstate, PublishChannel publishChannel);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="channelId">The channelId of the channel to depublish from.</param>
+        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, int channelId);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="publishChannel">The channel to depublish from.</param>
+        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, PublishChannel publishChannel);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="channelIds">The channelIds of the channels to depublish from.</param>
+        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<int> channelIds);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstateChannelIds">The pairs of RealEstate objects and channelIds to depublish from.</param>
+        Task<PublishObjects> UnpublishAsync(IEnumerable<KeyValuePair<RealEstate, int>> realEstateChannelIds);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the specified channels.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        /// <param name="publishChannels">The channels to depublish from.</param>  
+        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<PublishChannel> publishChannels);
+
+        /// <summary>
+        /// Depublishes a list of RealEstate objects from the IS24 channel.
+        /// </summary>
+        /// <param name="realEstates">The RealEstate objects.</param>
+        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates);
+
+        /// <summary>
+        /// Publishes a RealEstate object to the IS24 channel.
+        /// </summary>
+        /// <param name="realEstate">The RealEstate object.</param>
+        Task PublishAsync(RealEstate realEstate);
+
+        /// <summary>
+        /// Publishes a RealEstate object.
+        /// </summary>
+        /// <param name="realEstate">The RealEstate object.</param>
+        /// <param name="channelId">The channelId of the channel to publish to.</param>
+        Task PublishAsync(RealEstate realEstate, int channelId);
 
         /// <summary>
         /// Publishes a RealEstate object.
@@ -99,45 +139,5 @@ namespace IS24RestApi
         /// </summary>
         /// <param name="realEstates">The RealEstate objects.</param>
         Task<PublishObjects> PublishAsync(IEnumerable<RealEstate> realEstates);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects.
-        /// </summary>
-        /// <param name="realEstates">The RealEstate objects.</param>
-        /// <param name="channelId">The channelId of the channel to depublish from.</param>
-        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, int channelId);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects.
-        /// </summary>
-        /// <param name="realEstates">The RealEstate objects.</param>
-        /// <param name="publishChannel">The channel to depublish from.</param>
-        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, PublishChannel publishChannel);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects from the specified channels.
-        /// </summary>
-        /// <param name="realEstates">The RealEstate objects.</param>
-        /// <param name="channelIds">The channelIds of the channels to depublish from.</param>
-        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<int> channelIds);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects from the specified channels.
-        /// </summary>
-        /// <param name="realEstateChannelIds">The pairs of RealEstate objects and channelIds to depublish from.</param>
-        Task<PublishObjects> UnpublishAsync(IEnumerable<KeyValuePair<RealEstate, int>> realEstateChannelIds);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects from the specified channels.
-        /// </summary>
-        /// <param name="realEstates">The RealEstate objects.</param>
-        /// <param name="publishChannels">The channels to depublish from.</param>  
-        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates, IEnumerable<PublishChannel> publishChannels);
-
-        /// <summary>
-        /// Depublishes a list of RealEstate objects from the IS24 channel.
-        /// </summary>
-        /// <param name="realEstates">The RealEstate objects.</param>
-        Task<PublishObjects> UnpublishAsync(IEnumerable<RealEstate> realEstates);
     }
 }

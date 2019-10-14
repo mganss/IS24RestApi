@@ -37,6 +37,21 @@ namespace IS24RestApi
         }
 
         /// <summary>
+        /// Gets a single RealEstate object identified by the specified id.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="isExternal">true if the id is an external id.</param>
+        /// <returns>The RealEstate object or null.</returns>
+        public async Task<IRealEstate> GetAsync(string id, bool isExternal = false)
+        {
+            var req = Connection.CreateRequest("realestate/{id}");
+            req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
+            req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
+            var realEstate = await ExecuteAsync<RealEstate>(Connection, req);
+            return new RealEstateItem(realEstate, Connection);
+        }
+
+        /// <summary>
         /// Get summaries for all real estates as an observable sequence.
         /// </summary>
         /// <returns>The summaries of all real estates.</returns>
@@ -61,21 +76,6 @@ namespace IS24RestApi
                         page++;
                     }
                 });
-        }
-
-        /// <summary>
-        /// Gets a single RealEstate object identified by the specified id.
-        /// </summary>
-        /// <param name="id">The id.</param>
-        /// <param name="isExternal">true if the id is an external id.</param>
-        /// <returns>The RealEstate object or null.</returns>
-        public async Task<IRealEstate> GetAsync(string id, bool isExternal = false)
-        {
-            var req = Connection.CreateRequest("realestate/{id}");
-            req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
-            req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
-            var realEstate = await ExecuteAsync<RealEstate>(Connection, req);
-            return new RealEstateItem(realEstate, Connection);
         }
 
         /// <summary>

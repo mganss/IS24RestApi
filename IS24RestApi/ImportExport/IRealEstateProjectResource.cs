@@ -21,6 +21,13 @@ namespace IS24RestApi
         Task<RealEstateProjects> GetAllAsync();
 
         /// <summary>
+        /// Gets all real real estate objects belonging to the real estate project identified by the specified id.
+        /// </summary>
+        /// <param name="realEstateProjectId">The id.</param>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        Task<RealEstateProjectEntries> GetAllAsync(long realEstateProjectId);
+
+        /// <summary>
         /// Gets a real estate project identified by the specified id.
         /// </summary>
         /// <param name="id">The id.</param>
@@ -63,13 +70,6 @@ namespace IS24RestApi
         /// The task object representing the asynchronous operation.
         /// </returns>
         Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, RealEstate realEstate);
-
-        /// <summary>
-        /// Gets all real real estate objects belonging to the real estate project identified by the specified id.
-        /// </summary>
-        /// <param name="realEstateProjectId">The id.</param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
-        Task<RealEstateProjectEntries> GetAllAsync(long realEstateProjectId);
 
         /// <summary>
         /// Removes a real estate object from a real estate project.

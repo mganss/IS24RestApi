@@ -15,7 +15,7 @@ namespace IS24RestApi.Tests
     {
         const string Message = "The widget has unavoidably blooped out.";
         const HttpStatusCode StatusCode = HttpStatusCode.BadGateway;
-        Messages Msgs = new Messages
+        readonly Messages Msgs = new Messages
         {
             Message =
             {

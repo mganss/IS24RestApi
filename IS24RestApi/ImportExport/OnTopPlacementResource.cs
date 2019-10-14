@@ -33,11 +33,6 @@ namespace IS24RestApi
         }
 
         /// <summary>
-        /// Gets the <see cref="RealEstate"/> instance the placements belong to
-        /// </summary>
-        public RealEstate RealEstate { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="OnTopPlacementResource{T,V}"/> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
@@ -47,6 +42,11 @@ namespace IS24RestApi
             Connection = connection;
             RealEstate = realEstate;
         }
+
+        /// <summary>
+        /// Gets the <see cref="RealEstate"/> instance the placements belong to
+        /// </summary>
+        public RealEstate RealEstate { get; private set; }
 
         /// <summary>
         /// Gets the underlying <see cref="IIS24Connection"/> for executing the requests

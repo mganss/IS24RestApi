@@ -18,18 +18,18 @@ namespace IS24RestApi
         IObservable<IRealEstate> GetAsync();
 
         /// <summary>
-        /// Get summaries for all real estates as an observable sequence.
-        /// </summary>
-        /// <returns>The summaries of all real estates.</returns>
-        IObservable<OfferRealEstateForList> GetSummariesAsync();
-
-        /// <summary>
         /// Gets a single RealEstate object identified by the specified id.
         /// </summary>
         /// <param name="id">The id.</param>
         /// <param name="isExternal">true if the id is an external id.</param>
         /// <returns>The RealEstate object or null.</returns>
         Task<IRealEstate> GetAsync(string id, bool isExternal = false);
+
+        /// <summary>
+        /// Get summaries for all real estates as an observable sequence.
+        /// </summary>
+        /// <returns>The summaries of all real estates.</returns>
+        IObservable<OfferRealEstateForList> GetSummariesAsync();
 
         /// <summary>
         /// Creates a RealEstate object.

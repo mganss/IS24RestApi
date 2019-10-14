@@ -40,7 +40,7 @@ namespace IS24RestApi
         {
             if (string.IsNullOrEmpty(response.Content))
             {
-                return default(T);
+                return default;
             }
 
             var root = XElement.Parse(response.Content).Name.LocalName;

@@ -86,6 +86,26 @@ namespace IS24RestApi
             }
         }
 
+        private async Task<Attachment> CreateInternalAsync(Attachment att, string path, string fileName, string mimeType)
+        {
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+                return await CreateAsync(att, stream, fileName, mimeType);
+        }
+
+        private static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>
+        {
+            { ".jpg", "image/jpeg" },
+            { ".jpeg", "image/jpeg" },
+            { ".jpe", "image/jpeg" },
+            { ".jif", "image/jpeg" },
+            { ".jfif", "image/jpeg" },
+            { ".jfi", "image/jpeg" },
+            { ".gif", "image/gif" },
+            { ".png", "image/png" },
+            { ".bmp", "image/bmp" },
+            { ".pdf", "application/pdf" },
+        };
+
         /// <summary>
         /// Creates a new <see cref="Attachment"/>
         /// </summary>
@@ -127,20 +147,6 @@ namespace IS24RestApi
             return attachment;
         }
 
-        private static readonly Dictionary<string, string> MimeMapping = new Dictionary<string, string>
-        {
-            { ".jpg", "image/jpeg" },
-            { ".jpeg", "image/jpeg" },
-            { ".jpe", "image/jpeg" },
-            { ".jif", "image/jpeg" },
-            { ".jfif", "image/jpeg" },
-            { ".jfi", "image/jpeg" },
-            { ".gif", "image/gif" },
-            { ".png", "image/png" },
-            { ".bmp", "image/bmp" },
-            { ".pdf", "application/pdf" },
-        };
-
         /// <summary>
         /// Creates an attachment.
         /// </summary>
@@ -157,12 +163,6 @@ namespace IS24RestApi
                 mimeType = "application/octet-stream";
 
             return CreateInternalAsync(att, path, fileName, mimeType);
-        }
-
-        private async Task<Attachment> CreateInternalAsync(Attachment att, string path, string fileName, string mimeType)
-        {
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-                return await CreateAsync(att, stream, fileName, mimeType);
         }
 
         /// <summary>
@@ -204,6 +204,26 @@ namespace IS24RestApi
             {
                 throw new IS24Exception(string.Format("Error updating attachment {0}: {1}", att.Title, resp.ToMessage())) { Messages = resp };
             }
+        }
+
+        /// <summary>
+        /// Synchronizes attachments. After synchronization, the corresponding real estate object
+        /// has only the attachments specified in the parameter <paramref name="attachments"/> and in the given order.
+        /// If a given attachment's <code>ExternalCheckSum</code> property is null or empty, this method calculates it using <see cref="Attachment.CalculateCheckSumAsync(string)"/>.
+        /// Attachments are matched on either <see cref="Attachment.Id"/> or <see cref="Attachment.ExternalId"/>.
+        /// If an attachment's <see cref="Attachment.ExternalId"/> is null or empty, one will be calculated by this method
+        /// as the MD5 hash of its <see cref="Attachment.Title"/> and its path (non-<see cref="Link"/> objects).
+        /// </summary>
+        /// <param name="attachments">The attachments as an ordered list of key value pairs. The key is the <see cref="Attachment"/> object,
+        /// the value is the path to the attachment's file (or null for <see cref="Link"/> objects).</param>
+        public async Task UpdateAsync(IList<KeyValuePair<Attachment, string>> attachments)
+        {
+            await CalculateCheckSum(attachments);
+            CalculateExternalId(attachments);
+            var currentAttachments = (await GetAsync()).ToList();
+            await DeleteUnused(attachments, currentAttachments);
+            await UpdateOrCreate(attachments, currentAttachments);
+            await UpdateOrder(attachments, currentAttachments);
         }
 
         /// <summary>
@@ -256,26 +276,6 @@ namespace IS24RestApi
             }
 
             video.Id = id.Value;
-        }
-
-        /// <summary>
-        /// Synchronizes attachments. After synchronization, the corresponding real estate object
-        /// has only the attachments specified in the parameter <paramref name="attachments"/> and in the given order.
-        /// If a given attachment's <code>ExternalCheckSum</code> property is null or empty, this method calculates it using <see cref="Attachment.CalculateCheckSumAsync(string)"/>.
-        /// Attachments are matched on either <see cref="Attachment.Id"/> or <see cref="Attachment.ExternalId"/>.
-        /// If an attachment's <see cref="Attachment.ExternalId"/> is null or empty, one will be calculated by this method
-        /// as the MD5 hash of its <see cref="Attachment.Title"/> and its path (non-<see cref="Link"/> objects).
-        /// </summary>
-        /// <param name="attachments">The attachments as an ordered list of key value pairs. The key is the <see cref="Attachment"/> object,
-        /// the value is the path to the attachment's file (or null for <see cref="Link"/> objects).</param>
-        public async Task UpdateAsync(IList<KeyValuePair<Attachment, string>> attachments)
-        {
-            await CalculateCheckSum(attachments);
-            CalculateExternalId(attachments);
-            var currentAttachments = (await GetAsync()).ToList();
-            await DeleteUnused(attachments, currentAttachments);
-            await UpdateOrCreate(attachments, currentAttachments);
-            await UpdateOrder(attachments, currentAttachments);
         }
 
         private async Task UpdateOrder(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)

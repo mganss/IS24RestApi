@@ -48,23 +48,10 @@ namespace IS24RestApi
         Task<Attachment> CreateAsync(Attachment att, string path);
 
         /// <summary>
-        /// Creates a video stream attachment (upload to http://www.screen9.com/).
-        /// </summary>
-        /// <param name="video">The attachment.</param>
-        /// <param name="path">The path to the attachment file.</param>
-        Task CreateStreamingVideoAsync(StreamingVideo video, string path);
-
-        /// <summary>
         /// Creates a link attachment.
         /// </summary>
         /// <param name="link">The link attachment.</param>
         Task CreateAsync(Link link);
-
-        /// <summary>
-        /// Updates an attachment.
-        /// </summary>
-        /// <param name="att">The attachment.</param>
-        Task UpdateAsync(Attachment att);
 
         /// <summary>
         /// Creates a new <see cref="Attachment"/>
@@ -75,6 +62,19 @@ namespace IS24RestApi
         /// <param name="mimeType">the mime-type of the file transfered</param>
         /// <returns>The updated <see cref="Attachment"/> data. It now contains the ScoutId if uploaded successfully</returns>
         Task<Attachment> CreateAsync(Attachment attachment, Stream content, string fileName, string mimeType);
+
+        /// <summary>
+        /// Creates a video stream attachment (upload to http://www.screen9.com/).
+        /// </summary>
+        /// <param name="video">The attachment.</param>
+        /// <param name="path">The path to the attachment file.</param>
+        Task CreateStreamingVideoAsync(StreamingVideo video, string path);
+
+        /// <summary>
+        /// Updates an attachment.
+        /// </summary>
+        /// <param name="att">The attachment.</param>
+        Task UpdateAsync(Attachment att);
 
         /// <summary>
         /// Synchronizes attachments. After synchronization, the corresponding real estate object
