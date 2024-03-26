@@ -76,7 +76,7 @@ namespace IS24RestApi
         /// <param name="id">The attachment id.</param>
         public async Task DeleteAsync(string id)
         {
-            var request = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.DELETE);
+            var request = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.Delete);
             request.AddParameter("realEstate", RealEstate.Id, ParameterType.UrlSegment);
             request.AddParameter("id", id, ParameterType.UrlSegment);
             var response = await ExecuteAsync<Messages>(Connection, request);
@@ -88,6 +88,12 @@ namespace IS24RestApi
 
         private async Task<Attachment> CreateInternalAsync(Attachment att, string path, string fileName, string mimeType)
         {
+            if (path != null && path.Contains("http"))
+            {
+                var stream = await new RestClient().DownloadStreamAsync(new RestRequest(new Uri(path)));
+                return await CreateAsync(att, stream, fileName, mimeType);
+            }
+            
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                 return await CreateAsync(att, stream, fileName, mimeType);
         }
@@ -116,7 +122,7 @@ namespace IS24RestApi
         /// <returns>The updated <see cref="Attachment"/> data. It now contains the ScoutId if uploaded successfully</returns>
         public async Task<Attachment> CreateAsync(Attachment attachment, Stream content, string fileName, string mimeType)
         {
-            var request = Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
+            var request = Connection.CreateRequest("realestate/{id}/attachment", Method.Post);
             request.AddParameter("id", RealEstate.Id, ParameterType.UrlSegment);
 
             byte[] binaryContent = null;
@@ -173,9 +179,9 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task CreateAsync(Link link)
         {
-            var req = Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
+            var req = Connection.CreateRequest("realestate/{id}/attachment", Method.Post);
             req.AddParameter("id", RealEstate.Id, ParameterType.UrlSegment);
-            req.AddBody(link, typeof(Attachment));
+            req.AddXmlBody(link);
 
             var resp = await ExecuteAsync<Messages>(Connection, req);
             var id = resp.ExtractCreatedResourceId();
@@ -194,10 +200,10 @@ namespace IS24RestApi
         /// <param name="att">The attachment.</param>
         public async Task UpdateAsync(Attachment att)
         {
-            var req = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.PUT);
+            var req = Connection.CreateRequest("realestate/{realEstate}/attachment/{id}", Method.Put);
             req.AddParameter("realEstate", RealEstate.Id, ParameterType.UrlSegment);
             req.AddParameter("id", att.Id, ParameterType.UrlSegment);
-            req.AddBody(att, typeof(Attachment));
+            req.AddXmlBody(att);
 
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
@@ -241,8 +247,8 @@ namespace IS24RestApi
 
             // 2. Upload your video to screen9
             var uploadClient = Connection.RestClientFactory(videoUploadTicket.UploadUrl);
-            req = new RestRequest(Method.POST);
-
+            req = new RestRequest();
+            req.Method = Method.Post;
             req.AddParameter("auth", videoUploadTicket.Auth);
 
             var fileName = Path.GetFileName(path);
@@ -256,16 +262,16 @@ namespace IS24RestApi
             }
 
             req.AddFile("videofile", bytes, fileName, "application/octet-stream");
-
-            var resp = await uploadClient.ExecuteTaskAsync(req);
+            
+            var resp = await uploadClient.ExecuteAsync(req);
             if (resp.ErrorException != null) throw new IS24Exception(string.Format("Error uploading video {0}.", path), resp.ErrorException);
             if ((int)resp.StatusCode >= 400) throw new IS24Exception(string.Format("Error uploading video {0}: {1}", path, resp.StatusDescription));
 
             // 3. Post StreamingVideo attachment
-            req = Connection.CreateRequest("realestate/{id}/attachment", Method.POST);
+            req = Connection.CreateRequest("realestate/{id}/attachment", Method.Post);
             req.AddParameter("id", RealEstate.Id, ParameterType.UrlSegment);
             video.VideoId = videoUploadTicket.VideoId;
-            req.AddBody(video, typeof(Attachment));
+            req.AddXmlBody(video);
 
             var msg = await ExecuteAsync<Messages>(Connection, req);
             var id = msg.ExtractCreatedResourceId();

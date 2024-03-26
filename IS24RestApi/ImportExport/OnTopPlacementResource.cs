@@ -70,7 +70,7 @@ namespace IS24RestApi
         /// </returns>
         public Task<T> CreateAsync(T placements)
         {
-            var req = Connection.CreateRequest(PlacementType + "/list", Method.POST);
+            var req = Connection.CreateRequest(PlacementType + "/list", Method.Post);
             req.AddBody(placements);
             return ExecuteAsync<T>(Connection, req);
         }
@@ -85,7 +85,7 @@ namespace IS24RestApi
         /// </returns>
         public async Task CreateAsync(string id, bool isExternal = false)
         {
-            var req = Connection.CreateRequest("realestate/{id}/" + PlacementType, Method.POST);
+            var req = Connection.CreateRequest("realestate/{id}/" + PlacementType, Method.Post);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_CREATED))
@@ -168,7 +168,7 @@ namespace IS24RestApi
         /// </returns>
         public Task<T> RemoveAllAsync()
         {
-            var req = Connection.CreateRequest(PlacementType + "/all", Method.DELETE);
+            var req = Connection.CreateRequest(PlacementType + "/all", Method.Delete);
             return ExecuteAsync<T>(Connection, req);
         }
 
@@ -182,7 +182,7 @@ namespace IS24RestApi
         /// </returns>
         public async Task RemoveAsync(string id, bool isExternal = false)
         {
-            var req = Connection.CreateRequest("realestate/{id}/" + PlacementType, Method.DELETE);
+            var req = Connection.CreateRequest("realestate/{id}/" + PlacementType, Method.Delete);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
@@ -212,7 +212,7 @@ namespace IS24RestApi
         /// </returns>
         public Task<T> RemoveAsync(IEnumerable<string> ids, bool isExternal = false)
         {
-            var req = Connection.CreateRequest(PlacementType + "/list", Method.DELETE);
+            var req = Connection.CreateRequest(PlacementType + "/list", Method.Delete);
             req.AddParameter("realestateids", string.Join(",", ids.Select(i => isExternal ? "ext-" + i : i)));
             return ExecuteAsync<T>(Connection, req);
         }

@@ -78,9 +78,9 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task UpdateAsync(RealEstateProject realEstateProject)
         {
-            var req = Connection.CreateRequest("realestateproject/{id}", Method.PUT);
+            var req = Connection.CreateRequest("realestateproject/{id}", Method.Put);
             req.AddParameter("id", realEstateProject.Id.Value, ParameterType.UrlSegment);
-            req.AddBody(realEstateProject);
+            req.AddXmlBody(realEstateProject);
 
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
@@ -99,9 +99,9 @@ namespace IS24RestApi
         /// </returns>
         public Task<RealEstateProjectEntries> AddAsync(long realEstateProjectId, RealEstateProjectEntries entries)
         {
-            var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry", Method.POST);
+            var req = Connection.CreateRequest("realestateproject/{id}/realestateprojectentry", Method.Post);
             req.AddParameter("id", realEstateProjectId, ParameterType.UrlSegment);
-            req.AddBody(entries);
+            req.AddXmlBody(entries);
             return ExecuteAsync<RealEstateProjectEntries>(Connection, req);
         }
 
@@ -146,7 +146,7 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task RemoveAsync(long realEstateProjectId, string realEstateId, bool isExternal = false)
         {
-            var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry/{realestateid}", Method.DELETE);
+            var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry/{realestateid}", Method.Delete);
             req.AddParameter("realestateprojectid", realEstateProjectId, ParameterType.UrlSegment);
             req.AddParameter("realestateid", isExternal ? "ext-" + realEstateId : realEstateId, ParameterType.UrlSegment);
             var resp = await ExecuteAsync<Messages>(Connection, req);
@@ -166,7 +166,7 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task RemoveAsync(long realEstateProjectId)
         {
-            var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry", Method.DELETE);
+            var req = Connection.CreateRequest("realestateproject/{realestateprojectid}/realestateprojectentry", Method.Delete);
             req.AddParameter("realestateprojectid", realEstateProjectId, ParameterType.UrlSegment);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
