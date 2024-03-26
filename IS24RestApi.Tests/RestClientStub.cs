@@ -23,27 +23,27 @@ namespace IS24RestApi.Tests
 
     public class RestClientStub: RestClient
     {
-        public List<Func<IRestRequest, RestResponseStub>> GetResponses { get; set; }
+        public List<Func<RestRequest, RestResponseStub>> GetResponses { get; set; }
         public int CurrentCallNumber { get; set; }
 
-        public RestClientStub()
+        public RestClientStub(string baseUrl) : base(baseUrl)
         {
-            GetResponses = new List<Func<IRestRequest, RestResponseStub>>();
+            GetResponses = new List<Func<RestRequest, RestResponseStub>>();
             CurrentCallNumber = 0;
         }
 
-        public RestClientStub RespondWith(Func<IRestRequest, RestResponseStub> getResponse)
+        public RestClientStub RespondWith(Func<RestRequest, RestResponseStub> getResponse)
         {
             GetResponses.Add(getResponse);
             return this;
         }
 
-        public RestClientStub ThenWith(Func<IRestRequest, RestResponseStub> getResponse)
+        public RestClientStub ThenWith(Func<RestRequest, RestResponseStub> getResponse)
         {
             return RespondWith(getResponse);
         }
 
-        public RestClientStub RespondWith(Func<IRestRequest, object> getObject)
+        public RestClientStub RespondWith(Func<RestRequest, object> getObject)
         {
             GetResponses.Add(r =>
             {
@@ -53,12 +53,12 @@ namespace IS24RestApi.Tests
             return this;
         }
 
-        public RestClientStub ThenWith(Func<IRestRequest, object> getObject)
+        public RestClientStub ThenWith(Func<RestRequest, object> getObject)
         {
             return RespondWith(getObject);
         }
 
-        private IRestResponse PerformGetResponse(IRestRequest request)
+        private RestResponse PerformGetResponse(RestRequest request)
         {
             var response = new RestResponse
             {
@@ -88,7 +88,7 @@ namespace IS24RestApi.Tests
             return response;
         }
 
-        public override Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
+        public Task<RestResponse> ExecuteTaskAsync(RestRequest request)
         {
             var response = PerformGetResponse(request);
             return Task.FromResult(response);

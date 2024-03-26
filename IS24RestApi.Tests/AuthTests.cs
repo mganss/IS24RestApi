@@ -18,13 +18,11 @@ namespace IS24RestApi.Tests
 
         public AuthTests()
         {
-            RestClient = new RestClientStub();
-
             Connection = new IS24Connection
             {
                 RestClientFactory = baseUrl =>
                 {
-                    RestClient.BaseUrl = new Uri(baseUrl);
+                    RestClient = new RestClientStub(baseUrl);
                     return RestClient;
                 },
                 BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/api",

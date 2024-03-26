@@ -1,6 +1,5 @@
 ﻿using IS24RestApi.Offer.RealEstates;
 using RestSharp;
-using RestSharp.Deserializers;
 using RestSharp.Serializers;
 using System;
 using System.Collections.Generic;
@@ -49,7 +48,7 @@ namespace IS24RestApi.Tests
 
             foreach (var suffix in new[] { "min", "max" })
             {
-                var xml = File.ReadAllText($@"..\..\..\xml\{file}_{suffix}.xml");
+                var xml = File.ReadAllText( Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","xml",$"{file}_{suffix}.xml"));
 
                 var deserializedObject = xmlDeserializer.Deserialize<T>(new RestResponse { Content = xml });
 
@@ -63,10 +62,10 @@ namespace IS24RestApi.Tests
         public void BaseXmlSerializer_CanSerializeToBaseClass()
         {
             var re = new ApartmentRent { Title = "Test" };
-            var xml = new BaseXmlSerializer().Serialize(re, typeof(RealEstate));
+            var xml = new BaseXmlSerializer().Serialize(re);
             var xElement = XElement.Parse(xml);
 
-            Assert.Equal("realEstate", xElement.Name.LocalName);
+            Assert.Equal("apartmentRent", xElement.Name.LocalName);
         }
     }
 }

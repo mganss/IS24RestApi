@@ -13,12 +13,10 @@ namespace IS24RestApi.Tests
 
         public TestBase(string baseUrlPrefix, Func<IIS24Connection, T> createClient)
         {
-            RestClient = new RestClientStub();
-
             var connection = new IS24Connection
             {
                 RestClientFactory = baseUrl => {
-                    RestClient.BaseUrl = new Uri(baseUrl);
+                    RestClient = new RestClientStub(baseUrl);
                     return RestClient;
                 },
                 BaseUrlPrefix = baseUrlPrefix,

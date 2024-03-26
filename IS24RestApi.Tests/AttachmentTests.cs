@@ -249,9 +249,8 @@ namespace IS24RestApi.Tests
                 var file = r.Files.Single(f => f.Name == "attachment");
                 Assert.Equal("image/jpeg", file.ContentType);
                 Assert.Equal("test.jpg", file.FileName);
-                Assert.Equal(bytes.Length, file.ContentLength);
-                var ms = new MemoryStream();
-                file.Writer(ms);
+                Assert.Equal(bytes.Length, file.GetFile().Length);
+                var ms = file.GetFile() as MemoryStream;
                 AssertEx.CollectionEqual(bytes, ms.ToArray());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
             });
@@ -268,10 +267,9 @@ namespace IS24RestApi.Tests
                 var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
-                var ms = new MemoryStream();
-                meta.Writer(ms);
+                var ms = meta.GetFile() as MemoryStream;
                 var bytes = ms.ToArray();
-                Assert.Equal(bytes.Length, meta.ContentLength);
+                Assert.Equal(bytes.Length, ms.Length);
                 var content = Encoding.UTF8.GetString(bytes);
                 var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = content });
                 Assert.IsType<Picture>(a);
@@ -358,9 +356,8 @@ namespace IS24RestApi.Tests
                 var file = r.Files.Single(f => f.Name == "videofile");
                 Assert.Equal("application/octet-stream", file.ContentType);
                 Assert.Equal("test.avi", file.FileName);
-                Assert.Equal(bytes.Length, file.ContentLength);
-                var ms = new MemoryStream();
-                file.Writer(ms);
+                Assert.Equal(bytes.Length, file.GetFile().Length);
+                var ms = file.GetFile() as MemoryStream;
                 AssertEx.CollectionEqual(bytes, ms.ToArray());
                 return "ok";
             }).ThenWith(r =>
@@ -578,10 +575,9 @@ namespace IS24RestApi.Tests
                 var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
-                var ms = new MemoryStream();
-                meta.Writer(ms);
+                var ms = meta.GetFile() as MemoryStream;
                 var bytes = ms.ToArray();
-                Assert.Equal(bytes.Length, meta.ContentLength);
+                Assert.Equal(bytes.Length, ms.Length);
                 var content = Encoding.UTF8.GetString(bytes);
                 var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = content });
                 Assert.IsAssignableFrom<Attachment>(a);
@@ -594,10 +590,9 @@ namespace IS24RestApi.Tests
                 var meta = r.Files.Single(f => f.Name == "metadata");
                 Assert.Equal("application/xml", meta.ContentType);
                 Assert.Equal("body.xml", meta.FileName);
-                var ms = new MemoryStream();
-                meta.Writer(ms);
+                var ms = meta.GetFile() as MemoryStream;
                 var bytes = ms.ToArray();
-                Assert.Equal(bytes.Length, meta.ContentLength);
+                Assert.Equal(bytes.Length, ms.Length);
                 var content = Encoding.UTF8.GetString(bytes);
                 var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = content });
                 Assert.IsAssignableFrom<Attachment>(a);

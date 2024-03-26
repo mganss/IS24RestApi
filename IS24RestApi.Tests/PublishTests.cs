@@ -181,7 +181,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Publish_PublishList_RequestsCorrectResource()
         {
-            var resp = new Func<IRestRequest, object>(r =>
+            var resp = new Func<RestRequest, object>(r =>
             {
                 Assert.Equal(Method.Post, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish/list", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
