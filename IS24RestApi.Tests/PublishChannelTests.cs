@@ -20,7 +20,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/publishchannel", RestClient.BuildUri(r).AbsoluteUri);
                 return new PublishChannels { PublishChannel = { } };
             });
@@ -35,7 +35,7 @@ namespace IS24RestApi.Tests
             {
                 return new PublishChannels
                 {
-                    PublishChannel = { 
+                    PublishChannel = {
                         new PublishChannel { Id = 4711 },
                         new PublishChannel { Id = 4712 },
                     }

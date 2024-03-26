@@ -13,7 +13,7 @@ using IS24RestApi.Offer.ListElement;
 
 namespace IS24RestApi.Tests
 {
-    public class RealEstateTests: ImportExportTestBase
+    public class RealEstateTests : ImportExportTestBase
     {
         public RealEstateTests()
             : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
@@ -25,7 +25,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Title = "Test" };
@@ -79,9 +79,9 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.POST, r.Method);
+                Assert.Equal(Method.Post, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
-                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query); 
+                Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "RealEstate with id [4711] has been created.", Id = "4711" } } };
             });
 
@@ -140,7 +140,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.PUT, r.Method);
+                Assert.Equal(Method.Put, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -199,7 +199,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.DELETE, r.Method);
+                Assert.Equal(Method.Delete, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).ToString());
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_DELETED, MessageProperty = "" } } };
             });
@@ -212,7 +212,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
                 Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
@@ -235,7 +235,7 @@ namespace IS24RestApi.Tests
                 };
             }).ThenWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Id = 4711, Title = "Test 1" };
@@ -249,7 +249,7 @@ namespace IS24RestApi.Tests
                 };
             }).ThenWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4712", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 Assert.Equal("?usenewenergysourceenev2014values=true", RestClient.BuildUri(r).Query);
                 return new ApartmentRent { Id = 4712, Title = "Test 2" };
@@ -271,7 +271,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
                 Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
