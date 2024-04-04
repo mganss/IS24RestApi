@@ -38,7 +38,7 @@ namespace IS24RestApi
         /// The factory of IRestClient objects that is used to communicate with the service.
         /// Used mainly for testing purposes.
         /// </summary>
-        Func<string, IRestClient> RestClientFactory { get; set; }
+        Func<string, ConfigureRestClient, IRestClient> RestClientFactory { get; set; }
 
         /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource

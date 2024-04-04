@@ -94,7 +94,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() });
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = new BaseXmlSerializer().Serialize(r.Body()) });
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal(1, a.Id);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -180,7 +180,7 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
         }
 
         [Fact]
@@ -214,7 +214,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                var l = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
+                var l = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = new BaseXmlSerializer().Serialize(r.Body()) });
                 Assert.IsAssignableFrom<Link>(l);
                 Assert.Equal("http://www.example.com", ((Link)l).Url);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_CREATED, MessageProperty = "Resource with id [4711] has been created.", Id = "4711" } } };
@@ -242,7 +242,7 @@ namespace IS24RestApi.Tests
         [Fact]
         public async Task Attachment_Create_HasFile()
         {
-            var bytes = File.ReadAllBytes(@"..\..\..\test.jpg");
+            var bytes = File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
 
             RestClient.RespondWith(r =>
             {
@@ -256,7 +256,7 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
         }
 
         [Fact]
@@ -279,7 +279,7 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, @"..\..\..\test.jpg");
+            await re.Attachments.CreateAsync(new Picture { Title = "Test" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
         }
 
         [Fact]
@@ -294,7 +294,7 @@ namespace IS24RestApi.Tests
             var att = new Picture { Title = "Test" };
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateAsync(att, @"..\..\..\test.jpg");
+            await re.Attachments.CreateAsync(att, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
 
             Assert.Equal(4711, att.Id);
         }
@@ -310,7 +310,7 @@ namespace IS24RestApi.Tests
             await AssertEx.ThrowsAsync<IS24Exception>(async () =>
             {
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateAsync(new Picture { Id = 1 }, @"..\..\..\test.jpg");
+                await re.Attachments.CreateAsync(new Picture { Id = 1 }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
             });
         }
 
@@ -331,7 +331,7 @@ namespace IS24RestApi.Tests
             }).ThenWith(r =>
             {
                 Assert.Equal(Method.Post, r.Method);
-                var v = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
+                var v = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = new BaseXmlSerializer().Serialize(r.Body()) });
                 Assert.Equal("xyz", ((StreamingVideo)v).VideoId);
                 Assert.Equal("Video", ((StreamingVideo)v).Title);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment", RestClient.BuildUri(r).AbsoluteUri);
@@ -340,13 +340,13 @@ namespace IS24RestApi.Tests
 
             var video = new StreamingVideo { Title = "Video" };
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(video, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
         }
 
         [Fact]
         public async Task Attachment_CreateVideo_HasFile()
         {
-            var bytes = File.ReadAllBytes(@"..\..\..\test.avi");
+            var bytes = File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
 
             RestClient.RespondWith(r =>
             {
@@ -366,7 +366,7 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(new StreamingVideo { Title = "Video" }, @"..\..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(new StreamingVideo { Title = "Video" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
         }
 
         [Fact]
@@ -385,7 +385,7 @@ namespace IS24RestApi.Tests
 
             var video = new StreamingVideo { Title = "Video" };
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
+            await re.Attachments.CreateStreamingVideoAsync(video, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             Assert.Equal(4711, video.Id);
             Assert.Equal("xyz", video.VideoId);
         }
@@ -402,7 +402,7 @@ namespace IS24RestApi.Tests
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             });
         }
 
@@ -421,7 +421,7 @@ namespace IS24RestApi.Tests
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             });
         }
 
@@ -443,7 +443,7 @@ namespace IS24RestApi.Tests
             {
                 var video = new StreamingVideo { Title = "Video" };
                 var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-                await re.Attachments.CreateStreamingVideoAsync(video, @"..\..\..\test.avi");
+                await re.Attachments.CreateStreamingVideoAsync(video, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             });
         }
 
@@ -536,7 +536,7 @@ namespace IS24RestApi.Tests
         public async Task CalculatesCorrectHash()
         {
             var a = new Attachment();
-            await a.CalculateCheckSumAsync(@"..\..\..\test.jpg");
+            await a.CalculateCheckSumAsync(Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
             Assert.Equal("9c2210b068d609fb655f1c3423698dd1", a.ExternalCheckSum);
         }
 
@@ -622,11 +622,11 @@ namespace IS24RestApi.Tests
             });
 
             var re = new RealEstateItem(new ApartmentRent { Id = 4711 }, Client.Connection);
-            var a1 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z1", Title = "Zimmer 1" }, @"..\..\..\test.jpg");
-            var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, @"..\..\..\test.jpg");
-            var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, @"..\..\..\test.jpg");
-            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, @"..\..\..\test.pdf");
-            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, @"..\..\..\test.avi");
+            var a1 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z1", Title = "Zimmer 1" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
+            var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
+            var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
+            var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.pdf"));
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
             var atts = new[] { a1, link, video, a2, pdf, a3 };
 

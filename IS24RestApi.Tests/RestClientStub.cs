@@ -1,9 +1,13 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using RestSharp.Serializers;
+using RestSharp.Serializers.Xml;
 using Xunit;
 
 namespace IS24RestApi.Tests
@@ -21,15 +25,36 @@ namespace IS24RestApi.Tests
         public string ContentType { get; set; }
     }
 
-    public class RestClientStub: RestClient
+    public class RestClientStub: IRestClient
     {
         public List<Func<RestRequest, RestResponseStub>> GetResponses { get; set; }
         public int CurrentCallNumber { get; set; }
 
-        public RestClientStub(string baseUrl) : base(baseUrl)
+        public RestClientStub()
         {
             GetResponses = new List<Func<RestRequest, RestResponseStub>>();
             CurrentCallNumber = 0;
+        }
+
+        public RestClientStub(string baseUrl, RestClientStub restClientStub)
+        {
+            GetResponses = restClientStub?.GetResponses ?? new List<Func<RestRequest, RestResponseStub>>();
+            CurrentCallNumber = restClientStub?.CurrentCallNumber ?? 0;
+            Options = new ReadOnlyRestClientOptions(new RestClientOptions(baseUrl));
+            DefaultParameters = new DefaultParameters(Options);
+            Serializers = new RestSerializers(new Dictionary<DataFormat, SerializerRecord>()
+            {
+                {
+                    DataFormat.Xml,
+                    new SerializerRecord(
+                        DataFormat.Xml,
+                        new[] { "text/xml", "application/xml" },
+                        type => true,
+                        () => new XmlRestSerializer()
+                            .WithXmlSerializer(new BaseXmlSerializer())
+                            .WithXmlDeserializer(new BaseXmlDeserializer()))
+                }
+            });                       
         }
 
         public RestClientStub RespondWith(Func<RestRequest, RestResponseStub> getResponse)
@@ -71,7 +96,13 @@ namespace IS24RestApi.Tests
                 var r = GetResponses[CurrentCallNumber](request);
                 CurrentCallNumber++;
 
-                var bytes = r.Raw ? (byte[])r.ResponseObject : Encoding.UTF8.GetBytes(new BaseXmlSerializer().Serialize(r.ResponseObject));
+                var serializedResponse =
+                    r.Raw
+                        ? Encoding.UTF8.GetString((byte[])r.ResponseObject)
+                        : new BaseXmlSerializer().Serialize(r.ResponseObject);
+                
+                var bytes = r.Raw ? (byte[])r.ResponseObject : Encoding.UTF8.GetBytes(serializedResponse);
+                response.Content = serializedResponse;
                 response.ResponseStatus = ResponseStatus.Completed;
                 response.StatusCode = r.StatusCode;
                 response.ContentType = r.ContentType ?? "text/xml";
@@ -88,10 +119,24 @@ namespace IS24RestApi.Tests
             return response;
         }
 
-        public Task<RestResponse> ExecuteTaskAsync(RestRequest request)
+        public Task<RestResponse> ExecuteAsync(RestRequest request, CancellationToken cancellationToken = default)
         {
             var response = PerformGetResponse(request);
             return Task.FromResult(response);
+        }
+
+        public async Task<Stream> DownloadStreamAsync(RestRequest request, CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlyRestClientOptions Options { get; }
+        public RestSerializers Serializers { get; }
+        public DefaultParameters DefaultParameters { get; }
+
+        public void Dispose()
+        {
+            // TODO release managed resources here
         }
     }
 }

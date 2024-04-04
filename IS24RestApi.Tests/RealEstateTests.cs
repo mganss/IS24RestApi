@@ -213,8 +213,8 @@ namespace IS24RestApi.Tests
             RestClient.RespondWith(r =>
             {
                 Assert.Equal(Method.Get, r.Method);
-                Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
-                Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
+                Assert.Equal(1, int.Parse(r.Parameters.Single(p => p.Name == "pagenumber").Value.ToString()));
+                Assert.InRange(int.Parse(r.Parameters.Single(p => p.Name == "pagesize").Value.ToString()), 1, 100);
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
@@ -241,7 +241,7 @@ namespace IS24RestApi.Tests
                 return new ApartmentRent { Id = 4711, Title = "Test 1" };
             }).ThenWith(r =>
             {
-                Assert.Equal(2, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
+                Assert.Equal(2, int.Parse(r.Parameters.Single(p => p.Name == "pagenumber").Value.ToString()));
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4712 } },
@@ -272,8 +272,8 @@ namespace IS24RestApi.Tests
             RestClient.RespondWith(r =>
             {
                 Assert.Equal(Method.Get, r.Method);
-                Assert.Equal(1, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
-                Assert.InRange((int)r.Parameters.Single(p => p.Name == "pagesize").Value, 1, 100);
+                Assert.Equal(1, int.Parse(r.Parameters.Single(p => p.Name == "pagenumber").Value.ToString()));
+                Assert.InRange(int.Parse(r.Parameters.Single(p => p.Name == "pagesize").Value.ToString()), 1, 100);
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate", url);
                 return new RealEstates { RealEstateList = { }, Paging = new Paging { NumberOfPages = 1 } };
@@ -294,7 +294,7 @@ namespace IS24RestApi.Tests
                 };
             }).ThenWith(r =>
             {
-                Assert.Equal(2, (int)r.Parameters.Single(p => p.Name == "pagenumber").Value);
+                Assert.Equal(2, int.Parse(r.Parameters.Single(p => p.Name == "pagenumber").Value.ToString()));
                 return new RealEstates
                 {
                     RealEstateList = { new OfferApartmentRent { Id = 4712 } },

@@ -23,18 +23,18 @@ namespace IS24RestApi.Tests
             RestClient.RespondWith(r =>
             {
                 Assert.Equal(Method.Get, r.Method);
-                Assert.Equal(4711L, (long)r.Parameters.Single(p => p.Name == "realestate").Value);
-                Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711L, long.Parse(r.Parameters.Single(p => p.Name == "realestate").Value.ToString()));
+                Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
             }).ThenWith(r =>
             {
-                Assert.Equal(4711, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
             }).ThenWith(r =>
             {
-                Assert.Equal(4711, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 return new PublishObjects { PublishObject = { new PublishObject { Id = "4711" } } };
             });
 
@@ -86,18 +86,18 @@ namespace IS24RestApi.Tests
             RestClient.RespondWith(r =>
             {
                 Assert.Equal(Method.Get, r.Method);
-                Assert.Equal(4711L, (long)r.Parameters.Single(p => p.Name == "realestate").Value);
-                Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711L, long.Parse(r.Parameters.Single(p => p.Name == "realestate").Value.ToString()));
+                Assert.Equal(ImportExportClient.ImmobilienscoutPublishChannelId, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 var url = RestClient.BuildUri(r).GetLeftPart(UriPartial.Path);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/publish", url);
                 return new PublishObjects { PublishObject = { } };
             }).ThenWith(r =>
             {
-                Assert.Equal(4711, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 return new PublishObjects { PublishObject = { } };
             }).ThenWith(r =>
             {
-                Assert.Equal(4711, (int)r.Parameters.Single(p => p.Name == "publishchannel").Value);
+                Assert.Equal(4711, int.Parse(r.Parameters.Single(p => p.Name == "publishchannel").Value.ToString()));
                 return new PublishObjects { PublishObject = { } };
             });
 
