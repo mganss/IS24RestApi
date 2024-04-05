@@ -350,10 +350,9 @@ namespace IS24RestApi
         private async Task DeleteUnused(IList<KeyValuePair<Attachment, string>> attachments, List<Attachment> currentAttachments)
         {
             // determine attachments that are no longer used or whose hash has changed
-            var attachmentsToDelete = currentAttachments.Except(attachments.Select(a =>
-                currentAttachments.FirstOrDefault(c => Equals(c, a.Key)))
-                .Where(c => c != null))
-                .ToList();
+            var attachmentsToDelete = currentAttachments
+                .Except(attachments.Select(a => currentAttachments.FirstOrDefault(c => Equals(c, a.Key)))
+                    .Where(c => c != null)).ToList();
 
             foreach (var attachment in attachmentsToDelete)
             {

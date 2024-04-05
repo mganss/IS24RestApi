@@ -602,7 +602,7 @@ namespace IS24RestApi.Tests
             {
                 Assert.Equal(Method.Put, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestate/4711/attachment/4", RestClient.BuildUri(r).AbsoluteUri);
-                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = (string)r.Body() }); ;
+                var a = new BaseXmlDeserializer().Deserialize<Attachment>(new RestResponse { Content = new BaseXmlSerializer().Serialize(r.Body()) });
                 Assert.IsAssignableFrom<Attachment>(a);
                 Assert.Equal("Test Update", a.Title);
                 return new Messages { Message = { new Message { MessageCode = MessageCode.MESSAGE_RESOURCE_UPDATED, MessageProperty = "" } } };
@@ -626,7 +626,7 @@ namespace IS24RestApi.Tests
             var a2 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z2", Title = "Zimmer 2" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
             var a3 = new KeyValuePair<Attachment, string>(new Picture { ExternalId = "Z3", Title = "Zimmer 3" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.jpg"));
             var pdf = new KeyValuePair<Attachment, string>(new PDFDocument { ExternalId = "P1", Title = "Test Update" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.pdf"));
-            var video = new KeyValuePair<Attachment, string>(new StreamingVideo { Title = "Video" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
+            var video = new KeyValuePair<Attachment, string>(new StreamingVideo {ExternalId = "817725e73569630898538fda4b22d0b9", Title = "Video" }, Path.Combine(Directory.GetCurrentDirectory(),"..","..","..","test.avi"));
             var link = new KeyValuePair<Attachment, string>(new Link { Title = "Test", Url = "http://www.example.com/" }, null);
             var atts = new[] { a1, link, video, a2, pdf, a3 };
 
