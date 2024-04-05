@@ -24,7 +24,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/radius";
                 Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 var parms = RestClient.BuildUri(r).ParseQueryString();
@@ -112,7 +112,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
                 Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 var parms = RestClient.BuildUri(r).ParseQueryString();
@@ -172,7 +172,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 var url = "https://rest.sandbox-immobilienscout24.de/restapi/api/search/v1.0/search/region";
                 Assert.Equal(url, RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 var parms = RestClient.BuildUri(r).ParseQueryString();

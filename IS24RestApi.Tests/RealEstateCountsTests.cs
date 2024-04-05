@@ -13,7 +13,7 @@ using IS24RestApi.Offer.ListElement;
 
 namespace IS24RestApi.Tests
 {
-    public class RealEstateCountsTests: ImportExportTestBase
+    public class RealEstateCountsTests : ImportExportTestBase
     {
         public RealEstateCountsTests()
             : base(@"https://rest.sandbox-immobilienscout24.de/restapi/api")
@@ -25,7 +25,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/offer/v1.0/user/me/realestatecounts", RestClient.BuildUri(r).GetLeftPart(UriPartial.Path));
                 return new Realestate.Counts.RealEstateCounts
                 {

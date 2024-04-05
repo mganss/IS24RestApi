@@ -50,9 +50,9 @@ namespace IS24RestApi
         /// <returns></returns>
         public async Task UpdateAsync(List attachmentsOrder)
         {
-            var request = Connection.CreateRequest("realestate/{realEstateId}/attachment/attachmentsorder", Method.PUT);
+            var request = Connection.CreateRequest("realestate/{realEstateId}/attachment/attachmentsorder", Method.Put);
             request.AddParameter("realEstateId", RealEstate.Id, ParameterType.UrlSegment);
-            request.AddBody(attachmentsOrder);
+            request.AddXmlBody(attachmentsOrder);
             var resp = await ExecuteAsync<Messages>(Connection, request);
             if (!resp.IsSuccessful())
             {

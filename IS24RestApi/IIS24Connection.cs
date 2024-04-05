@@ -38,7 +38,7 @@ namespace IS24RestApi
         /// The factory of IRestClient objects that is used to communicate with the service.
         /// Used mainly for testing purposes.
         /// </summary>
-        Func<string, IRestClient> RestClientFactory { get; set; }
+        Func<string, ConfigureRestClient, IRestClient> RestClientFactory { get; set; }
 
         /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
@@ -46,7 +46,7 @@ namespace IS24RestApi
         /// <param name="resource"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        IRestRequest CreateRequest(string resource, Method method = Method.GET);
+        RestRequest CreateRequest(string resource, Method method = Method.Get);
 
         /// <summary>
         /// Performs an API request as an asynchronous task.
@@ -55,6 +55,6 @@ namespace IS24RestApi
         /// <param name="request">The request object.</param>
         /// <param name="baseUrl">The suffix added to <see cref="IS24Connection.BaseUrlPrefix"/> to obtain the request URL.</param>
         /// <returns>The task representing the request.</returns>
-        Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new();
+        Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new();
     }
 }

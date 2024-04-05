@@ -1,12 +1,11 @@
-﻿using RestSharp;
-using RestSharp.Deserializers;
-using RestSharp.Serialization.Xml;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using RestSharp;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
+using RestSharp.Serializers.Xml;
 
 namespace IS24RestApi
 {
@@ -18,17 +17,7 @@ namespace IS24RestApi
         /// <summary>
         /// Ignored
         /// </summary>
-        public string DateFormat { get; set; }
-
-        /// <summary>
-        /// Ignored
-        /// </summary>
         public string Namespace { get; set; }
-
-        /// <summary>
-        /// Ignored
-        /// </summary>
-        public string RootElement { get; set; }
 
         /// <summary>
         /// Deserialize a <see cref="IRestResponse"/> into an object.
@@ -36,9 +25,14 @@ namespace IS24RestApi
         /// <typeparam name="T">The type of the deserialized object</typeparam>
         /// <param name="response">The response to deserialize</param>
         /// <returns>The deserialized object</returns>
-        public T Deserialize<T>(IRestResponse response)
+        public T Deserialize<T>(RestResponse response)
         {
             if (string.IsNullOrEmpty(response.Content))
+            {
+                return default;
+            }
+
+            if (response.ErrorException != null)
             {
                 return default;
             }

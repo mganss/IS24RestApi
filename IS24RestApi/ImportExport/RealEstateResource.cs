@@ -84,9 +84,9 @@ namespace IS24RestApi
         /// <param name="re">The RealEstate object.</param>
         public async Task CreateAsync(RealEstate re)
         {
-            var req = Connection.CreateRequest("realestate", Method.POST);
+            var req = Connection.CreateRequest("realestate", Method.Post);
             req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
-            req.AddBody(re);
+            req.AddXmlBody(re);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             var id = resp.ExtractCreatedResourceId();
             if (!id.HasValue)
@@ -103,10 +103,10 @@ namespace IS24RestApi
         /// <param name="re">The RealEstate object.</param>
         public async Task UpdateAsync(RealEstate re)
         {
-            var req = Connection.CreateRequest("realestate/{id}", Method.PUT);
+            var req = Connection.CreateRequest("realestate/{id}", Method.Put);
             req.AddParameter("usenewenergysourceenev2014values", "true", ParameterType.QueryString);
             req.AddParameter("id", re.Id, ParameterType.UrlSegment);
-            req.AddBody(re);
+            req.AddXmlBody(re);
             var messages = await ExecuteAsync<Messages>(Connection, req);
             if (!messages.IsSuccessful())
             {
@@ -120,7 +120,7 @@ namespace IS24RestApi
         /// <param name="id">The id of the RealEstate object to be deleted.</param>
         public async Task DeleteAsync(string id)
         {
-            var request = Connection.CreateRequest("realestate/{id}", Method.DELETE);
+            var request = Connection.CreateRequest("realestate/{id}", Method.Delete);
             request.AddParameter("id", id, ParameterType.UrlSegment);
             await ExecuteAsync<Messages>(Connection, request);
         }

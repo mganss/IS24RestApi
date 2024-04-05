@@ -1,14 +1,12 @@
 ﻿using IS24RestApi.Common;
 using RestSharp;
 using RestSharp.Authenticators;
-using RestSharp.Deserializers;
-using RestSharp.Extensions;
-using RestSharp.Serialization.Xml;
 using System;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
+using RestSharp.Serializers.Xml;
 
 namespace IS24RestApi
 {
@@ -77,7 +75,15 @@ namespace IS24RestApi
         /// The factory of IRestClient objects that is used to communicate with the service.
         /// Used mainly for testing purposes.
         /// </summary>
-        public Func<string, IRestClient> RestClientFactory { get; set; } = baseUrl => new RestClient(baseUrl);
+        public Func<string, ConfigureRestClient, IRestClient> RestClientFactory { get; set; } = (baseUrl, clientConfig) => new RestClient(baseUrl,
+            configureRestClient: clientConfig,
+            configureSerialization: s =>
+            {
+                var serializer = new XmlRestSerializer()
+                    .WithXmlSerializer(xmlSerializer)
+                    .WithXmlDeserializer(xmlDeserializer);
+                s.UseSerializer(() => serializer);
+            });
 
         /// <summary>
         /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
@@ -85,20 +91,18 @@ namespace IS24RestApi
         /// <param name="resource"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public IRestRequest CreateRequest(string resource, Method method = Method.GET)
+        public RestRequest CreateRequest(string resource, Method method = Method.Get)
         {
-            return new RestRequest(resource, method) { XmlSerializer = xmlSerializer };
+            var re = new RestRequest(resource, method);
+            re.AddHeader("Accept", "application/xml");
+            return re;
         }
 
-        private IRestResponse<T> Deserialize<T>(IRestRequest request, IRestResponse raw)
+        private static RestResponse<T> Deserialize<T>(RestRequest request, RestResponse raw, IRestClient client)
         {
-            IRestResponse<T> response = null;
-
+            var response = CloneRawResponse<T>(request, raw);
             try
             {
-                response = raw.ToAsyncResponse<T>();
-                response.Request = request;
-
                 // Only attempt to deserialize if the request has not errored due
                 // to a transport or framework exception.  HTTP errors should attempt to
                 // be deserialized
@@ -106,13 +110,9 @@ namespace IS24RestApi
                 if (response.ErrorException == null)
                 {
                     var handler = xmlDeserializer;
-                    handler.DateFormat = request.DateFormat;
 
                     if ((int)response.StatusCode < 400)
                     {
-                        handler.RootElement = request.RootElement;
-                        handler.Namespace = request.XmlNamespace;
-
                         response.Data = handler.Deserialize<T>(raw);
                     }
                     else
@@ -130,12 +130,40 @@ namespace IS24RestApi
             }
             catch (Exception ex)
             {
-                if (response == null) response = new RestResponse<T>();
+                if (response == null) response = new RestResponse<T>(request);
                 response.ResponseStatus = ResponseStatus.Error;
                 response.ErrorMessage = ex.Message;
                 response.ErrorException = ex;
             }
 
+            return response;
+        }
+
+        private static RestResponse<T> CloneRawResponse<T>(RestRequest request, RestResponse raw)
+        {
+            var response = new RestResponse<T>(request)
+            {
+                Content = raw.Content,
+                ContentHeaders = raw.ContentHeaders,
+                IsSuccessStatusCode = raw.IsSuccessStatusCode,
+                ResponseStatus = raw.ResponseStatus,
+                ResponseUri = raw.ResponseUri,
+                ErrorException = raw.ErrorException,
+                Headers = raw.Headers,
+                StatusCode = raw.StatusCode,
+                StatusDescription = raw.StatusDescription,
+                RootElement = raw.RootElement,
+                ContentEncoding = raw.ContentEncoding,
+                ContentLength = raw.ContentLength,
+                ContentType = raw.ContentType,
+                Cookies = raw.Cookies,
+                ErrorMessage = raw.ErrorMessage,
+                RawBytes = raw.RawBytes,
+                Server = raw.Server,
+                Version = raw.Version,
+                Request = raw.Request
+            };
+            
             return response;
         }
 
@@ -148,21 +176,23 @@ namespace IS24RestApi
         /// <param name="request">The request object.</param>
         /// <param name="baseUrl">The suffix added to <see cref="BaseUrlPrefix"/> to obtain the request URL.</param>
         /// <returns>The task representing the request.</returns>
-        public async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl = null) where T : new()
+        public async Task<T> ExecuteAsync<T>(RestRequest request, string baseUrl = null) where T : new()
         {
             var url = string.Join("/", BaseUrlPrefix, baseUrl);
-            var client = RestClientFactory(url);
-
-            client.UserAgent = "IS24RestApi/" + AssemblyVersion;
-            client.Authenticator =
-                OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
-            client.ClearHandlers();
-            client.AddHandler("application/xml", () => xmlDeserializer);
-            request.XmlSerializer = xmlSerializer;
-
-            var response = Deserialize<T>(request, await client.ExecuteTaskAsync(request));
-
-            if (response.ErrorException != null) throw response.ErrorException;
+            var client = RestClientFactory(url, clientOptions =>
+                {
+                    clientOptions.UserAgent = "IS24RestApi/" + AssemblyVersion;
+                    clientOptions.Authenticator =
+                        OAuth1Authenticator.ForProtectedResource(ConsumerKey, ConsumerSecret,
+                            AccessToken, AccessTokenSecret);
+                }
+            );
+            
+            var raw = await client.ExecuteAsync(request);
+            var response = Deserialize<T>(request, raw, client);
+            
+            if (response.ErrorException != null) 
+                throw response.ErrorException;
 
             return response.Data;
         }
@@ -175,10 +205,13 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetRequestToken(string callbackUrl = "oob")
         {
-            var client = RestClientFactory(BaseUrlPrefix);
-            client.Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl);
-            var request = new RestRequest("oauth/request_token", Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
+            var client = RestClientFactory(BaseUrlPrefix, clientOptions =>
+            {
+                clientOptions.Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl);
+            });
+            
+            var request = new RestRequest("oauth/request_token", Method.Get);
+            var response = await client.ExecuteAsync(request);
 
             if (response.ErrorException != null) throw response.ErrorException;
             if (response.StatusCode != HttpStatusCode.OK) throw new IS24Exception(string.Format("Error getting request token, status {0}: {1}",
@@ -198,10 +231,13 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task GetAccessToken(string verifier)
         {
-            var client = RestClientFactory(BaseUrlPrefix);
-            client.Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier);
-            var request = new RestRequest("oauth/access_token", Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
+            var client = RestClientFactory(BaseUrlPrefix, options =>
+            {
+                options.Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier);
+            });
+            
+            var request = new RestRequest("oauth/access_token", Method.Get);
+            var response = await client.ExecuteAsync(request);
 
             if (response.ErrorException != null) throw response.ErrorException;
             if (response.StatusCode != HttpStatusCode.OK) throw new IS24Exception(string.Format("Error getting access token, status {0}: {1}",

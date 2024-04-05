@@ -19,11 +19,11 @@ namespace IS24RestApi.Tests
         public AuthTests()
         {
             RestClient = new RestClientStub();
-
             Connection = new IS24Connection
             {
-                RestClientFactory = baseUrl => {
-                    RestClient.BaseUrl = new Uri(baseUrl);
+                RestClientFactory = (baseUrl, oAuth) =>
+                {
+                    RestClient = new RestClientStub(baseUrl, RestClient);
                     return RestClient;
                 },
                 BaseUrlPrefix = @"https://rest.sandbox-immobilienscout24.de/restapi/api",
@@ -37,7 +37,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/request_token", RestClient.BuildUri(r).ToString());
                 return new RestResponseStub
                 {
@@ -70,7 +70,7 @@ namespace IS24RestApi.Tests
         {
             RestClient.RespondWith(r =>
             {
-                Assert.Equal(Method.GET, r.Method);
+                Assert.Equal(Method.Get, r.Method);
                 Assert.Equal("https://rest.sandbox-immobilienscout24.de/restapi/api/oauth/access_token", RestClient.BuildUri(r).ToString());
                 return new RestResponseStub
                 {

@@ -12,6 +12,6 @@ namespace IS24RestApi.Tests
     {
         public static NameValueCollection ParseQueryString(this Uri uri) => HttpUtility.ParseQueryString(uri.Query);
 
-        public static object Body(this IRestRequest r) => r.Parameters.Single(p => p.Type == ParameterType.RequestBody).Value;
+        public static object Body(this RestRequest r) => r.Parameters.Single(p => p.Type == ParameterType.RequestBody).Value;
     }
 }

@@ -7,11 +7,9 @@ using IS24RestApi;
 using IS24RestApi.Offer.RealEstates;
 using IS24RestApi.Common;
 using IS24RestApi.Search;
-using System.Diagnostics;
 using System;
-using IS24RestApi.Offer.TopPlacement;
-using IS24RestApi.Offer.RealEstateProject;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace SampleConsole
 {
@@ -19,7 +17,7 @@ namespace SampleConsole
     {
         static void Main(string[] args)
         {
-            var config = RestSharp.SimpleJson.DeserializeObject<Config>(File.ReadAllText("config.json"));
+            var config =  JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
 
             if (args.Contains("-a"))
                 AuthorizeAsync(config).Wait();

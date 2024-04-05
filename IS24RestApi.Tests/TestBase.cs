@@ -17,8 +17,8 @@ namespace IS24RestApi.Tests
 
             var connection = new IS24Connection
             {
-                RestClientFactory = baseUrl => {
-                    RestClient.BaseUrl = new Uri(baseUrl);
+                RestClientFactory = (baseUrl, oAuth) => {
+                    RestClient = new RestClientStub(baseUrl, RestClient);
                     return RestClient;
                 },
                 BaseUrlPrefix = baseUrlPrefix,

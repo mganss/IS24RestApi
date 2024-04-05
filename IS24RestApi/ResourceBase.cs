@@ -26,7 +26,7 @@ namespace IS24RestApi
         /// <returns>
         /// The task representing the request.
         /// </returns>
-        protected Task<T> ExecuteAsync<T>(IIS24Connection connection, IRestRequest request) where T : new()
+        protected Task<T> ExecuteAsync<T>(IIS24Connection connection, RestRequest request) where T : new()
         {
             return connection.ExecuteAsync<T>(request, UrlPath);
         }

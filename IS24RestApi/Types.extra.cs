@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using RestSharp;
 
 namespace IS24RestApi.Common
 {
@@ -88,8 +89,16 @@ namespace IS24RestApi.Common
         /// <returns>The task object representing the asynchronous operation</returns>
         public async Task CalculateCheckSumAsync(string path)
         {
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
-                await CalculateCheckSumAsync(fs);
+            if (path != null && path.Contains("http"))
+            {
+                var stream = await new RestClient().DownloadStreamAsync(new RestRequest(new Uri(path)));
+                await CalculateCheckSumAsync(stream);
+            }
+            else
+            {
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+                    await CalculateCheckSumAsync(fs);   
+            }
         }
 
         /// <summary>

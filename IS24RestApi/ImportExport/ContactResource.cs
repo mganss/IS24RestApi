@@ -54,8 +54,8 @@ namespace IS24RestApi
         /// <param name="contact">The contact.</param>
         public async Task CreateAsync(RealtorContactDetails contact)
         {
-            var request = Connection.CreateRequest("contact", Method.POST);
-            request.AddBody(contact);
+            var request = Connection.CreateRequest("contact", Method.Post);
+            request.AddXmlBody(contact);
 
             var resp = await ExecuteAsync<Messages>(Connection, request);
             var id = resp.ExtractCreatedResourceId();
@@ -72,9 +72,9 @@ namespace IS24RestApi
         /// <param name="contact">The contact.</param>
         public async Task UpdateAsync(RealtorContactDetails contact)
         {
-            var req = Connection.CreateRequest("contact/{id}", Method.PUT);
+            var req = Connection.CreateRequest("contact/{id}", Method.Put);
             req.AddParameter("id", contact.Id.HasValue ? contact.Id.Value.ToString() : "ext-" + contact.ExternalId, ParameterType.UrlSegment);
-            req.AddBody(contact);
+            req.AddXmlBody(contact);
 
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful())
@@ -91,7 +91,7 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task DeleteAsync(string id, bool isExternal = false)
         {
-            var req = Connection.CreateRequest("contact/{id}", Method.DELETE);
+            var req = Connection.CreateRequest("contact/{id}", Method.Delete);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
             var resp = await ExecuteAsync<Messages>(Connection, req);
             if (!resp.IsSuccessful(MessageCode.MESSAGE_RESOURCE_DELETED))
@@ -110,7 +110,7 @@ namespace IS24RestApi
         /// <exception cref="IS24Exception"></exception>
         public async Task DeleteAsync(string id, string assignToContactId, bool isExternal = false, bool isAssignedToContactExternal = false)
         {
-            var req = Connection.CreateRequest("contact/{id}", Method.DELETE);
+            var req = Connection.CreateRequest("contact/{id}", Method.Delete);
             req.AddParameter("id", isExternal ? "ext-" + id : id, ParameterType.UrlSegment);
             req.AddParameter("assigntocontactid", isAssignedToContactExternal ? "ext-" + assignToContactId : assignToContactId, ParameterType.QueryString);
             var resp = await ExecuteAsync<Messages>(Connection, req);
