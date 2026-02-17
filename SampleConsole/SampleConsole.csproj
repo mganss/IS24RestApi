@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Sample console application for IS24RestApi.</Description>
-    <Copyright>Copyright 2013-2022 Michael Ganss</Copyright>
+    <Copyright>Copyright 2013-$([System.DateTime]::Now.Year) Michael Ganss</Copyright>
     <AssemblyTitle>SampleConsole</AssemblyTitle>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyName>SampleConsole</AssemblyName>
     <RootNamespace>SampleConsole</RootNamespace>
     <OutputType>Exe</OutputType>

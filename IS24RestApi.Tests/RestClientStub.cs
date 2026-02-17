@@ -32,13 +32,13 @@ namespace IS24RestApi.Tests
 
         public RestClientStub()
         {
-            GetResponses = new List<Func<RestRequest, RestResponseStub>>();
+            GetResponses = [];
             CurrentCallNumber = 0;
         }
 
         public RestClientStub(string baseUrl, RestClientStub restClientStub)
         {
-            GetResponses = restClientStub?.GetResponses ?? new List<Func<RestRequest, RestResponseStub>>();
+            GetResponses = restClientStub?.GetResponses ?? [];
             CurrentCallNumber = restClientStub?.CurrentCallNumber ?? 0;
             Options = new ReadOnlyRestClientOptions(new RestClientOptions(baseUrl));
             DefaultParameters = new DefaultParameters(Options);
@@ -48,13 +48,13 @@ namespace IS24RestApi.Tests
                     DataFormat.Xml,
                     new SerializerRecord(
                         DataFormat.Xml,
-                        new[] { "text/xml", "application/xml" },
+                        ["text/xml", "application/xml"],
                         type => true,
                         () => new XmlRestSerializer()
                             .WithXmlSerializer(new BaseXmlSerializer())
                             .WithXmlDeserializer(new BaseXmlDeserializer()))
                 }
-            });                       
+            });
         }
 
         public RestClientStub RespondWith(Func<RestRequest, RestResponseStub> getResponse)
@@ -100,7 +100,7 @@ namespace IS24RestApi.Tests
                     r.Raw
                         ? Encoding.UTF8.GetString((byte[])r.ResponseObject)
                         : new BaseXmlSerializer().Serialize(r.ResponseObject);
-                
+
                 var bytes = r.Raw ? (byte[])r.ResponseObject : Encoding.UTF8.GetBytes(serializedResponse);
                 response.Content = serializedResponse;
                 response.ResponseStatus = ResponseStatus.Completed;
@@ -125,7 +125,7 @@ namespace IS24RestApi.Tests
             return Task.FromResult(response);
         }
 
-        public async Task<Stream> DownloadStreamAsync(RestRequest request, CancellationToken cancellationToken = new CancellationToken())
+        public Task<Stream> DownloadStreamAsync(RestRequest request, CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();
         }
@@ -136,7 +136,7 @@ namespace IS24RestApi.Tests
 
         public void Dispose()
         {
-            // TODO release managed resources here
+            GC.SuppressFinalize(this);
         }
     }
 }

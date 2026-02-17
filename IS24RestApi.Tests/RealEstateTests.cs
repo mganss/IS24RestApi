@@ -255,7 +255,7 @@ namespace IS24RestApi.Tests
                 return new ApartmentRent { Id = 4712, Title = "Test 2" };
             }).ThenWith(r =>
             {
-                Assert.True(false, "Must not request more pages than available.");
+                Assert.Fail("Must not request more pages than available.");
                 return new Messages { Message = { new Message { MessageProperty = "fail", MessageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };
             });
 
@@ -302,7 +302,7 @@ namespace IS24RestApi.Tests
                 };
             }).ThenWith(r =>
             {
-                Assert.True(false, "Must not request more pages than available.");
+                Assert.Fail("Must not request more pages than available.");
                 return new Messages { Message = { new Message { MessageProperty = "fail", MessageCode = MessageCode.ERROR_COMMON_RESOURCE_NOT_FOUND } } };
             });
 
