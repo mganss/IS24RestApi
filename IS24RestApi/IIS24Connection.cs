@@ -41,7 +41,7 @@ namespace IS24RestApi
         Func<string, ConfigureRestClient, IRestClient> RestClientFactory { get; set; }
 
         /// <summary>
-        /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
+        /// Creates a basic <see cref="RestRequest"/> instance for the given resource
         /// </summary>
         /// <param name="resource"></param>
         /// <param name="method"></param>

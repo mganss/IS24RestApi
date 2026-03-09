@@ -16,20 +16,27 @@ namespace IS24RestApi
         /// Serializes an object into an XML document using the specified type.
         /// </summary>
         /// <param name="o">The object to serialize</param>
-        /// <param name="t">The type</param>
         /// <returns></returns>
         public string Serialize(object o)
         {
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, Namespace);
-            var serializer = new System.Xml.Serialization.XmlSerializer(o.GetType());
+            var serializer = new XmlSerializer(o.GetType());
             var writer = new EncodingStringWriter(Encoding.UTF8);
             serializer.Serialize(writer, o, ns);
 
             return writer.ToString();
         }
 
+        /// <summary>
+        /// Gets or sets the content type of the associated resource, which defines the media type of the data being
+        /// processed.
+        /// </summary>
         public ContentType ContentType { get; set; }
+
+        /// <summary>
+        /// The namespace to use for the root element of the serialized XML document.
+        /// </summary>
         public string Namespace { get; set; }
 
         private class EncodingStringWriter : StringWriter

@@ -22,7 +22,11 @@ test_script:
   - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="..\coverage.xml" /p:Exclude=\"[xunit.*]*,[System.Reactive]*\" /p:ExcludeByFile="%APPVEYOR_BUILD_FOLDER%/IS24RestApi/generated/*.cs" IS24RestApi.Tests\IS24RestApi.Tests.csproj -f net6.0
   - ps: |
       if (-not $env:APPVEYOR_PULL_REQUEST_NUMBER) {
-          dotnet sonarscanner end /d:sonar.login="$env:sonar_token"
+          $output = dotnet sonarscanner end /d:sonar.token="$env:sonar_token" 2>&1
+          $output | Where-Object { $_ -notmatch "Failed to delete temp folder" } | Write-Host
+          if ($LASTEXITCODE -ne 0 -and ($output | Select-String "Failed to delete temp folder")) {
+              $LASTEXITCODE = 0
+          }
       }
   - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
   - pip install codecov

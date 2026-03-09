@@ -86,7 +86,7 @@ namespace IS24RestApi
             });
 
         /// <summary>
-        /// Creates a basic <see cref="IRestRequest"/> instance for the given resource
+        /// Creates a basic <see cref="RestRequest"/> instance for the given resource
         /// </summary>
         /// <param name="resource"></param>
         /// <param name="method"></param>
@@ -98,7 +98,7 @@ namespace IS24RestApi
             return re;
         }
 
-        private static RestResponse<T> Deserialize<T>(RestRequest request, RestResponse raw, IRestClient client)
+        private static RestResponse<T> Deserialize<T>(RestRequest request, RestResponse raw)
         {
             var response = CloneRawResponse<T>(request, raw);
             try
@@ -163,7 +163,7 @@ namespace IS24RestApi
                 Version = raw.Version,
                 Request = raw.Request
             };
-            
+
             return response;
         }
 
@@ -187,11 +187,11 @@ namespace IS24RestApi
                             AccessToken, AccessTokenSecret);
                 }
             );
-            
+
             var raw = await client.ExecuteAsync(request);
-            var response = Deserialize<T>(request, raw, client);
-            
-            if (response.ErrorException != null) 
+            var response = Deserialize<T>(request, raw);
+
+            if (response.ErrorException != null)
                 throw response.ErrorException;
 
             return response.Data;
@@ -209,7 +209,7 @@ namespace IS24RestApi
             {
                 clientOptions.Authenticator = OAuth1Authenticator.ForRequestToken(ConsumerKey, ConsumerSecret, callbackUrl);
             });
-            
+
             var request = new RestRequest("oauth/request_token", Method.Get);
             var response = await client.ExecuteAsync(request);
 
@@ -235,7 +235,7 @@ namespace IS24RestApi
             {
                 options.Authenticator = OAuth1Authenticator.ForAccessToken(ConsumerKey, ConsumerSecret, RequestToken, RequestTokenSecret, verifier);
             });
-            
+
             var request = new RestRequest("oauth/access_token", Method.Get);
             var response = await client.ExecuteAsync(request);
 

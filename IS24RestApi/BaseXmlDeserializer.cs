@@ -20,7 +20,7 @@ namespace IS24RestApi
         public string Namespace { get; set; }
 
         /// <summary>
-        /// Deserialize a <see cref="IRestResponse"/> into an object.
+        /// Deserialize a <see cref="RestResponse"/> into an object.
         /// </summary>
         /// <typeparam name="T">The type of the deserialized object</typeparam>
         /// <param name="response">The response to deserialize</param>
