@@ -24,33 +24,30 @@
         <!-- max Occurs 2 makes not sense, BUT!!! a bug in our Json Workaround Code treat resultlistEntries as list. -->
   	  	<xs:element name="resultlistEntries" type="ResultlistEntries" minOccurs="1" maxOccurs="2"/>
         <xs:element name="description" type="ResultlistDescription" minOccurs="0"/>
-        <xs:element name="recommendations" type="ResultlistRecommendations" minOccurs="0"/>
-        <xs:element name="advertisement" type="ResultlistAdvertisement" minOccurs="0"/>
+        <xs:element name="recommendations" type="Recommendations" minOccurs="0"/>
         <xs:element name="adTargeting" type="ResultlistAdTargeting" minOccurs="0"/>
+        <xs:element name="reporting" type="xs:string" minOccurs="0"/>
         <xs:element name="surroundingSuburbs" type="ResultlistSurroundingSuburbs" minOccurs="0"/>
+        <xs:element name="listFirstListingSummary" type="ListFirstListingSummary" minOccurs="0"/>
+        <xs:element name="mapMarkers" type="MapMarkers" minOccurs="0"/>
+        <xs:element name="quickFilterStatistics" type="QuickFilterStatistic" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="showroomInformation" type="ShowroomInformation" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <xs:simpleType name="ResultlistRecommendationType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="COURTAGE"/>
-      <xs:enumeration value="GEO"/>
-      <xs:enumeration value="PRICE"/>
-      <xs:enumeration value="ROOM"/>
-      <xs:enumeration value="AREA"/>
-      <xs:enumeration value="POTENTIAL_HOMES"/>
-      <xs:enumeration value="PLANNED_HOMES"/>
-      <xs:enumeration value="JOINED_RECOMMENDATION"/>
-      <xs:enumeration value="CONTACT_RECOMMENDATION" />
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:complexType name="ResultlistAdvertisement">
-    <xs:sequence>
-      <xs:element name="keyValues" type="xs:string" minOccurs="1"/>
-    </xs:sequence>
-  </xs:complexType>
+  <xs:element name="showroom">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Showroom information with matching listings</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Showroom-Information mit zugehörigen Einträge der Ergebnisliste.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="showroomInformation" type="ShowroomInformation"/>
+        <xs:element name="resultlistEntries" type="ResultlistEntries"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 
   <xs:complexType name="ResultlistAdTargeting">
     <xs:sequence>
@@ -59,23 +56,14 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="ResultlistRecommendation">
-    <xs:sequence>
-      <xs:element name="title" type="xs:string"/>
-      <xs:element name="sampleResultlistEntry" type="ResultlistEntry"/>
-    </xs:sequence>
-    <xs:attribute name="type" type="ResultlistRecommendationType"/>
-    <xs:attribute name="numberOfHits" type="xs:int"/>
-  </xs:complexType>
-
   <xs:complexType name="ShapeSimplifyRequest">
-    <xs:sequence>
+    <xs:all>
       <xs:element name="shape" type="xs:string"/>
       <xs:element name="removeHoles" type="xs:boolean"  minOccurs="0" />
       <xs:element name="encode" type="xs:boolean" minOccurs="0" />
       <xs:element name="removePolygonsSmallerThan" type="xs:double" minOccurs="0" />
       <xs:element name="maxPoints" type="xs:int" minOccurs="0" />
-    </xs:sequence>
+    </xs:all>
   </xs:complexType>
 
   <xs:complexType name="ShapeSimplifyResult">
@@ -100,9 +88,9 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:complexType name="ResultlistRecommendations">
+  <xs:complexType name="Recommendations">
     <xs:sequence>
-      <xs:element name="recommendation" type="ResultlistRecommendation" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="results" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -110,6 +98,92 @@
     <xs:sequence>
       <xs:element name="suburbs" type="SurroundingSuburbEntry" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="all" type="SurroundingSuburbsAll" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ListFirstListingSummary">
+    <xs:sequence>
+      <xs:element name="listFirstListingsIncluded" type="xs:boolean"/>
+      <xs:element name="numberOfListFirstListings" type="xs:int"/>
+      <xs:element name="results" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MapMarkers">
+    <xs:sequence>
+      <xs:element name="results" type="MapMarker" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MapMarker">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">real estate information for placing a marker on a map with label information</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Immobilieninformationen zum Platzieren eines Markers auf einer Karte mit Labelinformationen</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="realEstateId" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The id of the real estate.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Die Id der Immobilie.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="label" type="xs:string" minOccurs="1" maxOccurs="1" >
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The price label of the marker.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Das Preis-Label des Markers.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="coordinate" type="common:Wgs84Coordinate"  minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The coordinate of the listing, in case of hidden address the center coordinate of the alternative shape.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Die Koordinate des Listings, im Falle einer verborgenen Adresse die Zentrumskoordinate der alternativen Shape.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hiddenAddressShapeId" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">In case of a hidden address, an alternative shape.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Im Falle einer verborgenen Adresse, eine alternative ShapeId.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="listingType" type="search:ListingTypes" minOccurs="1" default="S">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The VIA-Power listing type. (S, M, L, XL oder XXL)</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Der VIA-Power Listing Typ. (S, M, L, XL oder XXL)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="listingCount" type="xs:int" minOccurs="1" default="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The number of listings at the marker position</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Die Anzahl der Listings an der Marker-Position</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="groupedListings" type="GroupedMarkerListing" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">information of listings at the same position as the marker on a map with label information</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Informationen zu Listings an der gleichen Position wie der Marker auf einer Karte mit Labelinformationen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GroupedMarkerListing">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">information of listings at the same position as the marker on a map with label information</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Informationen zu Listings an der gleichen Position wie der Marker auf einer Karte mit Labelinformationen</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="realEstateId" type="xs:long">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The id of the real estate.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Die Id der Immobilie.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The price label of the marker.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Das Preis-Label des Markers.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
@@ -131,6 +205,7 @@
       <xs:element name="total" type="xs:int" minOccurs="0" maxOccurs="1"/>
       <xs:element name="radius" type="xs:double" minOccurs="0" maxOccurs="1"/>
       <xs:element name="results" type="ResultlistEntry" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="listFirstListingSummary" type="ListFirstListingSummary" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -192,11 +267,23 @@
 		</xs:sequence>
 	</xs:complexType>
 
+  <xs:complexType name="QuickFilterStatistic">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">QuickFilterStatistic</xs:documentation>
+      <xs:documentation xml:lang="de-DE">QuickFilterStatistic</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+      <xs:element name="total" type="xs:int" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="Project">
     <xs:sequence>
       <xs:element name="projectId" type="xs:long" />
       <xs:element name="premium" type="xs:boolean" />
       <xs:element name="published" type="xs:boolean" />
+      <xs:element name="virtualTourAvailable" type="xs:boolean" />
       <xs:element name="title" type="xs:string" />
       <xs:element name="name" type="xs:string" minOccurs="0" />
       <xs:element name="link" type="xs:string" />
@@ -208,6 +295,8 @@
           <xs:documentation xml:lang="de-DE">Alle Bilder, Videos und Virtuelle-Touren und weitere Anhänge in der Reihenfolge, wie sie in der Gallery angezeigt werden sollen.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="address" type="xs:string" minOccurs="0" />
+      <xs:element name="isPresale" type="xs:boolean" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
 
@@ -307,11 +396,57 @@
       <xs:element name="publishedAfterRequestedDate" type="xs:boolean" minOccurs="0"/>
       <xs:element name="attributes" type="ResultListEntryAttributes" minOccurs="0"/>
       <xs:element name="realEstateTags" type="RealEstateTags" minOccurs="0" />
+      <xs:element name="liveVideoTourAvailable" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="listOnlyOnIs24" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="localHero" type="xs:boolean" minOccurs="0"/>
       <xs:element name="hasNewFlag" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="floodedListing" type="xs:boolean" minOccurs="0"/>
       <xs:element name="deactivationDate" type="xs:dateTime" minOccurs="0">
         <xs:annotation>
           <xs:documentation xml:lang="en">The date of the last deactivation off the offering, when it is an historical listing</xs:documentation>
           <xs:documentation xml:lang="de-DE">Das letzte Deaktivierungsdatum bei historischen Listings</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="monthlyRate" type="MonthlyRate" minOccurs="0" >
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The monthly rate price for mixed resultlist.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Monatliche Rate fuer mixed resultlist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="versions" type="Version" minOccurs="0" />
+      <xs:element name="numberOfGroupedObjects" type="xs:int" minOccurs="0" />
+
+      <xs:element name="upsellEligible" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry should offer an OTP upsell option.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob das Listing für ein OTP upsell berechtigt ist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="luxuryPromotion" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry is part of the luxury promotion.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob das Listing Teil der Luxus Promotion ist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="tenantNetwork" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry is part of a tenant network (Nachvermietung).</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob das Listing Teil eines Mieternetzwerks ist (Nachvermietung).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="draftListing" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">A flag that indicates if the entry is a draft listing.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag das zeigt ob das Listing ein Entwurf ist.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="availableFrom" type="xs:date" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The date when the property becomes available.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Das Datum, ab wann die Immobilie verfügbar ist.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -319,6 +454,11 @@
     <xs:attributeGroup ref="common:Reference" />
   </xs:complexType>
 
+  <xs:complexType name="Version">
+    <xs:sequence>
+      <xs:element name="expose" type="xs:long" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="ResultListEntryAttributes">
     <xs:sequence>
       <xs:element name="attribute" type="ResultListEntryAttribute" minOccurs="0" maxOccurs="unbounded"/>
@@ -337,6 +477,54 @@
   <xs:complexType name="RealEstateTags">
     <xs:sequence>
       <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="prominentTag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="realEstateTypeName" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="MonthlyRate">
+    <xs:sequence>
+      <xs:element name="value" type="xs:double" />
+      <xs:element name="amortizationRate" type="xs:double" />
+      <xs:element name="effectiveInterestRate" type="xs:double" />
+      <xs:element name="loanAmount" type="xs:double" />
+      <xs:element name="additionalCosts" type="MonthlyRateAdditionalCosts" />
+      <xs:element name="fixedNominalInterestRate" type="xs:string" />
+      <xs:element name="ownFunds" type="MonthlyRateOwnFunds" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MonthlyRateAdditionalCosts">
+    <xs:sequence>
+      <xs:element name="total" type="xs:double" />
+      <xs:element name="totalPercent" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MonthlyRateOwnFunds">
+    <xs:sequence>
+      <xs:element name="total" type="xs:double" />
+      <xs:element name="totalPercent" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShowroomInformation">
+    <xs:sequence>
+      <xs:element name="url" type="xs:anyURI"/>
+      <xs:element name="company" type="xs:string" />
+      <xs:element name="logo" minOccurs="0" type="common:Attachment">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">The logo of a realtor.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Das Logo des Anbieters.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="color" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Color of title bar. Default: #343434</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Farbe der Titleleiste. Default: #343434</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>

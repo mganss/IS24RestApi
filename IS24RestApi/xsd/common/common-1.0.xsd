@@ -771,6 +771,23 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+            <xs:element name="secondaryEmail" type="Email" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Secondary email of this contact.</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Zusätzliche E-Mail des Kontakts.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          <xs:element name="clickOutUrl" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">clickOut url for external Partners</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Kontaktformular-Url externer Anbieter</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:anyURI">
+                <xs:maxLength value="300"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ContactMailCustomStyle">
@@ -935,6 +952,12 @@
                         <xs:annotation>
                             <xs:documentation xml:lang="en">URL to realtor's logo</xs:documentation>
                             <xs:documentation xml:lang="de-DE">URL zum Relatorlogo</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ssoId" type="xs:long" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation xml:lang="en">SSO ID</xs:documentation>
+                            <xs:documentation xml:lang="de-DE">SSO ID</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
@@ -1163,10 +1186,23 @@
                         </xs:annotation>
                     </xs:element>
                     <xs:element name="videoInfo" type="VideoInfo" minOccurs="0" maxOccurs="0"/>
+                    <xs:element name="displayFormat" type="DisplayFormat" minOccurs="0" maxOccurs="1">
+                          <xs:annotation>
+                              <xs:documentation xml:lang="en">Display format of the video</xs:documentation>
+                              <xs:documentation xml:lang="de-DE">Anzeigeformat des Videos</xs:documentation>
+                          </xs:annotation>
+                      </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="DisplayFormat">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PORTRAIT"/>
+            <xs:enumeration value="LANDSCAPE"/>
+        </xs:restriction>
+    </xs:simpleType>
 
 
     <xs:complexType name="VideoInfo">
@@ -5859,7 +5895,7 @@
                     <xs:documentation xml:lang="de-DE">Zimbabwe</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="XKO">
+            <xs:enumeration value="XKX">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">Kosovo</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Kosovo</xs:documentation>
@@ -6131,20 +6167,7 @@
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>
-			<xs:choice minOccurs="0">
-	            <xs:element name="constructionYear" type="xs:int" minOccurs="0">
-		                <xs:annotation>
-		                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-		                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-		                </xs:annotation>
-		            </xs:element>
-		            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-		                <xs:annotation>
-		                    <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-		                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-		                </xs:annotation>
-		            </xs:element>
-			</xs:choice>
+            <xs:group ref="ConstructionYear"></xs:group>
             <xs:element name="roomAvailableFrom" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">DEPRECATED use numberOfRoomsFrom</xs:documentation>
@@ -6288,7 +6311,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -6664,26 +6687,7 @@
                     <xs:documentation xml:lang="de-DE">Qualität der Ausstattung</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0">
-	            <xs:element name="constructionYear" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-	                </xs:annotation>
-	                <xs:simpleType>
-	                    <xs:restriction base="xs:int">
-	                        <xs:minInclusive value="0"/>
-	                        <xs:maxInclusive value="9999"/>
-	                    </xs:restriction>
-	                </xs:simpleType>
-	            </xs:element>
-	            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-	                </xs:annotation>
-	            </xs:element>
-			</xs:choice>
+            <xs:group ref="ConstructionYear"></xs:group>
             <xs:element name="freeFrom" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">free from</xs:documentation>
@@ -6733,7 +6737,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -6836,6 +6840,24 @@
                     <xs:documentation xml:lang="de-DE">Als Ferienhaus geeignet</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:sequence minOccurs="0">
+                <xs:element name="tenancy" type="xs:int">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">tenancy</xs:documentation>
+                        <xs:documentation xml:lang="de-DE">Heimfall nach</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="leaseholdInterest" type="Price">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">
+                          The amount of the leasehold interest; the elements "marketingType" and "priceIntervalType" must either have the values "LEASEHOLD" and "YEAR" or be omitted.
+                        </xs:documentation>
+                        <xs:documentation xml:lang="de-DE">
+                          Die Höhe des Erbbauzinses; die Elemente "marketingType" und "priceIntervalType" müssen entweder die Werte "LEASEHOLD" und "YEAR" habe oder weggelassen werden.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
         </xs:sequence>
     </xs:group>
 
@@ -7149,12 +7171,8 @@
         <xs:sequence>
             <xs:element name="price" type="Price" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">Price, the attributes named the type, the currency and the
-                        interval
-                    </xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Preis, die Attribute geben die Art, die Währung und den Intervall
-                        an
-                    </xs:documentation>
+                    <xs:documentation xml:lang="en">Price, the attributes state the type, the currency and the interval</xs:documentation>
+                    <xs:documentation xml:lang="de-DE">Preis, die Attribute geben die Art, Währung und das Intervall an</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="livingSpace" type="xs:double">
@@ -7163,15 +7181,15 @@
                     <xs:documentation xml:lang="de-DE">Wohnfläche</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="numberOfRooms" type="xs:double">
+            <xs:element name="numberOfRooms" type="xs:double" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">count of the rooms of an apartment</xs:documentation>
+                    <xs:documentation xml:lang="en">number of rooms in the apartment</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Zimmeranzahl</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="energyPerformanceCertificate" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">is a information about the energie index available
+                    <xs:documentation xml:lang="en">is an information about the energie index available
                     </xs:documentation>
                     <xs:documentation xml:lang="de-DE">Ist eine Information über eine Energiekennzahl vorhanden
                     </xs:documentation>
@@ -7185,7 +7203,14 @@
 		        </xs:annotation>
 		    </xs:element>
  -->
- 		    <xs:element name="builtInKitchen" type="xs:boolean" minOccurs="0">
+            <xs:element name="energyEfficiencyClass" type="EnergyEfficiencyClass" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">energy efficiency elass</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Energieeffizenzklasse</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
+            <xs:element name="builtInKitchen" type="xs:boolean" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">has a built-in kitchen</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Einbauküche</xs:documentation>
@@ -7242,9 +7267,9 @@
                     <xs:documentation xml:lang="de-DE">Grundstücksfläche</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="numberOfRooms">
+            <xs:element name="numberOfRooms" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">count of the rooms of a house</xs:documentation>
+                    <xs:documentation xml:lang="en">count of the rooms</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Zimmeranzahl</xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
@@ -7270,6 +7295,13 @@
 		        </xs:annotation>
 		    </xs:element>
  -->
+            <xs:element name="energyEfficiencyClass" type="EnergyEfficiencyClass" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">energy efficiency elass</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Energieeffizenzklasse</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
             <xs:element name="courtage" type="CourtageInfo" minOccurs="1">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">courtage elements</xs:documentation>
@@ -7575,6 +7607,12 @@
             <xs:group ref="LivingInformation"/>
             <xs:group ref="ExtendedLivingRent"/>
             <xs:group ref="BaseApartment"/>
+            <xs:element name="tenantNetwork" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Flag indicating if the listing is part of the tenant network. Specific permissions are required to set this value.</xs:documentation>
+                    <xs:documentation xml:lang="de">Kennzeichen, ob die Anzeige zum Mieternetzwerk gehört. Spezielle Berechtigungen sind erforderlich, um diesen Wert zu setzen.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:group>
 
@@ -7939,18 +7977,7 @@
                     <xs:documentation xml:lang="de-DE">Garagentyp</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="constructionYear" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:int">
-                        <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="9999"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
+            <xs:group ref="ConstructionYear"></xs:group>
             <xs:element name="lengthGarage" type="xs:double" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">length of the garage</xs:documentation>
@@ -7997,6 +8024,12 @@
                     <xs:documentation xml:lang="en">free until</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Verfügbar bis</xs:documentation>
                 </xs:annotation>
+            </xs:element>
+            <xs:element name="serviceCharge" type="xs:double" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">service charge</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Nebenkosten</xs:documentation>
+              </xs:annotation>
             </xs:element>
         </xs:sequence>
     </xs:group>
@@ -8222,6 +8255,18 @@
                     <xs:documentation xml:lang="de-DE">Provisionselemente</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element name="energyEfficiencyClass" type="EnergyEfficiencyClass" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">energy efficiency elass</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Energieeffizenzklasse</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="isBarrierFree" type="xs:boolean" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">is barrier free</xs:documentation>
+                <xs:documentation xml:lang="de-DE">Barrierefrei</xs:documentation>
+              </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:group>
     <xs:group name="SiteInformation">
@@ -8342,20 +8387,7 @@
                     <xs:documentation xml:lang="de-DE">Qualität der Ausstattung</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0">
-                <xs:element name="constructionYear" type="xs:int" minOccurs="0" maxOccurs="1">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-	                </xs:annotation>
-	            </xs:element>
-	            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-	                </xs:annotation>
-	            </xs:element>
-			</xs:choice>
+            <xs:group ref="ConstructionYear"></xs:group>
             <xs:element name="freeFrom" type="TextField" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">free from</xs:documentation>
@@ -8398,7 +8430,7 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:double">
                     <xs:minInclusive value="0"/>
-                    <xs:maxInclusive value="1999.99"/>
+                    <xs:maxInclusive value="9999.99"/>
                   </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -10278,7 +10310,7 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:double">
                     <xs:minInclusive value="0"/>
-                    <xs:maxInclusive value="1999.99"/>
+                    <xs:maxInclusive value="9999.99"/>
                   </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -10288,20 +10320,7 @@
                     <xs:documentation xml:lang="de-DE">DEPRECATED Pauschalmiete, das Element "price" in BaseShortTermAccommodation ist zu benutzen</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0">
-	            <xs:element name="constructionYear" type="xs:int" minOccurs="0">
-		                <xs:annotation>
-		                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-		                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-		                </xs:annotation>
-		            </xs:element>
-		            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-		                <xs:annotation>
-		                    <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-		                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-		                </xs:annotation>
-		            </xs:element>
-			</xs:choice>
+            <xs:group ref="ConstructionYear"></xs:group>
 		    <xs:element name="energyCertificate" type="EnergyPerformanceCertificate" minOccurs="0">
 		        <xs:annotation>
 		            <xs:documentation xml:lang="en">energy performance certificate</xs:documentation>
@@ -10455,7 +10474,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -10465,26 +10484,8 @@
                     <xs:documentation xml:lang="de-DE">Energieverbrauch für Warmwasser enthalten</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0">
-	            <xs:element name="constructionYear" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-	                </xs:annotation>
-	                <xs:simpleType>
-	                    <xs:restriction base="xs:int">
-	                        <xs:minInclusive value="0"/>
-	                        <xs:maxInclusive value="9999"/>
-	                    </xs:restriction>
-	                </xs:simpleType>
-	            </xs:element>
-	            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-	                <xs:annotation>
-                        <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-	                </xs:annotation>
-	            </xs:element>
-			</xs:choice>
+          <xs:group ref="ConstructionYear"></xs:group>
+
 <!-- ####################################################################################################### -->
 
         </xs:sequence>
@@ -10716,7 +10717,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -10726,27 +10727,85 @@
                     <xs:documentation xml:lang="de-DE">Energieverbrauch für Warmwasser enthalten</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:choice minOccurs="0">
-	            <xs:element name="constructionYear" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
-	                </xs:annotation>
-	                <xs:simpleType>
-	                    <xs:restriction base="xs:int">
-	                        <xs:minInclusive value="0"/>
-	                        <xs:maxInclusive value="9999"/>
-	                    </xs:restriction>
-	                </xs:simpleType>
-	            </xs:element>
-	            <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
-	                <xs:annotation>
-	                    <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
-	                    <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
-	                </xs:annotation>
-	            </xs:element>
-			</xs:choice>
+          <xs:group ref="ConstructionYear"></xs:group>
 <!-- ####################################################################################################### -->
+              <xs:element name="cellar" type="YesNotApplicableType" default="NOT_APPLICABLE" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">cellar available</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Keller verfügbar</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="numberOfRooms" type="xs:double" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">count of the rooms</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Zimmeranzahl</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="balcony" type="YesNotApplicableType" default="NOT_APPLICABLE" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">has a balcony</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Balkon</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="builtInKitchen" type="YesNotApplicableType" default="NOT_APPLICABLE" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">has a built-in kitchen</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Einbauküche</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="guestToilet" type="YesNotApplicableType" default="NOT_APPLICABLE" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">guest toilet</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Gästetoilette</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="lastRefurbishment" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">last refurbishment</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Letzte Modernisierung</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="numberOfBathRooms" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">number of bath rooms</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Anzahl Badezimmer</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="numberOfFloors" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">number of floors</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Anzahl Etagen</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="numberOfParkingSpaces" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">number of parking spaces</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Parkflächenanzahl</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="parkingSpacePrice" type="xs:double" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">parking space price</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Garage/ Stellplatz-Kaufpreis</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="parkingSpaceType" type="ParkingSpaceType" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">parking space type</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Garage/ Stellplatz</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="floor" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation xml:lang="en">floor</xs:documentation>
+                  <xs:documentation xml:lang="de-DE">Etage</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <xs:minInclusive value="-1"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
         </xs:sequence>
     </xs:group>
     <xs:element name="publishObjects">
@@ -10990,6 +11049,63 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="GeoPathHierarchyElement">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">Defines a shape with all informations.</xs:documentation>
+        <xs:documentation xml:lang="de-DE">Definiert eine form mit allen verfügbaren Informationen.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="id" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Unique ShapeId; currently the same as the GAC-IDs
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="geoPath" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Represents the geohierarchy of the given region, as (SEO friendly) URI und as real names
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="gacLabel" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Name of the region as it's presented in the GAC (at least unique per shape type, often unique across all shapes)
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="seoLabel" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Name of the shape as it should be presented to a search engine (does not have to be unique)
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="type" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Shape type, originally the same as the GAC-Type, but the nextgen shapes also have the type borough which maps to GAC type quarterOrTown (but is reserved for boroughs within cities)
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+
+        <xs:element name="statistics" type="GeoHierarchyStatistics" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Optional element which holds the statistics (i.e. number of objects)
+              for a real estate type
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GeoPathHierarchyElements">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">List element for GeoPathHierarchyElement.</xs:documentation>
+        <xs:documentation xml:lang="de-DE">Listenelement für GeoPathHierarchyElement.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="geoPathHierarchyElement" type="GeoPathHierarchyElement" minOccurs="0" maxOccurs="100"/>
+      </xs:sequence>
+    </xs:complexType>
 
     <xs:element name="geoHierarchyElementsStatistic">
         <xs:annotation>
@@ -11003,6 +11119,20 @@
                 <xs:element name="children" type="GeoHierarchyElements"/>
             </xs:sequence>
         </xs:complexType>
+    </xs:element>
+
+    <xs:element name="geoPathHierarchyElementsStatistic">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">List element for statistics of GeopathHierarchyElements.</xs:documentation>
+        <xs:documentation xml:lang="de-DE">Listenelement für Statistiken von GeoPathHierarchyElementen.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="parent" type="GeoPathHierarchyElement"/>
+          <xs:element name="children" type="GeoPathHierarchyElements"/>
+        </xs:sequence>
+      </xs:complexType>
     </xs:element>
 
     <xs:group name="AssistedLivingInformation">
@@ -11173,7 +11303,7 @@
         <xs:all>
             <xs:element name="energyCertificateAvailability" type="EnergyCertificateAvailability" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">availibility of the energy certificate</xs:documentation>
+                    <xs:documentation xml:lang="en">availability of the energy certificate</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Verfügbarkeit vom Energieausweis</xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -11185,7 +11315,7 @@
             </xs:element>
             <xs:element name="energyEfficiencyClass" type="EnergyEfficiencyClass" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation xml:lang="en">energy efficiency elass</xs:documentation>
+                    <xs:documentation xml:lang="en">energy efficiency class</xs:documentation>
                     <xs:documentation xml:lang="de-DE">Energieeffizenzklasse</xs:documentation>
                 </xs:annotation>
             </xs:element>
@@ -11197,7 +11327,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -11209,7 +11339,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -11221,7 +11351,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -11233,7 +11363,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -11245,7 +11375,7 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
@@ -11257,12 +11387,19 @@
                 <xs:simpleType>
                     <xs:restriction base="xs:double">
                         <xs:minInclusive value="0"/>
-                        <xs:maxInclusive value="1999.99"/>
+                        <xs:maxInclusive value="9999.99"/>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:element>
+          <xs:element name="legalConstructionYear" type="xs:string" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Year of the Bauantrag request for the building or parts of it as required for the energy certificate.</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Jahr des Bauantrags für das Gebäude oder Teilen davon (wie im Energieausweis gefordert).</xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:all>
     </xs:complexType>
+
     <xs:simpleType name="EnergyCertificateCreationDate">
         <xs:annotation>
             <xs:documentation xml:lang="en"></xs:documentation>
@@ -11289,6 +11426,7 @@
             </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
+
     <xs:simpleType name="EnergyEfficiencyClass">
         <xs:annotation>
             <xs:documentation xml:lang="en"></xs:documentation>
@@ -11395,5 +11533,67 @@
             <xs:element name="tolerance" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1" />
         </xs:sequence>
     </xs:complexType>
+
+  <xs:complexType name="ShapeInformationList">
+    <xs:sequence>
+      <xs:element name="shapeInformation" type="ShapeInformation" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ShapeInformation">
+    <xs:sequence>
+      <xs:element name="shapeId" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="geoPath" type="GeoPath"/>
+      <xs:element name="gacLabel" type="xs:string"/>
+      <xs:element name="seoLabel" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="datasets" type="DatasetList" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GeoPath">
+    <xs:sequence>
+      <xs:element name="uri" type="xs:string"/>
+      <xs:element name="realNames" type="RealNameList" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="RealNameList">
+    <xs:sequence>
+      <xs:element name="realName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="DatasetList">
+    <xs:sequence>
+      <xs:element name="dataset" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:group name="ConstructionYear">
+    <xs:sequence>
+      <xs:choice minOccurs="0">
+        <xs:element name="constructionYear" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">construction year</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Baujahr</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:int">
+              <xs:minInclusive value="0"/>
+              <xs:maxInclusive value="9999"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="constructionYearUnknown" type="xs:boolean" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">construction year unknown: true value only expected, instead of false set construction year</xs:documentation>
+            <xs:documentation xml:lang="de-DE">Baujahr ist unbekannt</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
 
 </xs:schema>
