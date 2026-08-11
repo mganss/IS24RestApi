@@ -10,7 +10,7 @@
     <xs:element name="badge" type="Badge" />
     <xs:element name="virtualBadge" type="VirtualBadge" />
     <xs:element name="realtorBadges" type="RealtorBadges" />
-    
+
     <xs:complexType name="Badge">
         <xs:all minOccurs="1" maxOccurs="1">
             <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1" />
@@ -27,9 +27,10 @@
         <xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1" />
         <xs:element name="imageUrl" type="xs:string" minOccurs="1" maxOccurs="1" />
         <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+        <xs:element name="since" type="xs:string" minOccurs="0" maxOccurs="1" />
       </xs:all>
     </xs:complexType>
-    
+
     <xs:complexType name="RealtorBadges">
         <xs:all minOccurs="1" maxOccurs="1" >
             <xs:element name="badges" minOccurs="1" maxOccurs="1">

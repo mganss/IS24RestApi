@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0" xmlns:search="http://rest.immobilienscout24.de/schema/search/common/1.0"
-           xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://rest.immobilienscout24.de/schema/search/expose/1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:common="http://rest.immobilienscout24.de/schema/common/1.0"
+           xmlns:search="http://rest.immobilienscout24.de/schema/search/common/1.0"
+           xmlns:xlink="http://www.w3.org/1999/xlink"
+           xmlns="http://rest.immobilienscout24.de/schema/search/expose/1.0"
            targetNamespace="http://rest.immobilienscout24.de/schema/search/expose/1.0"
            elementFormDefault="unqualified"
            attributeFormDefault="unqualified" version="1.0">
   <xs:import namespace="http://rest.immobilienscout24.de/schema/common/1.0"/>
-  <xs:import namespace="http://rest.immobilienscout24.de/schema/search/common/1.0" schemaLocation="common-1.0.xsd" />
+  <xs:import namespace="http://rest.immobilienscout24.de/schema/search/common/1.0"
+             schemaLocation="common-1.0.xsd" />
   <xs:import namespace="http://www.w3.org/1999/xlink"/>
 
   <xs:element name="expose" type="Expose">
@@ -81,6 +85,60 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="commissionSplitSettings">
+    <xs:annotation>
+      <xs:documentation xml:lang="de-DE">Konfiguration der Informationen zur Provisionsaufteilung für Verbraucher.</xs:documentation>
+      <xs:documentation xml:lang="en">Configuration of commission split information for consumer.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="enabled" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Flag to control visibility.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Flag zur Kontrolle der Sichtbarkeit.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="contractText" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Contract text setup by realtor.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Einrichtung des Vertragstextes durch den Makler.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Project">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Contains comprehensive project-related information including identification, links, presale status, and pricing details for real estate projects.</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Enthält umfassende projektbezogene Informationen einschließlich Identifikation, Links, Vorverkaufsstatus und Preisdetails für Immobilienprojekte.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="realEstateProjectId" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Unique identifier for the real estate project</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eindeutige Kennung für das Immobilienprojekt</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="realEstateProjectLink" type="SimpleLink" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Link to detailed project information</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Link zu detaillierten Projektinformationen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="presales" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Indicates if the property is available for presale</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Zeigt an, ob die Immobilie im Vorverkauf verfügbar ist</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="priceOnRequest" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Specifies if the price information is available only upon request</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Gibt an, ob die Preisinformationen nur auf Anfrage verfügbar sind</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="Expose">
     <xs:annotation>
       <xs:documentation xml:lang="en">Expose</xs:documentation>
@@ -132,6 +190,7 @@
       <xs:element name="adLinkForJSONP" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="exposeAdKeysAndValues" type="search:keyAndValue" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="realEstateProjectId" type="xs:string" minOccurs="0" />
+      <xs:element name="project" type="Project" minOccurs="0"/>
       <xs:element name="realEstateProjectLink" type="SimpleLink" minOccurs="0" maxOccurs="1"/>
       <xs:element name="contactFormLegalDisclaimer" type="xs:string" minOccurs="0" maxOccurs="1">
         <xs:annotation>
@@ -159,6 +218,35 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="publicationState" type="PublicationState" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="privateOffer" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="liveVideoTourAvailable" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="listOnlyOnIs24LegalText" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">expose is published on is24 only, if this legal text is present</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="shapeinformations" minOccurs="0" type="common:ShapeInformationList">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">shape Informations for this expose.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">ShapeInformationen zu diesem Expose.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="listFirstListing" type="search:ListFirstListing" minOccurs="0" />
+      <xs:element name="showFullAddress" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="verifications" type="Verifications" minOccurs="0"/>
+      <xs:element name="openForOffers" type="xs:boolean" minOccurs="0" />
+      <xs:element name="hotExpose" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">expose with high demand</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="onDemandDocuments" type="OnDemandDocuments" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">on demand documents configuration</xs:documentation>
+          <xs:documentation xml:lang="de-DE">On-Demand-Dokumente Konfiguration</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
 
     <xs:attributeGroup ref="common:Reference"/>
@@ -186,14 +274,20 @@
       </xs:enumeration>
       <xs:enumeration value="L">
         <xs:annotation>
-          <xs:documentation xml:lang="de-DE">Listing Typ: L. Das zweit größte Listing.</xs:documentation>
-          <xs:documentation xml:lang="en">Listing type: L. The second largest listing.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: L. Das dritt größte Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: L. The third largest listing.</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="XL">
         <xs:annotation>
-          <xs:documentation xml:lang="de-DE">Listing Typ: XL. Das größte Listing.</xs:documentation>
-          <xs:documentation xml:lang="en">Listing type: XL. The largest listing.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: XL. Das zweit größte Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: XL. The second largest listing.</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="XXL">
+        <xs:annotation>
+          <xs:documentation xml:lang="de-DE">Listing Typ: XXL. Das größte Listing.</xs:documentation>
+          <xs:documentation xml:lang="en">Listing type: XXL. The largest listing.</xs:documentation>
         </xs:annotation>
       </xs:enumeration>
     </xs:restriction>
@@ -220,6 +314,13 @@
         </xs:annotation>
       </xs:element>
 
+      <xs:element name="counterOffer" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Counter offer</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Preis vorschlagen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
       <xs:element name="petsInHouseholdField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">pets in household</xs:documentation>
@@ -234,6 +335,13 @@
         </xs:annotation>
       </xs:element>
 
+      <xs:element name="numberOfResidentsField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">number of residents split as adults and kids</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Anzahl der Personen im Haushalt Kinder und Erwachsene</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
       <xs:element name="employmentRelationshipField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation xml:lang="en">employment relationship</xs:documentation>
@@ -245,6 +353,13 @@
         <xs:annotation>
           <xs:documentation xml:lang="en">Monthly Income of household</xs:documentation>
           <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="incomeAmountField" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Monthly Income of household as Integer</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Monatliches Nettohaushaltseinkommen als Ganzzahl</xs:documentation>
         </xs:annotation>
       </xs:element>
 
@@ -375,6 +490,58 @@
       </xs:element>
 
       <xs:element name="freemiumSettings" type="FreemiumSettings"></xs:element>
+
+      <xs:element name="commissionSplitSettings" type="commissionSplitSettings"/>
+
+      <xs:element name="employmentStatus" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">employmentStatus</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Beschäftigungsstatus</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="rentArrears" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">rent Arrears</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Mietrückstände</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="insolvencyProcess" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">insolvencyProcess</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Insolvenzverfahren</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="documents" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">documents</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Dokumente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="smoker" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">smoker</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Raucher</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="homeOwner" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">homeOwner</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eigentümer</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="commercialPurposes" type="common:MandatoryOptionalType" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">commercial purposes</xs:documentation>
+          <xs:documentation xml:lang="de-DE">gewerbliche Zwecke</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
     </xs:all>
   </xs:complexType>
 
@@ -538,6 +705,7 @@
       <xs:extension base="ExposeRealEstate">
         <xs:sequence>
           <xs:group ref="common:ExtendedApartmentRentGroup"/>
+          <xs:element name="totalRentCalculated" type="search:CalculatedTotalRent"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -865,6 +1033,13 @@
               <xs:documentation xml:lang="de-DE">Grundriss als Objektbild vorhanden</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element name="calculatedPricePerSqm" type="xs:double">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Calculated Price Per Sqm</xs:documentation>
+              <xs:documentation xml:lang="de-DE">Berechneter Preis Pro Quadratmeter</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="priceReductionInfo" type="PriceReductionInfo" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -985,6 +1160,13 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:element>
+
+      <xs:element name="counterOffer" minOccurs="0" type="xs:decimal">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">counter offer</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Preis vorschlagen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
 
         <xs:element name="numberOfPersons" minOccurs="0">
             <xs:annotation>
@@ -1175,6 +1357,118 @@
           <xs:documentation xml:lang="de-DE">Bewerbungsunterlagen vollständig</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="homeOwner" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">homeOwner</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eigentümer</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="forCommercialPurposes" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">for commercialPurposes</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Wird die Immobilie für gewerbliche Zwecke genutzt</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="commercialPurposes" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">commercial purposes</xs:documentation>
+          <xs:documentation xml:lang="de-DE">gewerbliche Zwecke</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="hasPets" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">has pets</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Haustiere Ja Nein</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="incomeAmount" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">income amount</xs:documentation>
+          <xs:documentation xml:lang="de-DE">monatl. Netto-Haushaltseinkommen in Euro</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="employmentStatus" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">employmentStatus</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Beschäftigungsstatus</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="common:TextField">
+            <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="rentArrears" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">rent arrears</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Mietrückstände</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="insolvencyProcess" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">insolvency process</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Insolvenzverfahren</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="smoker" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">smoker</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Raucher</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="numberOfAdults" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">number of adults</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Anzahl der Erwachsenen die einziehen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="numberOfKids" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">number of kids</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Anzahl der Kinder die einziehen</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="letterOfComfort" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">letter of comfort</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Bürgschaft</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="entOfApartment" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">ent of apartment</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Wohnberechtigungsschein</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="liabilityInsurance" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">liability insurance</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Haftpflichtversicherung</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="isTenantNetworkListing" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">tenant network listing</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Mieternetzwerk-Verzeichnis</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="onDemandDocuments" type="OnDemandDocuments" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">on demand documents configuration</xs:documentation>
+          <xs:documentation xml:lang="de-DE">On-Demand-Dokumente Konfiguration</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="requestedDocuments" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">requested documents</xs:documentation>
+          <xs:documentation xml:lang="de-DE">angeforderte Dokumente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="ContactFormType">
       <xs:annotation>
@@ -1322,5 +1616,72 @@
     </xs:all>
   </xs:complexType>
 
+  <xs:complexType name="Verifications">
+    <xs:sequence>
+      <xs:element name="verifiedBy" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Verified By</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Geprüft Durch.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="dsaSelfDeclarationText" type="xs:string" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">An additional message, that should be shown as legal information about Digital Service Act.</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Eine zusätzliche Nachricht, die als rechtliche Information über den Digital Service Act angezeigt werden soll.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PriceReductionInfo">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Price Reduction Info</xs:documentation>
+      <xs:documentation xml:lang="de-DE">Infos zur Preissenkung</xs:documentation>
+    </xs:annotation>
+
+    <xs:sequence>
+      <xs:element name="originalPrice" type="xs:double">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Original Price</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Ursprünglicher Preis</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+
+      <xs:element name="percentage" type="xs:double">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Percentage</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Prozentsatz</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="OnDemandDocuments">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">On demand documents configuration for contact form</xs:documentation>
+      <xs:documentation xml:lang="de-DE">On-Demand-Dokumente Konfiguration für Kontaktformular</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="availableDocuments" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">List of requested available documents</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Liste der angeforderten verfügbaren Dokumente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="notAvailableDocuments" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">List of requested not available documents</xs:documentation>
+          <xs:documentation xml:lang="de-DE">Liste der angeforderten, nicht verfügbaren Dokumente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="onDemandDocuments" type="OnDemandDocuments">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">On-Demand documents response element</xs:documentation>
+      <xs:documentation xml:lang="de-DE">On-Demand-Dokumente Antwortelement</xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
 </xs:schema>

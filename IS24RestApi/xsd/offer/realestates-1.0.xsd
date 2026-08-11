@@ -70,6 +70,14 @@
 								Adresse angezeigt werden darf.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="listedOnlyOnIs24" type="common:YesNoNotApplicableType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">Indicates whether the listing is published by the customer only on the IS24 platform 
+                and not on other platforms. Specific permissions are required to set this value.</xs:documentation>
+							<xs:documentation xml:lang="de-DE">Zeigt an ob das Listing vom Kunden nur auf der IS24 Platform veröffentlicht wird 
+                und nicht auf anderen Platformen. Zum Setzen dieses Werts sind spezielle Berechtigungen erforderlich.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 			        <xs:element name="contact" minOccurs="0" maxOccurs="1">
 			        <xs:complexType>
 			          <xs:annotation>

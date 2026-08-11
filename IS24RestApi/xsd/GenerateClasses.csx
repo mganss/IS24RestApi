@@ -40,9 +40,24 @@ var namespaceMapping = new NamespaceProvider
     { new NamespaceKey("http://rest.immobilienscout24.de/schema/search/shortlist/1.0"), "IS24RestApi.Search.ShortList" },
 };
 
+var schemaFolder = Path.GetFullPath(Environment.CurrentDirectory);
+var projectFolder = Path.GetFullPath(Path.Combine(schemaFolder, ".."));
+var outputFolder = Path.Combine(projectFolder, "generated");
+var files = Ganss.IO.Glob.ExpandNames("*/*.xsd").ToList();
+
+if (!string.Equals(Path.GetFileName(schemaFolder), "xsd", StringComparison.Ordinal)
+    || !File.Exists(Path.Combine(schemaFolder, "GenerateClasses.csx"))
+    || !File.Exists(Path.Combine(projectFolder, "IS24RestApi.csproj"))
+    || files.Count == 0)
+    throw new InvalidOperationException("Run GenerateClasses.csx from the IS24RestApi/xsd directory.");
+
+Directory.CreateDirectory(outputFolder);
+foreach (var generatedFile in Directory.EnumerateFiles(outputFolder, "*.cs", SearchOption.TopDirectoryOnly))
+    File.Delete(generatedFile);
+
 var generator = new Generator
 {
-    OutputFolder = @"..\generated",
+    OutputFolder = outputFolder,
     GenerateNullables = true,
     GenerateInterfaces = true,
     DataAnnotationMode = DataAnnotationMode.Partial,
@@ -50,8 +65,6 @@ var generator = new Generator
     Log = s => Console.Out.WriteLine(s),
     NamespaceProvider = namespaceMapping,
 };
-
-var files = Ganss.IO.Glob.ExpandNames("*/*.xsd");
 
 Console.Out.WriteLine("Generating classes from:\n" + string.Join("\n", files));
 Console.Out.WriteLine("\nGenerating files...");
