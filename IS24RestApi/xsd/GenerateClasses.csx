@@ -40,9 +40,13 @@ var namespaceMapping = new NamespaceProvider
     { new NamespaceKey("http://rest.immobilienscout24.de/schema/search/shortlist/1.0"), "IS24RestApi.Search.ShortList" },
 };
 
+var parentDirectoryPrefix = OperatingSystem.IsWindows()
+    ? "..\\"
+    : "./";
+
 var generator = new Generator
 {
-    OutputFolder = @"..\generated",
+    OutputFolder = parentDirectoryPrefix + "generated",
     GenerateNullables = true,
     GenerateInterfaces = true,
     DataAnnotationMode = DataAnnotationMode.Partial,
