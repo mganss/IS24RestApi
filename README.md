@@ -2,8 +2,8 @@ IS24RestApi
 ===========
 
 [![NuGet version](https://badge.fury.io/nu/IS24RestApi.svg)](http://badge.fury.io/nu/IS24RestApi)
-[![Build status](https://ci.appveyor.com/api/projects/status/xdpv5jbm3vtr993s/branch/master?svg=true)](https://ci.appveyor.com/project/mganss/is24restapi/branch/master)
-[![codecov.io](https://codecov.io/github/mganss/IS24RestApi/coverage.svg?branch=master)](https://codecov.io/github/mganss/IS24RestApi?branch=master)
+[![Build status](https://github.com/mganss/IS24RestApi/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/mganss/IS24RestApi/actions/workflows/build.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mganss_IS24RestApi2&metric=coverage)](https://sonarcloud.io/dashboard?id=mganss_IS24RestApi2)
 [![Sonarcloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=mganss_IS24RestApi2&metric=alert_status)](https://sonarcloud.io/dashboard?id=mganss_IS24RestApi2)
 
 [![netstandard2.0](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)](https://img.shields.io/badge/netstandard-2.0-brightgreen.svg)

@@ -4,10 +4,11 @@
     <Description>Client for the Immobilienscout24 REST API</Description>
     <Copyright>Copyright 2013-$([System.DateTime]::Now.Year) Michael Ganss</Copyright>
     <AssemblyTitle>IS24RestApi</AssemblyTitle>
-    <AppVeyor_Build_Version Condition="'$(APPVEYOR_BUILD_VERSION)' == ''">1.0.0</AppVeyor_Build_Version>
+    <CI_Build_Version Condition="'$(CI_BUILD_VERSION)' == ''">1.0.0</CI_Build_Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <FileVersion>$(AppVeyor_Build_Version).0</FileVersion>
-    <PackageVersion>$(AppVeyor_Build_Version)</PackageVersion>
+    <InformationalVersion>$(CI_Build_Version)</InformationalVersion>
+    <FileVersion>$(CI_Build_Version).0</FileVersion>
+    <PackageVersion>$(CI_Build_Version)</PackageVersion>
     <Authors>Michael Ganss</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>IS24RestApi</AssemblyName>
@@ -22,12 +23,15 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\IS24RestApi.xml</DocumentationFile>
     <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(CI)' == 'True'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
